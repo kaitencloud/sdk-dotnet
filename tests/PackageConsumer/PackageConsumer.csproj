@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><IsPackable>false</IsPackable><NuGetLockFilePath>obj/packages.lock.json</NuGetLockFilePath></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="KaitenCloud.Sdk" Version="0.1.1" />
+    <Compile Include="../../examples/Kaiten.Example/Program.cs" Link="Program.cs" />
+  </ItemGroup>
+</Project>

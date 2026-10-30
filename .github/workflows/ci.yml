@@ -1,0 +1,21 @@
+name: SDK checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - run: dotnet restore KaitenCloud.sln --locked-mode
+      - run: dotnet build KaitenCloud.sln -c Release --no-restore
+      - run: dotnet test tests/KaitenCloud.Sdk.Tests -c Release --no-build --no-restore
+      - run: dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -o artifacts/packages
+      - run: sh scripts/check-package.sh

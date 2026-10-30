@@ -1,0 +1,27 @@
+version: '3'
+tasks:
+  restore:
+    cmds: [dotnet restore KaitenCloud.sln --locked-mode]
+  build:
+    deps: [restore]
+    cmds: [dotnet build KaitenCloud.sln -c Release --no-restore]
+  test:
+    deps: [build]
+    cmds: [dotnet test tests/KaitenCloud.Sdk.Tests -c Release --no-build --no-restore --verbosity quiet]
+  pack:
+    deps: [build]
+    cmds: [dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -o artifacts/packages]
+  consume:
+    deps: [pack]
+    cmds:
+      - sh scripts/check-package.sh
+  check:
+    cmds:
+      - task: test
+      - task: consume
+  example:
+    deps: [build]
+    cmds: [dotnet run --project examples/Kaiten.Example -c Release --no-build --no-restore]
+  integration:
+    deps: [build]
+    cmds: [dotnet run --project tests/KaitenCloud.Sdk.Integration -c Release --no-build --no-restore]
