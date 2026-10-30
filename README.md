@@ -109,8 +109,9 @@ Always use details and a false fallback for protected boolean actions. **Check B
 ErrorType and Reason:** upstream 0.1.7 maps internal `general_error` to
 `ErrorType.None` while retaining `Reason.ERROR` for outages/timeouts/rate limits.
 The internal HTTP envelope guard rejects missing/null values, wrong/missing keys,
-unknown error codes, duplicate fields and oversized/malformed successful bodies
-**before the official provider decodes them**. It neither evaluates rules nor
+unknown error codes, duplicate fields and oversized/malformed HTTP200/400 bodies
+**before the official provider decodes them**. HTTP400 must be a known error
+envelope with no value field, not a success-only payload or fallback. It neither evaluates rules nor
 interprets typed values. Official provider typing handles type mismatch. Legitimate
 server `DEFAULT` and `DISABLED` decisions (including true/false/zero) remain available.
 

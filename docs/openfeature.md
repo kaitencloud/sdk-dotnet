@@ -38,13 +38,18 @@ Reason == ERROR before looking at Value. A fallback value never grants authoriza
 
 Native `ProcessOkResponseAsync` substitutes default when value is absent/null,
 substitutes request key for missing key, and `MapErrorType` ignores unknown codes.
-The internal named HTTP handler validates HTTP200 envelopes before official decode:
-object root, unique fields, exact requested key, non-null success value, or a known
+The official client decodes HTTP200 AND HTTP400 bodies. The internal named HTTP
+handler validates both before official decode: bounded body/depth64, object root,
+unique fields, exact nonempty requested key. HTTP400 must contain a known nonempty
+error code and MUST NOT contain a value field, even null; success-only/missing-error
+HTTP400 bodies cannot become defaults or decisions. HTTP200 requires a non-null
+success value, or a known
 uppercase OpenFeature error code (FLAG_NOT_FOUND/TYPE_MISMATCH/PARSE_ERROR/
 PROVIDER_NOT_READY/INVALID_CONTEXT/TARGETING_KEY_MISSING/PROVIDER_FATAL/GENERAL).
 Unmapped codes including GENERAL_ERROR are unavailable via a sanitized protocol
 exception, which the official provider turns into Reason.ERROR. No response body
-is logged. The handler buffers at most MaxResponseBytes and replays untouched bytes
+is logged. The handler buffers at most MaxResponseBytes for both statuses, observes read
+cancellation/deadline, and replays untouched bytes
 to the official provider; it does not inspect a boolean decision or run rule logic.
 The official provider alone checks requested value type. Legitimate server DEFAULT
 (including false/zero) and DISABLED true remain successful; never blanket reject DEFAULT.
@@ -66,8 +71,14 @@ Kaiten factory HTTP logging and default propagation are disabled. A request-loca
 handler propagates W3C traceparent/tracestate and emits only method/status plus
 validated Core trace ID on ActivitySource KaitenCloud.Sdk.Ofrep. No URL, token,
 context, raw body, remote error text or baggage is logged by this integration.
-Upstream OfrepClient and OpenFeatureClient logger categories are suppressed: their
-exception/key logging is not safe for sensitive context. Host code may override
+Upstream OpenFeature.Providers.Ofrep.Client.OfrepClient and OpenFeature.FeatureClient
+logger categories are suppressed: their
+exception/key logging is not safe for sensitive context. Raw transport exceptions
+are replaced with fixed messages without inner exceptions before the official
+provider can copy them into returned details/activities. Successful flag values
+and server-authored error details remain provider data: enabling the OpenFeature
+source still requires an application exporter policy for result.value and
+error.message tags. Host code may override
 filters/instrument HTTP or add hooks; that is outside the SDK redaction guarantee.
 Export only safe Kaiten sources or explicitly redact System.Net.Http/OpenFeature
 activities (the latter include flag keys/values/error messages).

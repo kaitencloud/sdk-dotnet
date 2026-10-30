@@ -81,6 +81,96 @@ public sealed class OpenFeatureTests
         Assert.Equal(1, handler.Calls);
     }
 
+    public static IEnumerable<object[]> MalformedBadRequestCases()
+    {
+        var bodies = new[]
+        {
+            "",
+            "{}",
+            """{"key":"tracker"}""",
+            """{"key":"tracker","value":true}""",
+            """{"key":"tracker","value":true,"errorCode":"UNKNOWN_FUTURE_ERROR"}""",
+            """{"key":"tracker","errorCode":"UNKNOWN_FUTURE_ERROR"}""",
+            """{"key":"tracker","errorCode":null}""",
+            """{"key":"tracker","errorCode":""}""",
+            """{"key":"tracker","errorCode":"   "}""",
+            """{"key":"other-flag","errorCode":"INVALID_CONTEXT"}""",
+            """{"key":"","errorCode":"INVALID_CONTEXT"}""",
+            """{"key":null,"errorCode":"INVALID_CONTEXT"}""",
+            """{"key":"tracker","key":"tracker","errorCode":"INVALID_CONTEXT"}""",
+            """{"key":"tracker","errorCode":"INVALID_CONTEXT","errorCode":"FLAG_NOT_FOUND"}""",
+            """{"key":"tracker","value":true,"errorCode":"FLAG_NOT_FOUND"}""",
+            """{"key":"tracker","value":null,"errorCode":"INVALID_CONTEXT"}"""
+        };
+        foreach (var fallback in new[] { false, true })
+            foreach (var body in bodies) yield return new object[] { body, fallback };
+    }
+
+    [Theory]
+    [MemberData(nameof(MalformedBadRequestCases))]
+    public async Task BadRequestMustBeAStrictKnownErrorEnvelope(string json, bool fallback)
+    {
+        using var handler = new StubHandler((_, _) => Task.FromResult(ClientTests.Json(json, HttpStatusCode.BadRequest)));
+        await using var fixture = await Fixture.Create(handler);
+        var details = await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback);
+        AssertUnavailable(details);
+        Assert.Equal(fallback, details.Value); // An injected success value must not survive a malformed 400 envelope.
+        Assert.Equal(1, handler.Calls);
+    }
+
+    [Theory]
+    [InlineData("FLAG_NOT_FOUND", ErrorType.FlagNotFound, false)]
+    [InlineData("FLAG_NOT_FOUND", ErrorType.FlagNotFound, true)]
+    [InlineData("INVALID_CONTEXT", ErrorType.InvalidContext, false)]
+    [InlineData("INVALID_CONTEXT", ErrorType.InvalidContext, true)]
+    public async Task ValidBadRequestPreservesOfficialErrorType(string code, ErrorType expected, bool fallback)
+    {
+        using var handler = new StubHandler((_, _) => Task.FromResult(ClientTests.Json(
+            "{\"key\":\"tracker\",\"errorCode\":\"" + code + "\",\"errorDetails\":\"unavailable\"}", HttpStatusCode.BadRequest)));
+        await using var fixture = await Fixture.Create(handler);
+        var details = await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback);
+        Assert.Equal(expected, details.ErrorType);
+        Assert.Equal(fallback, details.Value);
+        Assert.Equal("unavailable", details.ErrorMessage);
+        Assert.Equal(1, handler.Calls);
+    }
+
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(true, true)]
+    public async Task BadRequestBodyLimitAppliesWithAndWithoutContentLength(bool streamed, bool fallback)
+    {
+        var body = "{\"key\":\"tracker\",\"errorCode\":\"INVALID_CONTEXT\",\"metadata\":{\"padding\":\"" + new string('x', 2048) + "\"}}";
+        using var handler = new StubHandler((_, _) =>
+        {
+            var response = ClientTests.Json(body, HttpStatusCode.BadRequest);
+            if (streamed) response.Content = new StreamContent(new NonSeekableBodyStream(System.Text.Encoding.UTF8.GetBytes(body)));
+            return Task.FromResult(response);
+        });
+        await using var fixture = await Fixture.Create(handler, maxResponseBytes: 1024);
+        AssertUnavailable(await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback));
+        Assert.Equal(1, handler.Calls);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task BadRequestDepthAndCancellationCannotBecomeSuccess(bool fallback)
+    {
+        var deep = "{\"key\":\"tracker\",\"value\":true,\"metadata\":{\"deep\":" + new string('[', 65) + "0" + new string(']', 65) + "}}";
+        using var handler = new StubHandler((_, _) => Task.FromResult(ClientTests.Json(deep, HttpStatusCode.BadRequest)));
+        await using var fixture = await Fixture.Create(handler, timeout: TimeSpan.FromMilliseconds(100));
+        AssertUnavailable(await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback));
+        handler.Reply = (_, _) => Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest)
+        { Content = new StreamContent(new NonSeekableBodyStream([], stall: true)) });
+        AssertUnavailable(await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback).WaitAsync(TimeSpan.FromSeconds(3)));
+        using var canceled = new CancellationTokenSource(TimeSpan.FromMilliseconds(30));
+        AssertUnavailable(await fixture.Flags.GetBooleanDetailsAsync("tracker", fallback, cancellationToken: canceled.Token));
+        Assert.Equal(3, handler.Calls);
+    }
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -222,6 +312,54 @@ public sealed class OpenFeatureTests
             Assert.DoesNotContain(secret, text);
     }
 
+    [Fact]
+    public async Task OfficialFeatureClientLoggingAndActivitiesDoNotExposeRawTransportExceptions()
+    {
+        var logs = new ListLoggerProvider();
+        var activities = new ConcurrentQueue<Activity>();
+        using var listener = new ActivityListener
+        {
+            ShouldListenTo = s => s.Name == "OpenFeature" || s.Name == KaitenOpenFeatureServiceCollectionExtensions.ActivitySourceName,
+            Sample = (ref ActivityCreationOptions<ActivityContext> _) => ActivitySamplingResult.AllDataAndRecorded,
+            ActivityStopped = activities.Enqueue
+        };
+        ActivitySource.AddActivityListener(listener);
+        using var handler = new StubHandler((_, _) => throw new HttpRequestException("private-transport-url sensitive-context server-credential"));
+        await using var fixture = await Fixture.Create(handler, logs: logs);
+        var logger = fixture.Services.GetRequiredService<ILoggerFactory>().CreateLogger<FeatureClient>();
+        var client = fixture.Services.GetRequiredService<Api>().GetClient(logger: logger);
+        var details = await client.GetBooleanDetailsAsync("private-flag", false);
+        AssertUnavailable(details);
+        handler.Reply = (_, _) => Task.FromResult(ClientTests.Json("{}", HttpStatusCode.NotFound));
+        Assert.Equal(ErrorType.FlagNotFound, (await client.GetBooleanDetailsAsync("private-flag", false)).ErrorType);
+        Assert.Contains(activities, a => a.Source.Name == "OpenFeature" && a.OperationName == "feature_flag.evaluation");
+        var text = string.Join(" ", logs.Messages.Concat(activities.SelectMany(a => a.TagObjects.Select(t => t.Key + "=" + t.Value))).Append(details.ErrorMessage));
+        foreach (var secret in new[] { "private-transport-url", "sensitive-context", "server-credential" }) Assert.DoesNotContain(secret, text);
+        Assert.False(logger.IsEnabled(LogLevel.Error)); // Actual category is OpenFeature.FeatureClient, not its source file name.
+        Assert.DoesNotContain("private-flag", string.Join(" ", logs.Messages));
+    }
+
+    [Theory]
+    [InlineData("network")]
+    [InlineData("body-read")]
+    [InlineData("cancellation")]
+    [InlineData("unexpected-handler")]
+    public async Task TransportFailureKindsCannotPropagatePrivateExceptionMessages(string kind)
+    {
+        using var handler = new StubHandler((_, token) => throw (kind switch
+        {
+            "network" => new HttpRequestException("private-transport-marker"),
+            "body-read" => new IOException("private-transport-marker"),
+            "cancellation" => new OperationCanceledException("private-transport-marker", token),
+            _ => new InvalidOperationException("private-transport-marker")
+        }));
+        await using var fixture = await Fixture.Create(handler);
+        var details = await fixture.Flags.GetBooleanDetailsAsync("tracker", true);
+        AssertUnavailable(details);
+        Assert.DoesNotContain("private-transport-marker", details.ErrorMessage ?? "");
+        Assert.Equal(1, handler.Calls);
+    }
+
     internal static EvaluationContext Context(string customer) => EvaluationContext.Builder().SetTargetingKey(customer)
         .Set("kaiten", new Value(new Structure(new Dictionary<string, Value> { ["instanceSlug"] = new(customer + "-prod") })))
         .Set("userId", "opaque-user").Set("orderCount", 12).Build();
@@ -236,13 +374,13 @@ public sealed class OpenFeatureTests
         public IFeatureClient Flags => Services.GetRequiredService<IFeatureClient>();
         public static async Task<Fixture> Create(StubHandler handler, string uri = "https://gateway.test/api",
             IKaitenCredentialProvider? credentials = null, TimeSpan? timeout = null, TimeProvider? timeProvider = null,
-            ListLoggerProvider? logs = null)
+            ListLoggerProvider? logs = null, int? maxResponseBytes = null)
         {
             var services = new ServiceCollection();
             if (credentials is not null) services.AddSingleton(credentials);
             if (timeProvider is not null) services.AddSingleton(timeProvider);
             if (logs is not null) services.AddLogging(b => b.SetMinimumLevel(LogLevel.Trace).AddProvider(logs));
-            services.AddKaitenOpenFeature(o => { o.BaseUri = new Uri(uri); o.BearerToken = "server-credential"; if (timeout.HasValue) o.RequestTimeout = timeout.Value; });
+            services.AddKaitenOpenFeature(o => { o.BaseUri = new Uri(uri); o.BearerToken = "server-credential"; if (timeout.HasValue) o.RequestTimeout = timeout.Value; if (maxResponseBytes.HasValue) o.MaxResponseBytes = maxResponseBytes.Value; });
             services.AddHttpClient(KaitenOpenFeatureServiceCollectionExtensions.HttpClientName).ConfigurePrimaryHttpMessageHandler(() => handler);
             var provider = services.BuildServiceProvider();
             await provider.GetRequiredService<IFeatureLifecycleManager>().EnsureInitializedAsync();
@@ -251,6 +389,30 @@ public sealed class OpenFeatureTests
         public async ValueTask DisposeAsync()
         { await Services.GetRequiredService<IFeatureLifecycleManager>().ShutdownAsync(); await Services.DisposeAsync(); }
     }
+    private sealed class NonSeekableBodyStream(byte[] bytes, bool stall = false) : Stream
+    {
+        private int _position;
+        public override bool CanRead => true;
+        public override bool CanSeek => false;
+        public override bool CanWrite => false;
+        public override long Length => throw new NotSupportedException();
+        public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken token = default)
+        {
+            if (stall) await Task.Delay(Timeout.Infinite, token);
+            token.ThrowIfCancellationRequested();
+            var count = Math.Min(buffer.Length, bytes.Length - _position);
+            bytes.AsMemory(_position, count).CopyTo(buffer);
+            _position += count;
+            return count;
+        }
+        public override void Flush() => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+    }
+
     private sealed class ManualTimeProvider : TimeProvider
     {
         public DateTimeOffset Now { get; set; } = DateTimeOffset.UtcNow;

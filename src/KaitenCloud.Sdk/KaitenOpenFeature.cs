@@ -53,7 +53,7 @@ public static class KaitenOpenFeatureServiceCollectionExtensions
         services.AddLogging(logging =>
         {
             logging.AddFilter("OpenFeature.Providers.Ofrep.Client.OfrepClient", LogLevel.None);
-            logging.AddFilter("OpenFeature.OpenFeatureClient", LogLevel.None);
+            logging.AddFilter("OpenFeature.FeatureClient", LogLevel.None);
         });
         services.AddOpenFeature(builder => builder.AddOfrepProvider(provider =>
         {
@@ -108,7 +108,9 @@ internal sealed class KaitenOfrepTransportHandler(KaitenOfrepOptions options,
             }
             try
             {
-                if (response.IsSuccessStatusCode) await ValidateResponseAsync(request, response, cancellationToken).ConfigureAwait(false);
+                // Official 0.1.7 decodes bodies for both 200 and 400; neither may bypass validation.
+                if (response.IsSuccessStatusCode || response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    await ValidateResponseAsync(request, response, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch
@@ -117,10 +119,18 @@ internal sealed class KaitenOfrepTransportHandler(KaitenOfrepOptions options,
                 throw;
             }
         }
-        catch (Exception)
+        catch (Exception error)
         {
             activity?.SetStatus(ActivityStatusCode.Error);
-            throw; // OpenFeature returns error details/default, never an authorization grant.
+            // The official provider copies exception messages into details/activities. Never
+            // forward raw URLs, body-read errors or credential-source messages/inner exceptions.
+            throw error switch
+            {
+                OperationCanceledException => new OperationCanceledException("Kaiten OFREP request canceled or timed out.", cancellationToken),
+                KaitenCredentialException => new KaitenCredentialException(),
+                KaitenProtocolException => new KaitenProtocolException(),
+                _ => new HttpRequestException("Kaiten OFREP transport failed.")
+            };
         }
         finally
         {
@@ -132,7 +142,8 @@ internal sealed class KaitenOfrepTransportHandler(KaitenOfrepOptions options,
     // Validate the envelope before the OFFICIAL provider decodes it; never interpret the value/rules here.
     private async Task ValidateResponseAsync(HttpRequestMessage request, HttpResponseMessage response, CancellationToken token)
     {
-        if (response.StatusCode != System.Net.HttpStatusCode.OK || response.Content.Headers.ContentLength > options.MaxResponseBytes)
+        var isErrorEnvelope = response.StatusCode == System.Net.HttpStatusCode.BadRequest;
+        if ((response.StatusCode != System.Net.HttpStatusCode.OK && !isErrorEnvelope) || response.Content.Headers.ContentLength > options.MaxResponseBytes)
             throw new KaitenProtocolException();
         using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
         using var buffer = new MemoryStream();
@@ -146,16 +157,20 @@ internal sealed class KaitenOfrepTransportHandler(KaitenOfrepOptions options,
         var bytes = buffer.ToArray();
         try
         {
-            using var document = JsonDocument.Parse(bytes);
+            using var document = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 64 });
             var root = document.RootElement;
             var expectedKey = Uri.UnescapeDataString(request.RequestUri!.Segments[^1]);
             if (root.ValueKind != JsonValueKind.Object || !root.TryGetProperty("key", out var key) ||
-                key.ValueKind != JsonValueKind.String || key.GetString() != expectedKey)
+                key.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(key.GetString()) || key.GetString() != expectedKey)
                 throw new KaitenProtocolException();
             var fields = new HashSet<string>(StringComparer.Ordinal);
             foreach (var property in root.EnumerateObject())
                 if (!fields.Add(property.Name)) throw new KaitenProtocolException();
-            if (root.TryGetProperty("errorCode", out var error) && error.ValueKind != JsonValueKind.Null)
+            var hasError = root.TryGetProperty("errorCode", out var error) && error.ValueKind != JsonValueKind.Null;
+            // 400 MUST be an error envelope, never a success/fallback or value-bearing response.
+            if (isErrorEnvelope && (!hasError || root.TryGetProperty("value", out _)))
+                throw new KaitenProtocolException();
+            if (hasError)
             {
                 // These are the codes mapped by the official provider. Unmapped codes fail closed.
                 if (error.ValueKind != JsonValueKind.String || error.GetString() is not
