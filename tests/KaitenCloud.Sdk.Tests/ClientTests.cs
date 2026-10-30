@@ -118,17 +118,15 @@ public sealed class ClientTests
         Assert.Equal(3, handler.Calls);
     }
     [Fact]
-    public async Task ReadOnlyOfrepCanRetryButUsageAndPutNeverReplay()
+    public async Task UsageAndPutNeverReplay()
     {
         using var handler = new StubHandler((_, _) => throw new HttpRequestException("private-route"));
         using var http = new HttpClient(handler); using var client = new KaitenClient(http, Options(2));
-        await Assert.ThrowsAsync<KaitenNetworkException>(() => client.EvaluateFlagAsync("some-flag", new Dictionary<string, object?>()));
-        Assert.Equal(3, handler.Calls);
         await Assert.ThrowsAsync<KaitenNetworkException>(() => client.ReportNumericUsageAsync("ninja-osaka-prod", "monthly-orders", 1, UsageReportBehavior.Append));
-        Assert.Equal(4, handler.Calls);
+        Assert.Equal(1, handler.Calls);
         var instance = new UpdateInstanceRequest { Name = "Name", Description = "", CustomerId = Guid.NewGuid(), LicenseId = Guid.NewGuid(), StartLicenseDate = DateTimeOffset.UtcNow, EndLicenseDate = DateTimeOffset.UtcNow.AddDays(1) };
         await Assert.ThrowsAsync<KaitenNetworkException>(() => client.UpdateInstanceAsync("ninja-osaka-prod", instance));
-        Assert.Equal(5, handler.Calls);
+        Assert.Equal(2, handler.Calls);
     }
     [Fact]
     public async Task CallerCancellationAndDeadlineAreDifferentAndDoNotRetry()
@@ -202,16 +200,16 @@ public sealed class ClientTests
         using var handler = new StubHandler((request, _) =>
         {
             Assert.NotNull(request.Headers.GetValues("traceparent").Single());
-            var response = Json("""{"key":"secret-route-flag","value":true}""");
+            var response = Json(Validation);
             response.Headers.Add("Kaiten-TraceId", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             return Task.FromResult(response);
         });
         using var http = new HttpClient(handler); var options = Options(); options.BearerToken = "secret-bearer";
         using var client = new KaitenClient(http, options, logger: logs);
-        await client.EvaluateFlagAsync("secret-route-flag", new Dictionary<string, object?> { ["userId"] = "sensitive-person" });
+        await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
         var text = string.Join(" ", logs.Messages.Concat(activities.SelectMany(a => a.TagObjects.Select(t => t.Key + "=" + t.Value))));
         Assert.Contains("kaiten.trace_id", text);
-        foreach (var privateValue in new[] { "secret-route-flag", "secret-bearer", "sensitive-person", "gateway.test" }) Assert.DoesNotContain(privateValue, text);
+        foreach (var privateValue in new[] { "ninja-osaka-prod", "secret-bearer", "gateway.test" }) Assert.DoesNotContain(privateValue, text);
     }
     [Fact]
     public async Task ResponseSizeAndMalformedJsonAreProtocolFailures()
@@ -236,10 +234,12 @@ public sealed class ClientTests
 
 internal sealed class StubHandler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> handler) : HttpMessageHandler
 {
-    public int Calls { get; private set; }
+    private int _calls;
+    public int Calls => _calls;
+    public Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> Reply { get; set; } = handler;
     public bool Disposed { get; private set; }
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    { Calls++; return handler(request, cancellationToken); }
+    { Interlocked.Increment(ref _calls); return Reply(request, cancellationToken); }
     protected override void Dispose(bool disposing) { Disposed = true; base.Dispose(disposing); }
 }
 internal sealed class CaptureLogger : ILogger<KaitenClient>

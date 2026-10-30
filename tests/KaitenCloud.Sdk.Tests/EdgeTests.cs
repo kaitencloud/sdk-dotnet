@@ -55,27 +55,6 @@ public sealed class EdgeTests
         Assert.Equal(0, handler.Calls);
     }
     [Fact]
-    public async Task OptionalBulkMetadataAndExtensionsAreNotDiscarded()
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("""
-        {"flags":[{"key":"some-flag","value":0,"future":"additive","metadata":{"custom":42}}],"metadata":{"bulk":"kept"},"futureBulk":true}
-        """))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        var result = await client.EvaluateAllFlagsAsync(new Dictionary<string, object?>());
-        Assert.Equal("kept", result.Metadata!["bulk"].GetString()); Assert.True(result.Extensions!["futureBulk"].GetBoolean());
-        Assert.Equal(0, result.Flags[0].GetValue<int>()); Assert.Equal("additive", result.Flags[0].Extensions!["future"].GetString());
-    }
-    [Theory]
-    [InlineData("""{"flags":null}""")]
-    [InlineData("""{"flags":[null]}""")]
-    [InlineData("""{"flags":[{"key":"some-flag","value":true},{"key":"some-flag","value":false}]}""")]
-    public async Task InvalidBulkCannotInventSecurityDecisions(string body)
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(body))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.EvaluateAllFlagsAsync(new Dictionary<string, object?>()));
-    }
-    [Fact]
     public async Task NullEntitlementDecisionIsProtocolFailure()
     {
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("""

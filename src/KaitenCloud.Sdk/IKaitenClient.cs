@@ -12,9 +12,6 @@ public interface IKaitenClient
     Task<IReadOnlyList<EntitlementUsage>> GetAllInstanceEntitlementUsageAsync(string instanceSlug, CancellationToken cancellationToken = default);
     Task<EntitlementUsage> ReportNumericUsageAsync(string instanceSlug, string entitlementSlug, double value,
         UsageReportBehavior behavior, IReadOnlyDictionary<string, JsonElement>? metadata = null, CancellationToken cancellationToken = default);
-    Task<FlagEvaluation> EvaluateFlagAsync(string flagSlug, IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default);
-    Task<FlagEvaluation<T>> EvaluateFlagAsync<T>(string flagSlug, IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default);
-    Task<BulkFlagEvaluation> EvaluateAllFlagsAsync(IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default);
     Task<FeatureFlag> GetFeatureFlagAsync(string flagSlug, CancellationToken cancellationToken = default);
     Task UpdateFeatureFlagAsync(string flagSlug, UpdateFeatureFlagRequest request, CancellationToken cancellationToken = default);
     Task UpdateInstanceAsync(string instanceSlug, UpdateInstanceRequest request, CancellationToken cancellationToken = default);

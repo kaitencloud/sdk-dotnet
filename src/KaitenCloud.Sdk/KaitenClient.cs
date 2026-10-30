@@ -12,7 +12,7 @@ namespace KaitenCloud.Sdk;
 public sealed class KaitenClient : IKaitenClient, IDisposable
 {
     public const string ActivitySourceName = "KaitenCloud.Sdk";
-    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.1.1");
+    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.2.0");
     private readonly HttpClient _http;
     private readonly KaitenClientOptions _options;
     private readonly IKaitenCredentialProvider? _credentials;
@@ -89,27 +89,6 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
             new { value = (EntitlementValue)new NumberEntitlementValue { Value = value }, behavior, metadata }, false, cancellationToken).ConfigureAwait(false);
         if (result.EntitlementSlug != entitlementSlug) throw new KaitenProtocolException();
         return result;
-    }
-    public async Task<FlagEvaluation> EvaluateFlagAsync(string flagSlug, IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(context);
-        var result = await SendAsync<FlagEvaluation>(HttpMethod.Post, $"ofrep/v1/evaluate/flags/{Slug(flagSlug)}",
-            "evaluate-flag", new { context }, true, cancellationToken).ConfigureAwait(false);
-        if (result.Key != flagSlug) throw new KaitenProtocolException();
-        if (!result.IsSuccess) throw new KaitenEvaluationException(result, HttpStatusCode.OK);
-        return result;
-    }
-    public async Task<FlagEvaluation<T>> EvaluateFlagAsync<T>(string flagSlug, IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default)
-    {
-        var result = await EvaluateFlagAsync(flagSlug, context, cancellationToken).ConfigureAwait(false);
-        return new(result.Key, result.GetValue<T>(), result.Variant, result.Reason, result.Metadata, result.Extensions);
-    }
-    public async Task<BulkFlagEvaluation> EvaluateAllFlagsAsync(IReadOnlyDictionary<string, object?> context, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(context);
-        var bulk = await SendAsync<BulkFlagEvaluation>(HttpMethod.Post, "ofrep/v1/evaluate/flags", "evaluate-all-flags",
-            new { context }, true, cancellationToken).ConfigureAwait(false);
-        return bulk; // HTTP 200 may contain individual failures; never convert these to false/allowed.
     }
     public Task<FeatureFlag> GetFeatureFlagAsync(string flagSlug, CancellationToken cancellationToken = default)
         => SendAsync<FeatureFlag>(HttpMethod.Get, $"feature-flags/{Slug(flagSlug)}", "get-feature-flag", null, true, cancellationToken);
@@ -204,12 +183,9 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
                     var bytes = await ReadBodyAsync(response.Content, token).ConfigureAwait(false);
                     if (!response.IsSuccessStatusCode)
                     {
-                        if (operation.StartsWith("evaluate-", StringComparison.Ordinal) && response.StatusCode != HttpStatusCode.Unauthorized && response.StatusCode != HttpStatusCode.Forbidden)
-                            ThrowEvaluationFailure(bytes, response.StatusCode);
                         throw new KaitenApiException(response.StatusCode, ReadProblem(bytes));
                     }
                     if (response.StatusCode != HttpStatusCode.OK || method == HttpMethod.Put) throw new KaitenProtocolException();
-                    if (operation.StartsWith("evaluate-", StringComparison.Ordinal)) ThrowEvaluationFailure(bytes, response.StatusCode);
                     var result = KaitenJson.Deserialize<T>(bytes);
                     ValidateModel(result);
                     return result;
@@ -280,27 +256,6 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
         try { return JsonSerializer.Deserialize<KaitenProblem>(bytes, KaitenJson.Options); }
         catch (JsonException) { return null; }
     }
-    private static void ThrowEvaluationFailure(byte[] bytes, HttpStatusCode status)
-    {
-        try
-        {
-            using var document = JsonDocument.Parse(bytes);
-            var root = document.RootElement;
-            if (root.ValueKind != JsonValueKind.Object || !root.TryGetProperty("errorCode", out var code)) return;
-            if (code.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(code.GetString())) throw new KaitenProtocolException();
-            // Bulk failures have no key. Preserve it when present on a single failure.
-            var evaluation = new FlagEvaluation
-            {
-                Key = root.TryGetProperty("key", out var key) && key.ValueKind == JsonValueKind.String ? key.GetString()! : "",
-                ErrorCode = code.GetString(),
-                ErrorDetails = root.TryGetProperty("errorDetails", out var detail) && detail.ValueKind == JsonValueKind.String ? detail.GetString() : null,
-                Metadata = root.TryGetProperty("metadata", out var meta) && meta.ValueKind == JsonValueKind.Object
-                    ? meta.Deserialize<Dictionary<string, JsonElement>>(KaitenJson.Options) : null
-            };
-            throw new KaitenEvaluationException(evaluation, status);
-        }
-        catch (JsonException) { /* Non-JSON auth/proxy errors are handled by HTTP status. */ }
-    }
     private static void ValidateModel<T>(T result)
     {
         if (result is null) throw new KaitenProtocolException();
@@ -308,18 +263,6 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
         {
             case LicenseValidation validation when string.IsNullOrWhiteSpace(validation.InstanceSlug) || string.IsNullOrWhiteSpace(validation.LicenseSlug) || validation.LicenseId == Guid.Empty || validation.Valid != (validation.Status == LicenseValidationStatus.Active):
                 throw new KaitenProtocolException();
-            case FlagEvaluation evaluation:
-                ValidateEvaluation(evaluation);
-                break;
-            case BulkFlagEvaluation bulk:
-                if (bulk.Flags is null) throw new KaitenProtocolException();
-                var keys = new HashSet<string>(StringComparer.Ordinal);
-                foreach (var item in bulk.Flags)
-                {
-                    ValidateEvaluation(item);
-                    if (!keys.Add(item.Key)) throw new KaitenProtocolException();
-                }
-                break;
             case EntitlementUsage usage when usage.Value is null || usage.EntitlementId == Guid.Empty || usage.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(usage.EntitlementSlug) || string.IsNullOrWhiteSpace(usage.LicenseSlug):
             case LicenseEntitlement grant when grant.Value is null || grant.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(grant.EntitlementSlug) || string.IsNullOrWhiteSpace(grant.LicenseSlug):
             case Instance instance when instance.CustomerId == Guid.Empty || instance.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(instance.Slug) || string.IsNullOrWhiteSpace(instance.CustomerSlug) || string.IsNullOrWhiteSpace(instance.LicenseSlug):
@@ -330,12 +273,6 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
                 foreach (var item in page.Items) ValidateModel(item);
                 break;
         }
-    }
-    private static void ValidateEvaluation(FlagEvaluation result)
-    {
-        if (result is null) throw new KaitenProtocolException();
-        if (string.IsNullOrWhiteSpace(result.Key) || result.ErrorCode is not null && string.IsNullOrWhiteSpace(result.ErrorCode) ||
-            result.ErrorCode is null && result.Value.ValueKind == JsonValueKind.Undefined) throw new KaitenProtocolException();
     }
     private static string Slug(string value)
     {

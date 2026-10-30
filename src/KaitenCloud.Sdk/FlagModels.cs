@@ -4,34 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace KaitenCloud.Sdk;
 
-public sealed record FlagEvaluation : KaitenResource
-{
-    public required string Key { get; init; }
-    public JsonElement Value { get; init; }
-    public string? Variant { get; init; }
-    public string? Reason { get; init; }
-    public string? ErrorCode { get; init; }
-    public string? ErrorDetails { get; init; }
-    public Dictionary<string, JsonElement>? Metadata { get; init; }
-    [JsonIgnore] public bool IsSuccess => ErrorCode is null && Value.ValueKind != JsonValueKind.Undefined;
-
-    public T GetValue<T>()
-    {
-        if (!IsSuccess) throw new KaitenEvaluationException(this);
-        try { return Value.Deserialize<T>(KaitenJson.Options) ?? throw new KaitenProtocolException(); }
-        catch (JsonException) { throw new KaitenProtocolException(); }
-        catch (NotSupportedException) { throw new KaitenProtocolException(); }
-    }
-}
-public sealed record BulkFlagEvaluation : KaitenResource
-{
-    public required IReadOnlyList<FlagEvaluation> Flags { get; init; }
-    public Dictionary<string, JsonElement>? Metadata { get; init; }
-}
-
-public sealed record FlagEvaluation<T>(string Key, T Value, string? Variant, string? Reason,
-    IReadOnlyDictionary<string, JsonElement>? Metadata, IReadOnlyDictionary<string, JsonElement>? Extensions);
-
 public sealed record FlagVariant
 {
     public required string Name { get; init; }

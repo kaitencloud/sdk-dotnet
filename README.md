@@ -1,22 +1,24 @@
 # Kaiten SDK for .NET
 
-A typed **server-side** client for Kaiten Core and OFREP. Package and namespace:
-**KaitenCloud.Sdk**, local version **0.1.1** (not published).
+Typed **server-side** Kaiten Core APIs and integration with the **official
+OpenFeature SDK + sealed OFREP provider**. Package/namespace: **KaitenCloud.Sdk**,
+local unpublished version **0.2.0**, targeting **net8.0 / C#12**.
 
-Targets **net8.0 / C#12**, an explicit baseline chosen here, not an inferred
-organization-wide policy. A .NET 10 executable and separate NuGet consumer verify
-compatibility with Sushi. No netstandard, Platform, billing, browser-token,
-offline evaluation or OpenFeature-provider compatibility is claimed.
+**Breaking change:** direct flag evaluation APIs/models/exceptions are removed.
+All flag decisions use OpenFeature's `IFeatureClient` instead. License validation,
+entitlement usage/reporting, management and presenter APIs remain typed Kaiten calls.
+The single package pins `OpenFeature.Hosting 2.14.1` and
+`OpenFeature.Providers.Ofrep 0.1.7`; the provider already depends on Hosting, so a
+separate integration package would not reduce this integration's dependencies.
 
-## Local build and package consumption
+## Build and local consumption
 
-Prerequisites: .NET 10 SDK (global.json permits the latest 10.0 feature band),
-.NET 8 runtime for minimum-runtime unit tests, NuGet.org access on initial restore.
-Task is optional. No global upgrades or services are needed for unit/package checks.
+Prerequisites: .NET 10 SDK (global.json), .NET 8 runtime for tests, NuGet.org on
+initial restore. No global upgrades, package publication or services are required.
 
 ```sh
 task check
-# Equivalent commands from this repository:
+# Or:
 dotnet restore KaitenCloud.sln --locked-mode
 dotnet build KaitenCloud.sln -c Release --no-restore
 dotnet test tests/KaitenCloud.Sdk.Tests -c Release --no-build --no-restore
@@ -24,153 +26,153 @@ dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -o artifacts/
 sh scripts/check-package.sh
 ```
 
-Output: `artifacts/packages/KaitenCloud.Sdk.0.1.1.nupkg`. Keep product repos
-independent: consume this package from a local NuGet feed, not a workstation-specific
-source path. In the demo's NuGet.Config, add a documented relative artifact feed
-(or copy the package into its own ignored local feed) alongside NuGet.org:
+Use `artifacts/packages/KaitenCloud.Sdk.0.2.0.nupkg` from a local NuGet feed
+alongside NuGet.org, never a workstation-specific source reference:
 
 ```xml
-<PackageReference Include="KaitenCloud.Sdk" Version="0.1.1" />
+<PackageReference Include="KaitenCloud.Sdk" Version="0.2.0" />
 ```
 
-After rebuilding this unpublished version, restore to a fresh **project-local**
-package directory to avoid NuGet's immutable-version cache. Never clear global
-caches. Bump the version for release. Keep SDK/test/example dependency lockfiles with
-the source. The local package fixture regenerates its lock under ignored obj/ and
-uses a fresh private cache: unpublished package bytes change with working-tree or
-Git provenance changes. A canonical lock on that changing package hash would make
-building after a commit impossible; published consumers should lock immutable versions.
+Restore changing unpublished bytes into a fresh project-local package cache; never
+clear global caches. Published consumers should lock immutable versions. SDK,
+unit tests, example and integration dependencies have committed locks; the local
+consumer regenerates its changing unpublished-package hash in ignored obj/.
 
-## Configuration, authentication and ownership
+## Server DI and credentials
 
 ```csharp
 using KaitenCloud.Sdk;
-services.AddSingleton<IKaitenCredentialProvider>(
-    new FileKaitenCredentialProvider(configuration["Kaiten:TokenFile"]!));
-services.AddKaiten(options =>
+using OpenFeature;
+
+builder.Services.AddSingleton<IKaitenCredentialProvider>(
+    new FileKaitenCredentialProvider(builder.Configuration["Kaiten:TokenFile"]!));
+var gateway = new Uri(builder.Configuration["Kaiten:BaseUrl"]!);
+builder.Services.AddKaiten(o => { o.BaseUri = gateway; o.RequestTimeout = TimeSpan.FromSeconds(10); });
+builder.Services.AddKaitenOpenFeature(o =>
 {
-    options.BaseUri = new Uri(configuration["Kaiten:BaseUrl"]!);
-    options.RequestTimeout = TimeSpan.FromSeconds(10);
-    // MaxRetries defaults to 0; at most 3 opt-in retries, GET/read-only OFREP only.
+    o.BaseUri = gateway;
+    o.RequestTimeout = TimeSpan.FromSeconds(10);
+    o.MaxResponseBytes = 4 * 1024 * 1024;
 });
-// Inject IKaitenClient. DI owns wrappers; IHttpClientFactory manages the pool.
+// Inject IKaitenClient for Core APIs and official IFeatureClient for flags.
 ```
 
-The file provider rereads on **each request/attempt**. Rotate by atomically replacing
-a private file (0600 on Unix). Implement `IKaitenCredentialProvider` for a vault or
-other async source. Its result takes precedence over `KaitenClientOptions.BearerToken`,
-including null (no credential). Keep secrets out of tracked config, telemetry and browsers.
+Add once per host. Official Hosting initializes/shuts down the provider with the
+ASP.NET/generic host and owns an isolated OpenFeature API per service container.
+The registration selects the **default domain**; do not mutate global/client context
+for tenants or use `Api.Instance` instead of the injected client.
+Plain `ServiceCollection` applications explicitly await
+`IFeatureLifecycleManager.EnsureInitializedAsync(token)` and `ShutdownAsync()`.
 
-Non-DI: reuse `KaitenClient.Create(options, provider)` for the application lifetime,
-dispose at shutdown; it owns HTTP. `new KaitenClient(httpClient, options, provider)`
-**never disposes or changes the caller's HttpClient**. Configure that client's pool,
-timeout, redirects and diagnostics yourself; disable automatic redirects. Default
-Authorization headers are rejected: configure auth through the SDK. A shorter
-caller HTTP timeout wins and becomes a SDK timeout.
+Both transports share `IKaitenCredentialProvider`. The file provider rereads on
+every request (Core retries also reread); atomically replace a private 0600 file to
+rotate. An async vault provider is also supported. The credential source overrides
+static `BearerToken`, including null for anonymous access; a failing source does
+not fall back to static/anonymous credentials. PATs stay **server-only**, never in a
+browser, tracked config, logged context or request body.
 
-Use the **authenticated gateway**, e.g. `http://127.0.0.1:16060/api` for the isolated
-local stack, never Core's unverified internal JWT listener. Normalization appends
-`/api/` when absent, preserves proxy prefixes and does not duplicate an existing
-`/api`. Example: `https://host/edge/kaiten` → `https://host/edge/kaiten/api/`.
-Credentials/query/fragment in base URIs are rejected.
+Use the authenticated gateway, not Core's internal listener. `BaseUri` appends
+`/api/` if absent, preserves proxy prefixes and accepts an existing `/api/`:
+`https://host/edge/kaiten` becomes `https://host/edge/kaiten/api/`.
+The official provider appends `ofrep/v1/evaluate/flags/{key}` itself. Base URI
+credentials, query and fragment are rejected. Redirects are disabled.
 
-## Real runtime decisions
+Non-DI Core calls can reuse `KaitenClient.Create(options, credentials)` and dispose
+at shutdown. `new KaitenClient(http, options, credentials)` never alters/disposes
+caller HTTP. For a non-DI official provider with static credentials see
+[upstream documentation](https://github.com/open-feature/dotnet-sdk-contrib/tree/main/src/OpenFeature.Providers.Ofrep).
+Use the DI integration for rotating credentials, envelope validation and safe telemetry.
+
+## Per-request decisions: availability is not false
 
 ```csharp
-var license = await client.ValidateInstanceLicenseAsync(instanceSlug, cancellationToken);
-if (!license.Valid) throw new InvalidOperationException("License term is not active."); // Map to an explicit app denial.
-var context = new Dictionary<string, object?>
-{
-    ["targetingKey"] = authorizedCustomerSlug,
-    ["kaiten"] = new { instanceSlug = authorizedPrimaryInstanceSlug },
-    ["userId"] = opaqueAuthenticatedUserId,
-    ["orderCount"] = serverComputedOrderCount
-};
-var tracker = await client.EvaluateFlagAsync<bool>("delivery-tracking-enabled", context, cancellationToken);
-var bulk = await client.EvaluateAllFlagsAsync(context, cancellationToken);
-foreach (var flag in bulk.Flags)
-{
-    if (!flag.IsSuccess) throw new KaitenEvaluationException(flag); // No successful value to authorize with.
-}
-var usage = await client.GetInstanceEntitlementUsageAsync(instanceSlug, "monthly-orders", cancellationToken);
-await client.ReportNumericUsageAsync(instanceSlug, "monthly-orders", 1,
-    UsageReportBehavior.Append, cancellationToken: cancellationToken);
+using OpenFeature.Constant;
+using OpenFeature.Model;
+
+// Identity/tenant/instance/facts must come from authorized backend state.
+var context = EvaluationContext.Builder().SetTargetingKey(authorizedCustomerSlug)
+    .Set("kaiten", new Value(new Structure(new Dictionary<string, Value>
+    { ["instanceSlug"] = new(authorizedPrimaryInstanceSlug) })))
+    .Set("userId", opaqueAuthenticatedUserId).Set("orderCount", serverOrderCount).Build();
+var detail = await flags.GetBooleanDetailsAsync("delivery-tracking-enabled", false,
+    context, cancellationToken: cancellationToken);
+if (detail.ErrorType != ErrorType.None || detail.Reason == Reason.Error)
+    throw new InvalidOperationException("Flag service unavailable."); // e.g. HTTP503, not flag-off.
+var license = await kaiten.ValidateInstanceLicenseAsync(authorizedPrimaryInstanceSlug, cancellationToken);
+var entitlement = await kaiten.GetInstanceEntitlementUsageAsync(authorizedPrimaryInstanceSlug,
+    "delivery-tracking", cancellationToken);
+var allowed = license.Valid && ((BooleanEntitlementValue)entitlement.Value).Value && detail.Value;
+// A flag is not authorization. Also enforce app membership/roles and usage quotas.
 ```
 
-All APIs are async/cancellable. No local CEL, date/license, cap or percentage
-evaluation; no cache, ETag optimization, subscription or live-push mechanism.
-Current Core changes appear on the **next request**; UI refresh/polling is separate.
-Revalidate protected actions on the backend, not just by hiding controls.
+Always use details and a false fallback for protected boolean actions. **Check BOTH
+ErrorType and Reason:** upstream 0.1.7 maps internal `general_error` to
+`ErrorType.None` while retaining `Reason.ERROR` for outages/timeouts/rate limits.
+The internal HTTP envelope guard rejects missing/null values, wrong/missing keys,
+unknown error codes, duplicate fields and oversized/malformed successful bodies
+**before the official provider decodes them**. It neither evaluates rules nor
+interprets typed values. Official provider typing handles type mismatch. Legitimate
+server `DEFAULT` and `DISABLED` decisions (including true/false/zero) remain available.
 
-License validation has eight required fields. HTTP200 with `Valid=false` is a real
-denial, not an outage. Core uses DB UTC `[startLicenseDate,endLicenseDate)` and
-Active/NotStarted/Expired. Missing/null/unknown/contradictory decisions fail as
-protocol errors. Catalog DRAFT/ARCHIVED and operational MAINTENANCE/CHURNED do not
-suspend assigned instances. Requires corrected Core: [contract](docs/core-contract.md).
+The provider sends a single request for each call: **no flag cache, bulk API,
+polling, ETag/304, refresh thread, SSE or retry loop**. Changes become visible on the
+next request. HTTP429 causes an official **provider-wide Retry-After cooldown**
+(default one minute without advice), during which calls return unavailable without
+network traffic, including other tenants/flags. UI refresh is application-owned.
 
-## Public capabilities
+License validation is authoritative DB UTC `[start,end)`, with exact
+ACTIVE/NOT_STARTED/EXPIRED states. HTTP200 `Valid=false` is a denial, not an outage;
+missing/contradictory terms are protocol failures. DRAFT/ARCHIVED catalog states and
+MAINTENANCE/CHURNED instance states do not suspend assigned licenses. Requires the
+corrected [Core contract](docs/core-contract.md).
 
-| API | Result / PAT scope |
+## Core API capabilities
+
+| API | PAT scope |
 |---|---|
-| GetCustomerAsync | Customer / read:customers |
-| GetInstanceAsync, ValidateInstanceLicenseAsync | Instance, LicenseValidation / read:instances |
-| GetLicenseAsync | License / read:licenses |
-| GetInstanceEntitlementUsageAsync, GetAllInstanceEntitlementUsageAsync | usage, list / read:instances |
-| ReportNumericUsageAsync | usage / write:instances |
-| EvaluateFlagAsync, EvaluateFlagAsync<T>, EvaluateAllFlagsAsync | raw/typed result, BulkFlagEvaluation / read:feature_flags |
-| GetFeatureFlagAsync, UpdateFeatureFlagAsync | flag, full PUT / read:feature_flags, write:feature_flags |
-| UpdateInstanceAsync | full PUT / write:instances |
-| GetLicenseEntitlementAsync, GetLicenseEntitlementsAsync | grant, cursor page / read:licenses |
-| UpdateLicenseEntitlementAsync | grant PUT / write:licenses |
+| GetCustomerAsync | read:customers |
+| GetInstanceAsync, ValidateInstanceLicenseAsync | read:instances |
+| GetLicenseAsync | read:licenses |
+| GetInstanceEntitlementUsageAsync, GetAllInstanceEntitlementUsageAsync | read:instances |
+| ReportNumericUsageAsync | write:instances |
+| GetFeatureFlagAsync, UpdateFeatureFlagAsync | read:feature_flags / write:feature_flags |
+| UpdateInstanceAsync | write:instances |
+| GetLicenseEntitlementAsync, GetLicenseEntitlementsAsync | read:licenses |
+| UpdateLicenseEntitlementAsync | write:licenses |
 
-Use a **separate presenter credential**. `resource.ToUpdateRequest() with { ... }`
-preserves supported writable fields/metadata and excludes read-only/additive response
-fields. Flag `default_variant`/`event_name` retain snake_case. Slugs are writable:
-preserve unless deliberate rename. Instance PUT cannot set integrations/status/lifecycle;
-omitted deployment zone preserves it (clearing unsupported). Grant update preserves
-value and numeric overage percent. Full PUT has no conditional concurrency guard.
+OFREP through OpenFeature requires read:feature_flags. PATs are vendor-org-wide,
+not customer-scoped: derive allowed tenants on the backend, never expose a generic
+Core proxy. Keep a separate presenter credential/container from the runtime host.
 
-Entitlement wire types are lowercase **number / boolean / object**; `event_count`
-is response-only. `Append` folds by Core aggregation (SUM increments; LATEST reports
-the latest value); `Set` overwrites and resets observation count to1. Both are explicit.
--1 limits mean unlimited; missing limits are not permission to assume unlimited.
+`ToUpdateRequest() with { ... }` preserves supported writable fields and excludes
+read-only/additive fields. Full PUT has no conditional concurrency guard. Entitlement
+wire types are lowercase number/boolean/object; event_count is response-only.
+Append and Set are explicit; Set resets count to one. A mutation timeout may have
+committed: reconcile uncertainty, never automatically replay usage POST or any PUT.
 
-PATs are **vendor-org-wide**, not restaurant/customer-scoped. `write:instances`
-permits more than usage reporting. The app must validate Keycloak membership/roles,
-derive allowed customer/instance server-side, and never expose a generic Core proxy.
+## Safe diagnostics and verification
 
-## Failures, diagnostics and verification
+[HTTP behavior](docs/http-behavior.md) separates typed Core exceptions from official
+OpenFeature details. The integration disables factory HTTP loggers and the unsafe
+upstream provider/client logger categories (they include keys/exception messages).
+Only operation/status is logged. Subscribe to `KaitenCloud.Sdk` and
+`KaitenCloud.Sdk.Ofrep` ActivitySources for redacted spans and W3C
+traceparent/tracestate plus validated Core `Kaiten-TraceId` correlation.
+Do not indiscriminately export System.Net.Http/OpenFeature activities or add logging
+hooks: upstream instrumentation can contain URLs, flag keys/values/error messages.
+Never log request context, tokens, bodies, `Problem` or `ErrorMessage` wholesale.
 
-[HTTP behavior](docs/http-behavior.md) distinguishes API problems (StatusCode/Code/ErrorId),
-evaluation, protocol, credentials, network, timeout and caller cancellation. None
-becomes allowed/default. Usage POST and **all PUTs** never automatically replay.
+The [.NET10 example](examples/Kaiten.Example/Program.cs) is read-only and consumes
+OpenFeature for flags, typed Kaiten calls for licenses/entitlements. Set
+KAITEN_BASE_URL and KAITEN_TOKEN_FILE. Successful denial exits 2, unavailability 1.
+[Real integration](docs/integration.md) creates a separate owned Core environment,
+checks flags/guards/mutations/tenant isolation/outage/Jaeger, restores snapshots,
+and removes only owned resources. Missing prerequisites fail, never skip/mock.
 
-ILogger emits operation/status only. ActivitySource `KaitenCloud.Sdk` emits redacted
-operation spans, propagates W3C traceparent/tracestate, and attaches Core
-`Kaiten-TraceId` as `kaiten.trace_id`. Add this source to your OpenTelemetry exporter.
-The SDK disables factory HTTP loggers/default handler propagation; it never logs token,
-context, body, route arguments or remote error text. Host HttpClient instrumentation
-may still capture full URLs: configure redaction or avoid indiscriminate HTTP tracing.
-Problem/Evaluation properties retain server data; do not blindly log them.
-
-The **.NET10 example has no direct HTTP Core bypass**:
-
-```sh
-KAITEN_BASE_URL=http://127.0.0.1:16060/api KAITEN_TOKEN_FILE=/private/path/runtime-token task example
-# Same executable consuming the packaged SDK:
-KAITEN_BASE_URL=http://127.0.0.1:16060/api KAITEN_TOKEN_FILE=/private/path/runtime-token dotnet run --project tests/PackageConsumer -c Release --no-build --no-restore
-```
-
-[Real integration](docs/integration.md) covers flags, grants/usage, term states,
-presenter isolation, auth denials, outage, rollback and Core/Envoy Jaeger correlation.
-Missing prerequisites **fail**; mocks/skips never count as real integration.
-
-Gaps: no Platform/billing/customer-session APIs, general CRUD/listing, catalog
-publish/archive/unarchive, SSE/OpenFeature provider, offline cache or usage idempotency.
-Core's secondary-instance flag license facts still use the customer's oldest instance;
-periodic quantity enrichment also has a separate known limitation. Use verified
-primary instances, not invented parity. Test audit/outbox events remain after
-snapshot restoration; legitimate observations are never deleted.
+No Platform/billing/customer-session APIs, broad CRUD, offline cache, usage idempotency
+or secondary-instance parity is claimed. Core enrichment currently uses the
+customer's oldest instance; use verified primary instances. Periodic quantity
+enrichment has a separate known limitation.
 
 Apache-2.0: [LICENSE](LICENSE), [NOTICE](NOTICE), [DCO](DCO.md), [contributing](CONTRIBUTING.md),
 [security](SECURITY.md).

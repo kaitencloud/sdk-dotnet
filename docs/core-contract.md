@@ -16,7 +16,7 @@ Routes relative to authenticated /api gateway:
 | GET instances/{slug}/entitlements/{entitlement}/usage | one usage/grant |
 | GET instances/{slug}/entitlements/usage | all usage (array or null/empty) |
 | POST instances/{slug}/entitlements/{entitlement}/usage | number value, explicit append/set |
-| POST ofrep/v1/evaluate/flags/{slug}, ofrep/v1/evaluate/flags | context, per-flag failures |
+| POST ofrep/v1/evaluate/flags/{slug} (official provider only) | per-request context and flag details |
 | GET / PUT feature-flags/{slug} | typed representation / full write,204 |
 | PUT instances/{slug} | full write,204 |
 | GET licenses/{slug}/entitlements[?cursor&limit] | items,nextCursor,hasMore |
@@ -30,9 +30,10 @@ composite/numeric/case/whitespace aliases; DB UTC [start,end). Single usage read
 numeric-report responses must match the requested entitlement slug. This package
 provides no Core edits or database migrations.
 
-OFREP OpenAPI makes value optional, but SDK successful evaluation requires an actual
-value. False/0 remain successes. Bulk retains per-flag errors, metadata and root
-additive fields. Case-sensitive entitlement discriminators number/boolean/object,
+OpenFeature + the official OFREP provider are the only flag decision path. The
+internal transport guard validates non-null success value and matching key before
+provider decoding; legitimate false/0/default variants remain successes. No Kaiten
+bulk/direct evaluation API exists. Case-sensitive entitlement discriminators number/boolean/object,
 not the historical Go wrapper's uppercase NUMBER. event_count is never written.
 
 Strict full flag write: type,variants,targetings,name,description,default_variant,

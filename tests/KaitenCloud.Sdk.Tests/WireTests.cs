@@ -45,45 +45,6 @@ public sealed class WireTests
         Assert.Equal(19, ((NumberEntitlementValue)result.Value).Value); Assert.Equal(2, ((NumberEntitlementValue)result.Value).EventCount);
     }
     [Fact]
-    public async Task BulkPreservesIndividualFailuresAndTypedValuesAreStrict()
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("""
-        {"flags":[{"key":"tracker","value":false,"variant":"off"},{"key":"other-flag","errorCode":"FLAG_NOT_FOUND","errorDetails":"not found"}]}
-        """))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        var flags = (await client.EvaluateAllFlagsAsync(new Dictionary<string, object?>())).Flags;
-        Assert.True(flags[0].IsSuccess); Assert.False(flags[0].GetValue<bool>());
-        Assert.Throws<KaitenProtocolException>(() => flags[0].GetValue<double>());
-        Assert.False(flags[1].IsSuccess); Assert.Throws<KaitenEvaluationException>(() => flags[1].GetValue<bool>());
-    }
-    [Theory]
-    [InlineData("""{"key":"some-flag"}""")]
-    [InlineData("""{"key":"wrong-flag","value":true}""")]
-    [InlineData("""{"key":null,"value":true}""")]
-    public async Task MissingValuesAndWrongKeysAreProtocolErrors(string json)
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(json))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.EvaluateFlagAsync("some-flag", new Dictionary<string, object?>()));
-    }
-    [Fact]
-    public async Task SingleAndBulkEvaluationFailuresHaveDistinctMachineCodes()
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("""{"key":"missing-flag","errorCode":"FLAG_NOT_FOUND","metadata":{"extra":true}}""", HttpStatusCode.BadRequest))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        var single = await Assert.ThrowsAsync<KaitenEvaluationException>(() => client.EvaluateFlagAsync("missing-flag", new Dictionary<string, object?>()));
-        Assert.Equal("FLAG_NOT_FOUND", single.ErrorCode); Assert.True(single.Evaluation.Metadata!["extra"].GetBoolean());
-        await Assert.ThrowsAsync<KaitenEvaluationException>(() => client.EvaluateAllFlagsAsync(new Dictionary<string, object?>()));
-    }
-    [Fact]
-    public async Task DisabledFlagUsesRealDefaultRatherThanHardcodedFalse()
-    {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("""{"key":"some-flag","value":true,"reason":"DISABLED"}"""))));
-        using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
-        var flag = await client.EvaluateFlagAsync<bool>("some-flag", new Dictionary<string, object?>());
-        Assert.True(flag.Value); Assert.Equal("DISABLED", flag.Reason);
-    }
-    [Fact]
     public void FullFlagWritePreservesCurrentStrictSchemaAndAllTargetingTypes()
     {
         var json = """

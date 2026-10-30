@@ -34,11 +34,3 @@ public sealed class KaitenApiException(HttpStatusCode statusCode, KaitenProblem?
     public string? Code => Problem?.Code;
     public string? ErrorId => Problem?.ErrorId;
 }
-
-public sealed class KaitenEvaluationException(FlagEvaluation evaluation, HttpStatusCode? statusCode = null)
-    : KaitenException("Kaiten flag evaluation failed; no successful value is available.")
-{
-    public FlagEvaluation Evaluation { get; } = evaluation;
-    public string? ErrorCode => Evaluation.ErrorCode;
-    public HttpStatusCode? StatusCode { get; } = statusCode;
-}
