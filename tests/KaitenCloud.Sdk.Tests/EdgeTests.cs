@@ -13,7 +13,7 @@ public sealed class EdgeTests
         using var handler = new StubHandler((_, _) => throw new InvalidOperationException());
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api"), RequestTimeout = TimeSpan.FromMilliseconds(20) }, new PendingProvider());
-        await Assert.ThrowsAsync<KaitenTimeoutException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod").WaitAsync(TimeSpan.FromSeconds(1)));
+        await Assert.ThrowsAsync<KaitenTimeoutException>(() => client.GetInstanceAsync("ninja-osaka-prod").WaitAsync(TimeSpan.FromSeconds(1)));
         Assert.Equal(0, handler.Calls);
     }
     [Fact]
@@ -27,7 +27,7 @@ public sealed class EdgeTests
         });
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api"), MaxRetries = 3, MaxRetryDelay = TimeSpan.FromSeconds(1) });
-        await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(1, handler.Calls);
     }
     [Fact]
@@ -41,7 +41,7 @@ public sealed class EdgeTests
         });
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api"), BearerToken = "unused-test-token", MaxRetries = 1, RetryDelay = TimeSpan.Zero }, new RotatingProvider());
-        Assert.True((await client.ValidateInstanceLicenseAsync("ninja-osaka-prod")).Valid);
+        Assert.Equal(LicenseTermStatus.Active, (await client.GetInstanceAsync("ninja-osaka-prod")).LicenseTerm!.Status);
         Assert.Equal(new[] { "test-one", "test-two" }, seen);
     }
     [Fact]
@@ -51,7 +51,7 @@ public sealed class EdgeTests
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
         using var canceled = new CancellationTokenSource(); canceled.Cancel();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod", canceled.Token));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.GetInstanceAsync("ninja-osaka-prod", canceled.Token));
         Assert.Equal(0, handler.Calls);
     }
     [Fact]
@@ -70,7 +70,7 @@ public sealed class EdgeTests
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json("null"))));
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api") });
         Assert.Empty(await client.GetAllInstanceEntitlementUsageAsync("ninja-osaka-prod"));
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
     [Fact]
     public async Task NumericGrantWriteDropsObservationCountAndPreservesOverage()
@@ -109,7 +109,7 @@ public sealed class EdgeTests
         using var handler = new StubHandler((_, _) => Task.FromResult(ClientTests.Json("", HttpStatusCode.Redirect)));
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri("https://test.invalid/api"), MaxRetries = 3 });
-        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(HttpStatusCode.Redirect, error.StatusCode); Assert.Equal(1, handler.Calls);
     }
 }

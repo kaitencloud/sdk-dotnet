@@ -1,51 +1,45 @@
-# Verified Core contract (2026-10-30)
+# Pinned Core resource contract
 
-Authoritative sources in the current Core working tree: app/openapi.yaml;
-api/internal/modules/instances/schema/{schema.go,license_validation.go};
-instances/{updateinstance,reportentitlementusagemetric}/endpoint.go;
-featureflags/schema/{schema.go,default_variant.go,targeting*.go};
-featureflags/openfeature/ofrep/schema.go; licenses/schema/schema.go and
-updatelicenseentitlement/endpoint.go; customers/schema/schema.go.
+The self-contained schema is pinned to Core
+`d55c6312a42e982e260cfe7796b8645b9ee4676c` (see `contracts/source.json`).
+The existing `GET /api/instances/{instanceSlug}` retrieves the flat persisted
+resource plus detail-only, read-only `licenseTerm: { status, evaluatedAt }`.
+There is no validation action endpoint or wire `Valid` decision boolean.
 
-Routes relative to authenticated /api gateway:
+`status` is exactly ACTIVE, NOT_STARTED or EXPIRED; `evaluatedAt` is the UTC
+database instant. Existing license ID/slug/start/end dates remain flat assignment
+data, and top-level operational `status` remains separate. Every term state
+is a successful HTTP200 resource retrieval, not an access denial. Shared list,
+create, event and GraphQL representations omit the optional computed member.
 
-| Route | Contract |
-|---|---|
-| GET customers/{slug}, instances/{slug}, licenses/{slug} | typed current entities |
-| GET instances/{slug}/license-validation | authoritative term decision |
-| GET instances/{slug}/entitlements/{entitlement}/usage | one usage/grant |
-| GET instances/{slug}/entitlements/usage | all usage (array or null/empty) |
-| POST instances/{slug}/entitlements/{entitlement}/usage | number value, explicit append/set |
-| POST ofrep/v1/evaluate/flags/{slug} (official provider only) | per-request context and flag details |
-| GET / PUT feature-flags/{slug} | typed representation / full write,204 |
-| PUT instances/{slug} | full write,204 |
-| GET licenses/{slug}/entitlements[?cursor&limit] | items,nextCursor,hasMore |
-| GET / PUT licenses/{slug}/entitlements/{entitlement} | grant / value+overage write,204 |
+Both legacy `GetInstanceAsync` and management `Instances.GetAsync` require a complete
+known term on fresh detail. Missing/null/malformed data is a protocol/dependency
+failure, never ACTIVE/false entitlement. Other representations accept omission.
+The SDK does not compare to local now, enforce global expiry, rewrite timestamps,
+change billing policy or interpret archive/operational status as suspension.
+Protected-action policy remains in the application alongside entitlements, roles
+and official OpenFeature decisions.
 
-License validation requires valid,status,evaluatedAt,instanceSlug,licenseId,
-licenseSlug,startLicenseDate,endLicenseDate. Core added this endpoint and fixed UTC
-offset persistence; an older checkout lacking it cannot satisfy this runtime contract.
-Valid iff ACTIVE; other states NOT_STARTED/EXPIRED; exact wire strings only, not
-composite/numeric/case/whitespace aliases; DB UTC [start,end). Single usage read and
-numeric-report responses must match the requested entitlement slug. This package
-provides no Core edits or database migrations.
+Detail success is no-store. Existing credential/scope failures remain401/403;
+missing/deleted/foreign remain404 GetInstance.NotFound; internal failures return
+private correlated500 problems without partial resource. Same getInstance and
+read:instances operation/scope; no pseudo-resource/relationship wrapper.
 
-OpenFeature + the official OFREP provider are the only flag decision path. The
-internal transport guard validates non-null success value and matching key before
-provider decoding; legitimate false/0/default variants remain successes. No Kaiten
-bulk/direct evaluation API exists. Case-sensitive entitlement discriminators number/boolean/object,
-not the historical Go wrapper's uppercase NUMBER. event_count is never written.
+The draft ValidateInstanceLicenseAsync/management ValidateLicenseAsync and
+LicenseValidation DTO/status enum were removed intentionally in local unpublished
+0.3.0. The other12 original interface signatures remain. Do not treat historical
+0.2.0 source/package receipts as the migrated contract or replace their bytes.
 
-Strict full flag write: type,variants,targetings,name,description,default_variant,
-slug,metadata,enabled,event_name. Targeting/default unions support basic,
-rollout_date,rollout_percentage. Instance write: name,description,customerId,
-licenseId,startLicenseDate,endLicenseDate,metadata,optional deploymentZoneId/slug;
-never integrations/status. Grant write: value/optional limitCapExceededOveragePercent.
-ToUpdateRequest excludes read-only/additive response fields because Core rejects
-unknown request keys. KaitenJson.CreateOptions provides wire rules for private snapshots.
+Writes keep the existing strict field set. Legacy ToUpdateRequest copies supported
+assignment/date/metadata fields only; read-only licenseTerm and additive response
+extensions never enter write/snapshot payloads. Generated management create/update
+DTOs also exclude it (including nested inputs). PUT/PATCH remain204.
 
-No ETag/304: current bulk handler doesn't implement the advertised behavior. No
-browser PAT, arbitrary evaluation instant, local CEL/license logic, archive-as-suspension,
-reseller hierarchy or secondary-instance parity. Current enrichment uses the customer's
-oldest instance for license/grant facts; Sushi tests use verified primary production
-instances and opaque extra userId/server orderCount. App roles/membership are independent.
+Entitlement usage still uses exact lowercase number/boolean/object tagged values.
+Usage POST requires explicit append/set behavior; unkeyed usage and all existing
+writes are never automatically replayed. No historical-date migration or secondary
+instance/periodic flag enrichment parity is inferred here.
+
+Runtime flags use only official OpenFeature+official OFREP with per-call trusted
+context and both ErrorType/Reason guards; no direct SDK evaluator/bulk/cache or
+custom provider is introduced by this resource migration.

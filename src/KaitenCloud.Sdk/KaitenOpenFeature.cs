@@ -28,7 +28,7 @@ public static class KaitenOpenFeatureServiceCollectionExtensions
 {
     public const string HttpClientName = "KaitenCloud.Sdk.Ofrep";
     public const string ActivitySourceName = "KaitenCloud.Sdk.Ofrep";
-    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.2.0");
+    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.3.0");
 
     // Add once per host. Official Hosting owns initialization/shutdown; no shared tenant context.
     public static IServiceCollection AddKaitenOpenFeature(this IServiceCollection services, Action<KaitenOfrepOptions> configure)

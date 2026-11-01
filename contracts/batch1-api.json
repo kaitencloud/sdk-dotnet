@@ -1,0 +1,1913 @@
+[
+  {
+    "path": "/customers",
+    "method": "GET",
+    "operationId": "list-customers",
+    "resource": "Customers",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListCustomerQuery",
+    "responseType": "ManagementPage<Customer>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/customers",
+    "method": "POST",
+    "operationId": "create-customer",
+    "resource": "Customers",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateCustomerRequest",
+    "queryType": null,
+    "responseType": "Customer",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}",
+    "method": "DELETE",
+    "operationId": "delete-customer",
+    "resource": "Customers",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}",
+    "method": "GET",
+    "operationId": "get-customer",
+    "resource": "Customers",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "Customer",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}",
+    "method": "PUT",
+    "operationId": "update-customer",
+    "resource": "Customers",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateCustomerRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}/integrations/{integrationName}",
+    "method": "DELETE",
+    "operationId": "delete-customer-integration",
+    "resource": "Customers",
+    "methodName": "DeleteIntegrationAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "Customer slug",
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "description": "Customer slug",
+          "examples": [
+            "acme-corp"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}/integrations/{integrationName}",
+    "method": "GET",
+    "operationId": "get-customer-integration",
+    "resource": "Customers",
+    "methodName": "GetIntegrationAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "CustomerIntegration",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Customer slug",
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "description": "Customer slug",
+          "examples": [
+            "acme-corp"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}/integrations/{integrationName}",
+    "method": "POST",
+    "operationId": "create-customer-integration",
+    "resource": "Customers",
+    "methodName": "CreateIntegrationAsync",
+    "bodyType": "CreateIntegrationCustomerRequest",
+    "queryType": null,
+    "responseType": "CustomerIntegration",
+    "status": 201,
+    "parameters": [
+      {
+        "description": "Customer slug",
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "description": "Customer slug",
+          "examples": [
+            "acme-corp"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/customers/{customerSlug}/integrations/{integrationName}",
+    "method": "PUT",
+    "operationId": "update-customer-integration",
+    "resource": "Customers",
+    "methodName": "UpdateIntegrationAsync",
+    "bodyType": "UpdateIntegrationCustomerRequest",
+    "queryType": null,
+    "responseType": "CustomerIntegration",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Customer slug",
+        "in": "path",
+        "name": "customerSlug",
+        "required": true,
+        "schema": {
+          "description": "Customer slug",
+          "examples": [
+            "acme-corp"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups",
+    "method": "GET",
+    "operationId": "list-entitlement-groups",
+    "resource": "EntitlementGroups",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListEntitlementGroupQuery",
+    "responseType": "ManagementPage<EntitlementGroup>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/entitlement-groups",
+    "method": "POST",
+    "operationId": "create-entitlement-group",
+    "resource": "EntitlementGroups",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateEntitlementGroupRequest",
+    "queryType": null,
+    "responseType": "EntitlementGroup",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}",
+    "method": "DELETE",
+    "operationId": "delete-entitlement-group",
+    "resource": "EntitlementGroups",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}",
+    "method": "GET",
+    "operationId": "get-entitlement-group",
+    "resource": "EntitlementGroups",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "EntitlementGroup",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}",
+    "method": "PUT",
+    "operationId": "update-entitlement-group",
+    "resource": "EntitlementGroups",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateEntitlementGroupRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements",
+    "method": "POST",
+    "operationId": "add-entitlement-to-group",
+    "resource": "EntitlementGroups",
+    "methodName": "AddEntitlementAsync",
+    "bodyType": "AddEntitlementEntitlementGroupRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 201,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements/{entitlementSlug}",
+    "method": "DELETE",
+    "operationId": "remove-entitlement-from-group",
+    "resource": "EntitlementGroups",
+    "methodName": "RemoveEntitlementAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlement-groups/{entitlementGroupSlug}/usage",
+    "method": "GET",
+    "operationId": "get-entitlement-group-usage",
+    "resource": "EntitlementGroups",
+    "methodName": "GetUsageAsync",
+    "bodyType": null,
+    "queryType": "GetUsageEntitlementGroupQuery",
+    "responseType": "IReadOnlyList<EntitlementGroupUsage>",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementGroupSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": [
+      {
+        "description": "Instance slug to get usage for",
+        "explode": false,
+        "in": "query",
+        "name": "instance",
+        "required": true,
+        "schema": {
+          "description": "Instance slug to get usage for",
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/entitlements",
+    "method": "GET",
+    "operationId": "list-entitlements",
+    "resource": "Entitlements",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListEntitlementQuery",
+    "responseType": "ManagementPage<Entitlement>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/entitlements",
+    "method": "POST",
+    "operationId": "create-entitlement",
+    "resource": "Entitlements",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateEntitlementRequest",
+    "queryType": null,
+    "responseType": "Entitlement",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlements/{entitlementSlug}",
+    "method": "DELETE",
+    "operationId": "delete-entitlement",
+    "resource": "Entitlements",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlements/{entitlementSlug}",
+    "method": "GET",
+    "operationId": "get-entitlement",
+    "resource": "Entitlements",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "Entitlement",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/entitlements/{entitlementSlug}",
+    "method": "PUT",
+    "operationId": "update-entitlement",
+    "resource": "Entitlements",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateEntitlementRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags",
+    "method": "GET",
+    "operationId": "get-feature-flags",
+    "resource": "FeatureFlags",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListFeatureFlagQuery",
+    "responseType": "ManagementPage<FeatureFlag>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/feature-flags",
+    "method": "POST",
+    "operationId": "create-feature-flag",
+    "resource": "FeatureFlags",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateFeatureFlagRequest",
+    "queryType": null,
+    "responseType": "FeatureFlag",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/targeting/context",
+    "method": "GET",
+    "operationId": "get-targeting-context",
+    "resource": "FeatureFlags",
+    "methodName": "GetTargetingContextAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "TargetingContext",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/targeting/lint",
+    "method": "POST",
+    "operationId": "lint-targeting-rule",
+    "resource": "FeatureFlags",
+    "methodName": "LintTargetingRuleAsync",
+    "bodyType": "LintTargetingRuleFeatureFlagRequest",
+    "queryType": null,
+    "responseType": "TargetingRuleVerdict",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/targeting/test",
+    "method": "POST",
+    "operationId": "test-targeting-rule",
+    "resource": "FeatureFlags",
+    "methodName": "TestTargetingRuleAsync",
+    "bodyType": "TestTargetingRuleFeatureFlagRequest",
+    "queryType": null,
+    "responseType": "TargetingRuleRehearsal",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/{featureFlagSlug}",
+    "method": "DELETE",
+    "operationId": "delete-feature-flag",
+    "resource": "FeatureFlags",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "featureFlagSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/{featureFlagSlug}",
+    "method": "GET",
+    "operationId": "get-feature-flag",
+    "resource": "FeatureFlags",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "FeatureFlag",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "featureFlagSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/feature-flags/{featureFlagSlug}",
+    "method": "PUT",
+    "operationId": "update-feature-flag",
+    "resource": "FeatureFlags",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateFeatureFlagRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "featureFlagSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances",
+    "method": "GET",
+    "operationId": "getInstances",
+    "resource": "Instances",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListInstanceQuery",
+    "responseType": "ManagementPage<Instance>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/instances",
+    "method": "POST",
+    "operationId": "createInstance",
+    "resource": "Instances",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateInstanceRequest",
+    "queryType": null,
+    "responseType": "Instance",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}",
+    "method": "DELETE",
+    "operationId": "deleteInstance",
+    "resource": "Instances",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}",
+    "method": "GET",
+    "operationId": "getInstance",
+    "resource": "Instances",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "Instance",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}",
+    "method": "PATCH",
+    "operationId": "patchInstance",
+    "resource": "Instances",
+    "methodName": "PatchAsync",
+    "bodyType": "PatchInstanceRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}",
+    "method": "PUT",
+    "operationId": "updateInstance",
+    "resource": "Instances",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateInstanceRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/audit-trails",
+    "method": "GET",
+    "operationId": "getAuditTrails",
+    "resource": "Instances",
+    "methodName": "ListAuditTrailsAsync",
+    "bodyType": null,
+    "queryType": "ListAuditTrailsInstanceQuery",
+    "responseType": "ManagementPage<AuditTrail>",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": [
+      {
+        "description": "Filter by exact event name (e.g. ENTITLEMENT_VALUE_GET)",
+        "explode": false,
+        "in": "query",
+        "name": "event_name",
+        "schema": {
+          "description": "Filter by exact event name (e.g. ENTITLEMENT_VALUE_GET)",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "RFC3339 timestamp \u2014 include entries with timestamp \u2265 this value",
+        "explode": false,
+        "in": "query",
+        "name": "after",
+        "schema": {
+          "description": "RFC3339 timestamp \u2014 include entries with timestamp \u2265 this value",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "RFC3339 timestamp \u2014 include entries with timestamp \u2264 this value",
+        "explode": false,
+        "in": "query",
+        "name": "before",
+        "schema": {
+          "description": "RFC3339 timestamp \u2014 include entries with timestamp \u2264 this value",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      },
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/instances/{instanceSlug}/entitlements/usage",
+    "method": "GET",
+    "operationId": "getEntitlementsUsageMetrics",
+    "resource": "Instances",
+    "methodName": "ListEntitlementUsageAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "IReadOnlyList<EntitlementUsage>",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage",
+    "method": "GET",
+    "operationId": "getEntitlementUsageMetrics",
+    "resource": "Instances",
+    "methodName": "GetEntitlementUsageAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "EntitlementUsage",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Entitlement slug",
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "description": "Entitlement slug",
+          "examples": [
+            "entitlement-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+    "method": "DELETE",
+    "operationId": "delete-instance-integration",
+    "resource": "Instances",
+    "methodName": "DeleteIntegrationAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+    "method": "GET",
+    "operationId": "get-instance-integration",
+    "resource": "Instances",
+    "methodName": "GetIntegrationAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "InstanceIntegration",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+    "method": "POST",
+    "operationId": "create-instance-integration",
+    "resource": "Instances",
+    "methodName": "CreateIntegrationAsync",
+    "bodyType": "CreateIntegrationInstanceRequest",
+    "queryType": null,
+    "responseType": "InstanceIntegration",
+    "status": 201,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+    "method": "PUT",
+    "operationId": "update-instance-integration",
+    "resource": "Instances",
+    "methodName": "UpdateIntegrationAsync",
+    "bodyType": "UpdateIntegrationInstanceRequest",
+    "queryType": null,
+    "responseType": "InstanceIntegration",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Instance slug",
+        "in": "path",
+        "name": "instanceSlug",
+        "required": true,
+        "schema": {
+          "description": "Instance slug",
+          "examples": [
+            "instance-slug"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "Integration adapter name",
+        "in": "path",
+        "name": "integrationName",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter name",
+          "examples": [
+            "kaiten.integration.crm.attio"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/integration/{adapter}/customer/{externalId}",
+    "method": "GET",
+    "operationId": "get-customer-integration-by-external-id",
+    "resource": "Integrations",
+    "methodName": "GetCustomerByExternalIdAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "CustomerIntegrationResource",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Integration adapter without the kaiten.integration. prefix",
+        "in": "path",
+        "name": "adapter",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter without the kaiten.integration. prefix",
+          "examples": [
+            "crm.attio"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "External identifier in the third-party system",
+        "in": "path",
+        "name": "externalId",
+        "required": true,
+        "schema": {
+          "description": "External identifier in the third-party system",
+          "examples": [
+            "rec_12345"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/integration/{adapter}/customer/{externalId}",
+    "method": "PATCH",
+    "operationId": "upsert-customer-integration-by-external-id",
+    "resource": "Integrations",
+    "methodName": "UpsertCustomerByExternalIdAsync",
+    "bodyType": "UpsertCustomerByExternalIdIntegrationsRequest",
+    "queryType": null,
+    "responseType": "CustomerIntegrationResource",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Integration adapter without the kaiten.integration. prefix",
+        "in": "path",
+        "name": "adapter",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter without the kaiten.integration. prefix",
+          "examples": [
+            "crm.attio"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "External identifier in the third-party system",
+        "in": "path",
+        "name": "externalId",
+        "required": true,
+        "schema": {
+          "description": "External identifier in the third-party system",
+          "examples": [
+            "rec_12345"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/integration/{adapter}/instance/{externalId}",
+    "method": "GET",
+    "operationId": "get-instance-integration-by-external-id",
+    "resource": "Integrations",
+    "methodName": "GetInstanceByExternalIdAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "InstanceIntegrationResource",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Integration adapter without the kaiten.integration. prefix",
+        "in": "path",
+        "name": "adapter",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter without the kaiten.integration. prefix",
+          "examples": [
+            "crm.attio"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "External identifier in the third-party system",
+        "in": "path",
+        "name": "externalId",
+        "required": true,
+        "schema": {
+          "description": "External identifier in the third-party system",
+          "examples": [
+            "rec_12345"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/integration/{adapter}/instance/{externalId}",
+    "method": "PATCH",
+    "operationId": "upsert-instance-integration-by-external-id",
+    "resource": "Integrations",
+    "methodName": "UpsertInstanceByExternalIdAsync",
+    "bodyType": "UpsertInstanceByExternalIdIntegrationsRequest",
+    "queryType": null,
+    "responseType": "InstanceIntegrationResource",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "Integration adapter without the kaiten.integration. prefix",
+        "in": "path",
+        "name": "adapter",
+        "required": true,
+        "schema": {
+          "description": "Integration adapter without the kaiten.integration. prefix",
+          "examples": [
+            "crm.attio"
+          ],
+          "type": "string"
+        }
+      },
+      {
+        "description": "External identifier in the third-party system",
+        "in": "path",
+        "name": "externalId",
+        "required": true,
+        "schema": {
+          "description": "External identifier in the third-party system",
+          "examples": [
+            "rec_12345"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/license-families",
+    "method": "GET",
+    "operationId": "list-license-families",
+    "resource": "LicenseFamilies",
+    "methodName": "ListLicenseFamiliesAsync",
+    "bodyType": null,
+    "queryType": "ListLicenseFamiliesLicenseFamilyQuery",
+    "responseType": "ManagementPage<LicenseFamilyView>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/license-families/{familySlug}",
+    "method": "GET",
+    "operationId": "get-license-family",
+    "resource": "LicenseFamilies",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": "GetLicenseFamilyQuery",
+    "responseType": "LicenseFamilyView",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License family slug",
+        "in": "path",
+        "name": "familySlug",
+        "required": true,
+        "schema": {
+          "description": "License family slug",
+          "examples": [
+            "enterprise-license"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": [
+      {
+        "description": "Address this version number instead of resolving the current one. Explicit historical access: the version is returned in currentVersion whatever its lifecycle state, draft and archived included, and the resolution rule does not apply.",
+        "explode": false,
+        "in": "query",
+        "name": "version",
+        "schema": {
+          "description": "Address this version number instead of resolving the current one. Explicit historical access: the version is returned in currentVersion whatever its lifecycle state, draft and archived included, and the resolution rule does not apply.",
+          "format": "int32",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      },
+      {
+        "description": "Extra representations to add, comma-separated. Only 'versions' exists today: it adds every version of the family, oldest first, and makes a family with no PUBLISHED version readable instead of a 404. A list, so that another representation can be added later without changing the parameter's type.",
+        "explode": false,
+        "in": "query",
+        "name": "include",
+        "schema": {
+          "description": "Extra representations to add, comma-separated. Only 'versions' exists today: it adds every version of the family, oldest first, and makes a family with no PUBLISHED version readable instead of a 404. A list, so that another representation can be added later without changing the parameter's type.",
+          "items": {
+            "enum": [
+              "versions"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/license-families/{familySlug}",
+    "method": "PATCH",
+    "operationId": "updateLicenseFamily",
+    "resource": "LicenseFamilies",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateLicenseFamilyRequest",
+    "queryType": null,
+    "responseType": "LicenseFamilyView",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License family slug",
+        "in": "path",
+        "name": "familySlug",
+        "required": true,
+        "schema": {
+          "description": "License family slug",
+          "examples": [
+            "pro"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses",
+    "method": "GET",
+    "operationId": "get-licenses",
+    "resource": "Licenses",
+    "methodName": "ListAsync",
+    "bodyType": null,
+    "queryType": "ListLicenseQuery",
+    "responseType": "ManagementPage<License>",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/licenses",
+    "method": "POST",
+    "operationId": "create-license",
+    "resource": "Licenses",
+    "methodName": "CreateAsync",
+    "bodyType": "CreateLicenseRequest",
+    "queryType": null,
+    "responseType": "License",
+    "status": 201,
+    "parameters": [],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}",
+    "method": "DELETE",
+    "operationId": "delete-license",
+    "resource": "Licenses",
+    "methodName": "DeleteAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "License slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License slug",
+          "examples": [
+            "license-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}",
+    "method": "GET",
+    "operationId": "get-license",
+    "resource": "Licenses",
+    "methodName": "GetAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "License",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License slug",
+          "examples": [
+            "license-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}",
+    "method": "PUT",
+    "operationId": "update-license",
+    "resource": "Licenses",
+    "methodName": "UpdateAsync",
+    "bodyType": "UpdateLicenseRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "License slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License slug",
+          "examples": [
+            "license-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/archive",
+    "method": "POST",
+    "operationId": "archive-license",
+    "resource": "Licenses",
+    "methodName": "ArchiveAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "License",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License version slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License version slug",
+          "examples": [
+            "enterprise-license-v2"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/entitlements",
+    "method": "GET",
+    "operationId": "get-license-entitlements",
+    "resource": "Licenses",
+    "methodName": "ListEntitlementsAsync",
+    "bodyType": null,
+    "queryType": "ListEntitlementsLicenseQuery",
+    "responseType": "ManagementPage<LicenseEntitlement>",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License slug",
+          "examples": [
+            "license-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": [
+      {
+        "description": "Opaque pagination cursor from a previous response's nextCursor",
+        "explode": false,
+        "in": "query",
+        "name": "cursor",
+        "schema": {
+          "description": "Opaque pagination cursor from a previous response's nextCursor",
+          "type": "string"
+        },
+        "required": false
+      },
+      {
+        "description": "Maximum number of entries to return (default 50, max 200)",
+        "explode": false,
+        "in": "query",
+        "name": "limit",
+        "schema": {
+          "description": "Maximum number of entries to return (default 50, max 200)",
+          "format": "int32",
+          "maximum": 200,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "required": false
+      }
+    ]
+  },
+  {
+    "path": "/licenses/{licenseSlug}/entitlements",
+    "method": "POST",
+    "operationId": "associate-entitlement-with-license",
+    "resource": "Licenses",
+    "methodName": "AssociateEntitlementAsync",
+    "bodyType": "AssociateEntitlementLicenseRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "description": "License slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License slug",
+          "examples": [
+            "license-slug"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+    "method": "DELETE",
+    "operationId": "delete-license-entitlement",
+    "resource": "Licenses",
+    "methodName": "DeleteEntitlementAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+    "method": "GET",
+    "operationId": "get-license-entitlement",
+    "resource": "Licenses",
+    "methodName": "GetEntitlementAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "LicenseEntitlement",
+    "status": 200,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+    "method": "PUT",
+    "operationId": "update-license-entitlement",
+    "resource": "Licenses",
+    "methodName": "UpdateEntitlementAsync",
+    "bodyType": "UpdateEntitlementLicenseRequest",
+    "queryType": null,
+    "responseType": null,
+    "status": 204,
+    "parameters": [
+      {
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "in": "path",
+        "name": "entitlementSlug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/publish",
+    "method": "POST",
+    "operationId": "publish-license",
+    "resource": "Licenses",
+    "methodName": "PublishAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "License",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License version slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License version slug",
+          "examples": [
+            "enterprise-license-v2"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/licenses/{licenseSlug}/unarchive",
+    "method": "POST",
+    "operationId": "unarchive-license",
+    "resource": "Licenses",
+    "methodName": "UnarchiveAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "License",
+    "status": 200,
+    "parameters": [
+      {
+        "description": "License version slug",
+        "in": "path",
+        "name": "licenseSlug",
+        "required": true,
+        "schema": {
+          "description": "License version slug",
+          "examples": [
+            "enterprise-license-v2"
+          ],
+          "type": "string"
+        }
+      }
+    ],
+    "queryParameters": []
+  },
+  {
+    "path": "/openfeature/v0/manifest",
+    "method": "GET",
+    "operationId": "get-openfeature-manifest",
+    "resource": "FeatureFlags",
+    "methodName": "GetManifestAsync",
+    "bodyType": null,
+    "queryType": null,
+    "responseType": "ManifestEnvelope",
+    "status": 200,
+    "parameters": [],
+    "queryParameters": []
+  }
+]

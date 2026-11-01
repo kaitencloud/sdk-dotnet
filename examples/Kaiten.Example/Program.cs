@@ -28,7 +28,8 @@ try
         .Set("kaiten", new Value(new Structure(new Dictionary<string, Value>
         { ["instanceSlug"] = new("ninja-osaka-prod") })))
         .Set("userId", "opaque-example-user").Set("orderCount", 12).Build();
-    var license = await client.ValidateInstanceLicenseAsync("ninja-osaka-prod", deadline.Token);
+    var instance = await client.GetInstanceAsync("ninja-osaka-prod", deadline.Token);
+    var term = instance.LicenseTerm ?? throw new KaitenProtocolException();
     var tracker = await flags.GetBooleanDetailsAsync("delivery-tracking-enabled", false, context, cancellationToken: deadline.Token);
     if (tracker.ErrorType != ErrorType.None || tracker.Reason == Reason.Error)
     {
@@ -39,8 +40,8 @@ try
     {
         var usage = await client.GetInstanceEntitlementUsageAsync("ninja-osaka-prod", "monthly-orders", deadline.Token);
         var entitlement = await client.GetInstanceEntitlementUsageAsync("ninja-osaka-prod", "delivery-tracking", deadline.Token);
-        var allowed = license.Valid && ((BooleanEntitlementValue)entitlement.Value).Value && tracker.Value;
-        Console.WriteLine($"License: {license.Status}; tracker={tracker.Value}; protected action allowed={allowed}; usage={((NumberEntitlementValue)usage.Value).Value}.");
+        var allowed = term.Status == LicenseTermStatus.Active && ((BooleanEntitlementValue)entitlement.Value).Value && tracker.Value;
+        Console.WriteLine($"License term: {term.Status}; tracker={tracker.Value}; protected action allowed={allowed}; usage={((NumberEntitlementValue)usage.Value).Value}.");
         if (!allowed) Environment.ExitCode = 2; // Successful false is denial, not unavailability.
     }
 }

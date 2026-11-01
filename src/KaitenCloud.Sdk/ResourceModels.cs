@@ -51,6 +51,8 @@ public sealed record Instance : KaitenResource
     public Dictionary<string, JsonElement>? Metadata { get; init; }
     public string? Status { get; init; }
     public string? LifecycleStage { get; init; }
+    // Optional on shared representations; fresh detail GET requires a complete term.
+    public LicenseTerm? LicenseTerm { get; init; }
     public Dictionary<string, ExternalIntegration>? Integrations { get; init; }
     public required UserReference CreatedBy { get; init; }
     public required DateTimeOffset CreatedAt { get; init; }
@@ -96,17 +98,12 @@ public sealed record License : KaitenResource
     public required DateTimeOffset CreatedAt { get; init; }
     public required DateTimeOffset UpdatedAt { get; init; }
 }
-public enum LicenseValidationStatus { Active, NotStarted, Expired }
-public sealed record LicenseValidation : KaitenResource
+public enum LicenseTermStatus { Active, NotStarted, Expired }
+public sealed record LicenseTerm : KaitenResource
 {
-    public required bool Valid { get; init; }
-    public required LicenseValidationStatus Status { get; init; }
+    public required LicenseTermStatus Status { get; init; }
+    [JsonConverter(typeof(LicenseTermInstantConverter))]
     public required DateTimeOffset EvaluatedAt { get; init; }
-    public required string InstanceSlug { get; init; }
-    public required Guid LicenseId { get; init; }
-    public required string LicenseSlug { get; init; }
-    public required DateTimeOffset StartLicenseDate { get; init; }
-    public required DateTimeOffset EndLicenseDate { get; init; }
 }
 public sealed record Page<T> : KaitenResource
 {

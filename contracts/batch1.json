@@ -1,0 +1,331 @@
+{
+  "operations": [
+    {
+      "path": "/customers",
+      "method": "GET",
+      "operationId": "list-customers"
+    },
+    {
+      "path": "/customers",
+      "method": "POST",
+      "operationId": "create-customer"
+    },
+    {
+      "path": "/customers/{customerSlug}",
+      "method": "DELETE",
+      "operationId": "delete-customer"
+    },
+    {
+      "path": "/customers/{customerSlug}",
+      "method": "GET",
+      "operationId": "get-customer"
+    },
+    {
+      "path": "/customers/{customerSlug}",
+      "method": "PUT",
+      "operationId": "update-customer"
+    },
+    {
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "DELETE",
+      "operationId": "delete-customer-integration"
+    },
+    {
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "GET",
+      "operationId": "get-customer-integration"
+    },
+    {
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "POST",
+      "operationId": "create-customer-integration"
+    },
+    {
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "PUT",
+      "operationId": "update-customer-integration"
+    },
+    {
+      "path": "/entitlement-groups",
+      "method": "GET",
+      "operationId": "list-entitlement-groups"
+    },
+    {
+      "path": "/entitlement-groups",
+      "method": "POST",
+      "operationId": "create-entitlement-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "DELETE",
+      "operationId": "delete-entitlement-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "GET",
+      "operationId": "get-entitlement-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "PUT",
+      "operationId": "update-entitlement-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements",
+      "method": "POST",
+      "operationId": "add-entitlement-to-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "remove-entitlement-from-group"
+    },
+    {
+      "path": "/entitlement-groups/{entitlementGroupSlug}/usage",
+      "method": "GET",
+      "operationId": "get-entitlement-group-usage"
+    },
+    {
+      "path": "/entitlements",
+      "method": "GET",
+      "operationId": "list-entitlements"
+    },
+    {
+      "path": "/entitlements",
+      "method": "POST",
+      "operationId": "create-entitlement"
+    },
+    {
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "delete-entitlement"
+    },
+    {
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "GET",
+      "operationId": "get-entitlement"
+    },
+    {
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "PUT",
+      "operationId": "update-entitlement"
+    },
+    {
+      "path": "/feature-flags",
+      "method": "GET",
+      "operationId": "get-feature-flags"
+    },
+    {
+      "path": "/feature-flags",
+      "method": "POST",
+      "operationId": "create-feature-flag"
+    },
+    {
+      "path": "/feature-flags/targeting/context",
+      "method": "GET",
+      "operationId": "get-targeting-context"
+    },
+    {
+      "path": "/feature-flags/targeting/lint",
+      "method": "POST",
+      "operationId": "lint-targeting-rule"
+    },
+    {
+      "path": "/feature-flags/targeting/test",
+      "method": "POST",
+      "operationId": "test-targeting-rule"
+    },
+    {
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "DELETE",
+      "operationId": "delete-feature-flag"
+    },
+    {
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "GET",
+      "operationId": "get-feature-flag"
+    },
+    {
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "PUT",
+      "operationId": "update-feature-flag"
+    },
+    {
+      "path": "/instances",
+      "method": "GET",
+      "operationId": "getInstances"
+    },
+    {
+      "path": "/instances",
+      "method": "POST",
+      "operationId": "createInstance"
+    },
+    {
+      "path": "/instances/{instanceSlug}",
+      "method": "DELETE",
+      "operationId": "deleteInstance"
+    },
+    {
+      "path": "/instances/{instanceSlug}",
+      "method": "GET",
+      "operationId": "getInstance"
+    },
+    {
+      "path": "/instances/{instanceSlug}",
+      "method": "PATCH",
+      "operationId": "patchInstance"
+    },
+    {
+      "path": "/instances/{instanceSlug}",
+      "method": "PUT",
+      "operationId": "updateInstance"
+    },
+    {
+      "path": "/instances/{instanceSlug}/audit-trails",
+      "method": "GET",
+      "operationId": "getAuditTrails"
+    },
+    {
+      "path": "/instances/{instanceSlug}/entitlements/usage",
+      "method": "GET",
+      "operationId": "getEntitlementsUsageMetrics"
+    },
+    {
+      "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage",
+      "method": "GET",
+      "operationId": "getEntitlementUsageMetrics"
+    },
+    {
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "DELETE",
+      "operationId": "delete-instance-integration"
+    },
+    {
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "GET",
+      "operationId": "get-instance-integration"
+    },
+    {
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "POST",
+      "operationId": "create-instance-integration"
+    },
+    {
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "PUT",
+      "operationId": "update-instance-integration"
+    },
+    {
+      "path": "/integration/{adapter}/customer/{externalId}",
+      "method": "GET",
+      "operationId": "get-customer-integration-by-external-id"
+    },
+    {
+      "path": "/integration/{adapter}/customer/{externalId}",
+      "method": "PATCH",
+      "operationId": "upsert-customer-integration-by-external-id"
+    },
+    {
+      "path": "/integration/{adapter}/instance/{externalId}",
+      "method": "GET",
+      "operationId": "get-instance-integration-by-external-id"
+    },
+    {
+      "path": "/integration/{adapter}/instance/{externalId}",
+      "method": "PATCH",
+      "operationId": "upsert-instance-integration-by-external-id"
+    },
+    {
+      "path": "/license-families",
+      "method": "GET",
+      "operationId": "list-license-families"
+    },
+    {
+      "path": "/license-families/{familySlug}",
+      "method": "GET",
+      "operationId": "get-license-family"
+    },
+    {
+      "path": "/license-families/{familySlug}",
+      "method": "PATCH",
+      "operationId": "updateLicenseFamily"
+    },
+    {
+      "path": "/licenses",
+      "method": "GET",
+      "operationId": "get-licenses"
+    },
+    {
+      "path": "/licenses",
+      "method": "POST",
+      "operationId": "create-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}",
+      "method": "DELETE",
+      "operationId": "delete-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}",
+      "method": "GET",
+      "operationId": "get-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}",
+      "method": "PUT",
+      "operationId": "update-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/archive",
+      "method": "POST",
+      "operationId": "archive-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/entitlements",
+      "method": "GET",
+      "operationId": "get-license-entitlements"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/entitlements",
+      "method": "POST",
+      "operationId": "associate-entitlement-with-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "delete-license-entitlement"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "GET",
+      "operationId": "get-license-entitlement"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "PUT",
+      "operationId": "update-license-entitlement"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/publish",
+      "method": "POST",
+      "operationId": "publish-license"
+    },
+    {
+      "path": "/licenses/{licenseSlug}/unarchive",
+      "method": "POST",
+      "operationId": "unarchive-license"
+    },
+    {
+      "path": "/openfeature/v0/manifest",
+      "method": "GET",
+      "operationId": "get-openfeature-manifest"
+    }
+  ],
+  "generator": "stj-templates-v1",
+  "explicitSchemaMappings": {
+    "FeatureFlag.metadata": {
+      "allowNull": true,
+      "reason": "Verified Core full flag write and frozen SDK nullable-map behavior require the field even when null; current OpenAPI object annotation lacks null."
+    }
+  }
+}

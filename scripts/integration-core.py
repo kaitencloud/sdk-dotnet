@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright 2026 KAITEN INC. SPDX-License-Identifier: Apache-2.0
 """Run against a NEW owned local Core; never rebuild/update an existing stack.
-Supply already-built images of the license-validation/UTC-corrected Core.
+Supply already-built images of the instance-detail licenseTerm/UTC-corrected Core.
 Only this invocation's containers, volumes and private credentials are removed.
 """
 import argparse

@@ -14,9 +14,13 @@ namespace KaitenCloud.Sdk.Tests;
 public sealed class ClientTests
 {
     internal const string Validation = """
-    {"valid":true,"status":"ACTIVE","evaluatedAt":"2026-10-30T12:00:00Z","instanceSlug":"ninja-osaka-prod",
+    {"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","slug":"ninja-osaka-prod","name":"Ninja","description":"",
+     "customerId":"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb","customerSlug":"ninja-osaka",
      "licenseId":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","licenseSlug":"starter",
-     "startLicenseDate":"2026-10-01T00:00:00Z","endLicenseDate":"2027-10-01T00:00:00Z"}
+     "startLicenseDate":"2026-10-01T00:00:00Z","endLicenseDate":"2027-10-01T00:00:00Z","status":"HEALTHY",
+     "createdBy":{"id":"cccccccc-cccc-cccc-cccc-cccccccccccc"},"updatedBy":{"id":"cccccccc-cccc-cccc-cccc-cccccccccccc"},
+     "createdAt":"2026-01-01T00:00:00Z","updatedAt":"2026-10-01T00:00:00Z",
+     "licenseTerm":{"status":"ACTIVE","evaluatedAt":"2026-10-30T12:00:00Z"}}
     """;
     private static KaitenClientOptions Options(int retries = 0) => new()
     { BaseUri = new Uri("https://gateway.test/proxy/api"), MaxRetries = retries, RetryDelay = TimeSpan.Zero, MaxRetryDelay = TimeSpan.Zero };
@@ -24,52 +28,52 @@ public sealed class ClientTests
         => new(code) { Content = new StringContent(body, Encoding.UTF8, "application/json") };
 
     [Theory]
-    [InlineData("https://host.test", "/api/instances/ninja-osaka-prod/license-validation")]
-    [InlineData("https://host.test/edge/kaiten/", "/edge/kaiten/api/instances/ninja-osaka-prod/license-validation")]
-    [InlineData("https://host.test/edge/api/", "/edge/api/instances/ninja-osaka-prod/license-validation")]
+    [InlineData("https://host.test", "/api/instances/ninja-osaka-prod")]
+    [InlineData("https://host.test/edge/kaiten/", "/edge/kaiten/api/instances/ninja-osaka-prod")]
+    [InlineData("https://host.test/edge/api/", "/edge/api/instances/ninja-osaka-prod")]
     public async Task BaseUrlPreservesProxyPrefix(string baseUrl, string path)
     {
         using var handler = new StubHandler((request, _) => { Assert.Equal(path, request.RequestUri!.AbsolutePath); return Task.FromResult(Json(Validation)); });
         using var http = new HttpClient(handler);
         using var client = new KaitenClient(http, new() { BaseUri = new Uri(baseUrl) });
-        Assert.True((await client.ValidateInstanceLicenseAsync("ninja-osaka-prod")).Valid);
+        Assert.Equal(LicenseTermStatus.Active, (await client.GetInstanceAsync("ninja-osaka-prod")).LicenseTerm!.Status);
     }
     [Theory]
-    [InlineData("valid")]
-    [InlineData("status")]
-    [InlineData("evaluatedAt")]
-    [InlineData("instanceSlug")]
+    [InlineData("licenseTerm")]
+    [InlineData("slug")]
+    [InlineData("customerId")]
+    [InlineData("customerSlug")]
     [InlineData("licenseId")]
     [InlineData("licenseSlug")]
     [InlineData("startLicenseDate")]
     [InlineData("endLicenseDate")]
-    public async Task EveryLicenseDecisionFieldIsRequired(string field)
+    public async Task EveryRequiredDetailResourceFieldIsRequired(string field)
     {
         var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(Validation)!;
         fields.Remove(field);
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json(JsonSerializer.Serialize(fields)))));
         using var client = new KaitenClient(http, Options());
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
     [Theory]
-    [InlineData("\"valid\":true", "\"valid\":null")]
+    [InlineData("\"evaluatedAt\":\"2026-10-30T12:00:00Z\"", "\"evaluatedAt\":null")]
     [InlineData("\"status\":\"ACTIVE\"", "\"status\":\"SUSPENDED\"")]
     [InlineData("\"status\":\"ACTIVE\"", "\"status\":1")]
-    [InlineData("\"valid\":true", "\"valid\":false")]
-    [InlineData("\"instanceSlug\":\"ninja-osaka-prod\"", "\"instanceSlug\":null")]
+    [InlineData("\"slug\":\"ninja-osaka-prod\"", "\"slug\":\"other-instance\"")]
+    [InlineData("\"licenseSlug\":\"starter\"", "\"licenseSlug\":null")]
     public async Task MalformedOrContradictoryDecisionCannotAllow(string oldValue, string newValue)
     {
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json(Validation.Replace(oldValue, newValue)))));
         using var client = new KaitenClient(http, Options());
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
     [Fact]
-    public async Task Http200InvalidTermIsARealDeniedDecision()
+    public async Task Http200ExpiredTermIsStillAResourceRead()
     {
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json(Validation.Replace("true", "false").Replace("ACTIVE", "EXPIRED")))));
+        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json(Validation.Replace("ACTIVE", "EXPIRED")))));
         using var client = new KaitenClient(http, Options());
-        var result = await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
-        Assert.False(result.Valid); Assert.Equal(LicenseValidationStatus.Expired, result.Status);
+        var result = await client.GetInstanceAsync("ninja-osaka-prod");
+        Assert.Equal(LicenseTermStatus.Expired, result.LicenseTerm!.Status); Assert.Equal("HEALTHY", result.Status);
     }
     [Theory]
     [InlineData(401)]
@@ -84,7 +88,7 @@ public sealed class ClientTests
         {"type":"about:blank","title":"not allowed","status":409,"code":"Specific.Code","errorId":"diagnostic-id","detail":"private-body","extra":42}
         """, (HttpStatusCode)status))));
         using var client = new KaitenClient(http, Options());
-        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal((HttpStatusCode)status, error.StatusCode); Assert.Equal("Specific.Code", error.Code);
         Assert.Equal("diagnostic-id", error.ErrorId); Assert.Equal(42, error.Problem!.Extensions!["extra"].GetInt32());
         Assert.DoesNotContain("private-body", error.ToString());
@@ -94,7 +98,7 @@ public sealed class ClientTests
     {
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json("Jwt is missing", HttpStatusCode.Unauthorized))));
         using var client = new KaitenClient(http, Options(3));
-        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        var error = await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(HttpStatusCode.Unauthorized, error.StatusCode); Assert.Null(error.Code);
     }
     [Theory]
@@ -106,7 +110,7 @@ public sealed class ClientTests
     {
         using var handler = new StubHandler((_, _) => Task.FromResult(Json("{}", (HttpStatusCode)status)));
         using var http = new HttpClient(handler); using var client = new KaitenClient(http, Options(3));
-        await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(1, handler.Calls);
     }
     [Fact]
@@ -114,7 +118,7 @@ public sealed class ClientTests
     {
         using var handler = new StubHandler((_, _) => Task.FromResult(Json("{}", HttpStatusCode.ServiceUnavailable)));
         using var http = new HttpClient(handler); using var client = new KaitenClient(http, Options(2));
-        await Assert.ThrowsAsync<KaitenApiException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenApiException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(3, handler.Calls);
     }
     [Fact]
@@ -135,9 +139,9 @@ public sealed class ClientTests
         using var http = new HttpClient(handler);
         var options = Options(3); options.RequestTimeout = TimeSpan.FromMilliseconds(30);
         using var client = new KaitenClient(http, options);
-        await Assert.ThrowsAsync<KaitenTimeoutException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenTimeoutException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         using var caller = new CancellationTokenSource(TimeSpan.FromMilliseconds(10));
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod", caller.Token));
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => client.GetInstanceAsync("ninja-osaka-prod", caller.Token));
         Assert.Equal(2, handler.Calls);
     }
     [Fact]
@@ -151,8 +155,8 @@ public sealed class ClientTests
             using var http = new HttpClient(handler);
             using (var client = new KaitenClient(http, Options(), new FileKaitenCredentialProvider(file)))
             {
-                await File.WriteAllTextAsync(file, "test-token-one\n"); await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
-                await File.WriteAllTextAsync(file, "test-token-two\n"); await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
+                await File.WriteAllTextAsync(file, "test-token-one\n"); await client.GetInstanceAsync("ninja-osaka-prod");
+                await File.WriteAllTextAsync(file, "test-token-two\n"); await client.GetInstanceAsync("ninja-osaka-prod");
             }
             Assert.Equal(new[] { "test-token-one", "test-token-two" }, tokens);
             await http.GetAsync("https://test.invalid"); Assert.False(handler.Disposed);
@@ -166,9 +170,9 @@ public sealed class ClientTests
         using var http = new HttpClient(handler);
         var options = Options(); options.BearerToken = "secret\r\nheader: injected";
         using var client = new KaitenClient(http, options);
-        await Assert.ThrowsAsync<KaitenCredentialException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenCredentialException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         using var absent = new KaitenClient(http, Options(), new FileKaitenCredentialProvider(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())));
-        await Assert.ThrowsAsync<KaitenCredentialException>(() => absent.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenCredentialException>(() => absent.GetInstanceAsync("ninja-osaka-prod"));
         Assert.Equal(0, handler.Calls);
     }
     [Fact]
@@ -182,9 +186,9 @@ public sealed class ClientTests
         using (var provider = services.BuildServiceProvider())
         {
             client = provider.GetRequiredService<IKaitenClient>();
-            Assert.True((await client.ValidateInstanceLicenseAsync("ninja-osaka-prod")).Valid);
+            Assert.Equal(LicenseTermStatus.Active, (await client.GetInstanceAsync("ninja-osaka-prod")).LicenseTerm!.Status);
         }
-        await Assert.ThrowsAsync<ObjectDisposedException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<ObjectDisposedException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
     [Fact]
     public async Task RedactedDiagnosticsCorrelateTraceWithoutTokensRoutesOrUserData()
@@ -206,7 +210,7 @@ public sealed class ClientTests
         });
         using var http = new HttpClient(handler); var options = Options(); options.BearerToken = "secret-bearer";
         using var client = new KaitenClient(http, options, logger: logs);
-        await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
+        await client.GetInstanceAsync("ninja-osaka-prod");
         var text = string.Join(" ", logs.Messages.Concat(activities.SelectMany(a => a.TagObjects.Select(t => t.Key + "=" + t.Value))));
         Assert.Contains("kaiten.trace_id", text);
         foreach (var privateValue in new[] { "ninja-osaka-prod", "secret-bearer", "gateway.test" }) Assert.DoesNotContain(privateValue, text);
@@ -217,7 +221,7 @@ public sealed class ClientTests
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Json(new string('x', 2048)))));
         var options = Options(); options.MaxResponseBytes = 1024;
         using var client = new KaitenClient(http, options);
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
     [Theory]
     [InlineData("../secret")]
@@ -228,7 +232,7 @@ public sealed class ClientTests
     {
         using var handler = new StubHandler((_, _) => Task.FromResult(Json(Validation)));
         using var http = new HttpClient(handler); using var client = new KaitenClient(http, Options());
-        await Assert.ThrowsAsync<ArgumentException>(() => client.ValidateInstanceLicenseAsync(slug)); Assert.Equal(0, handler.Calls);
+        await Assert.ThrowsAsync<ArgumentException>(() => client.GetInstanceAsync(slug)); Assert.Equal(0, handler.Calls);
     }
 }
 

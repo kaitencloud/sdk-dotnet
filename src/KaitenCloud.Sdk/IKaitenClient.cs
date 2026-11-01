@@ -7,7 +7,6 @@ public interface IKaitenClient
     Task<Customer> GetCustomerAsync(string customerSlug, CancellationToken cancellationToken = default);
     Task<Instance> GetInstanceAsync(string instanceSlug, CancellationToken cancellationToken = default);
     Task<License> GetLicenseAsync(string licenseSlug, CancellationToken cancellationToken = default);
-    Task<LicenseValidation> ValidateInstanceLicenseAsync(string instanceSlug, CancellationToken cancellationToken = default);
     Task<EntitlementUsage> GetInstanceEntitlementUsageAsync(string instanceSlug, string entitlementSlug, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<EntitlementUsage>> GetAllInstanceEntitlementUsageAsync(string instanceSlug, CancellationToken cancellationToken = default);
     Task<EntitlementUsage> ReportNumericUsageAsync(string instanceSlug, string entitlementSlug, double value,

@@ -15,8 +15,31 @@ tasks:
     deps: [pack]
     cmds:
       - sh scripts/check-package.sh
+  contracts:check:
+    desc: Verify standalone pinned contracts and explicit operation coverage
+    cmds:
+      - python3 scripts/check_contracts.py
+      - python3 -B -m unittest discover -s tests -p "test_*.py" -q
+  codegen:kiota:check:
+    desc: Reproduce the internal Kiota experiment (requires already installed Kiota 1.30.0)
+    cmds:
+      - task: contracts:check
+      - python3 scripts/kiota-spike.py --check
+  codegen:kiota:test:
+    desc: Characterize the rejected private Kiota experiment
+    deps: [codegen:kiota:check]
+    cmds:
+      - dotnet restore tests/KiotaSpike/KiotaSpike.csproj --locked-mode
+      - dotnet test tests/KiotaSpike/KiotaSpike.csproj -c Release --no-restore --verbosity quiet
+  codegen:check:
+    desc: Reproduce accepted STJ models, metadata and wire fixtures without tools or network
+    cmds:
+      - python3 scripts/generate-management.py --check
+      - python3 scripts/generate-management-fixtures.py --check
   check:
     cmds:
+      - task: contracts:check
+      - task: codegen:check
       - task: test
       - task: consume
   example:

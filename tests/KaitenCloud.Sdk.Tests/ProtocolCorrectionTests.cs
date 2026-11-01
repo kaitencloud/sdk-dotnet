@@ -23,46 +23,39 @@ public sealed class ProtocolCorrectionTests
     [InlineData("ACTIVE\n")]
     public async Task LicenseStatusRejectsAliasesAndComposites(string status)
     {
-        foreach (var valid in new[] { true, false })
+        foreach (var operationalStatus in new[] { "HEALTHY", "MAINTENANCE" })
         {
-            var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(ClientTests.Validation)!;
-            fields["status"] = JsonSerializer.SerializeToElement(status);
-            fields["valid"] = JsonSerializer.SerializeToElement(valid);
-            using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(JsonSerializer.Serialize(fields)))));
+            using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Term(status, operationalStatus))));
             using var client = Client(http);
-            await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+            await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         }
     }
 
     [Theory]
-    [InlineData("ACTIVE", true, LicenseValidationStatus.Active)]
-    [InlineData("NOT_STARTED", false, LicenseValidationStatus.NotStarted)]
-    [InlineData("EXPIRED", false, LicenseValidationStatus.Expired)]
-    public async Task ExactKnownStatesPreserveAllowedAndDeniedDecisions(string status, bool valid, LicenseValidationStatus expected)
+    [InlineData("ACTIVE", LicenseTermStatus.Active)]
+    [InlineData("NOT_STARTED", LicenseTermStatus.NotStarted)]
+    [InlineData("EXPIRED", LicenseTermStatus.Expired)]
+    public async Task ExactKnownStatesRemainResourceInformation(string status, LicenseTermStatus expected)
     {
-        var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(ClientTests.Validation)!;
-        fields["status"] = JsonSerializer.SerializeToElement(status);
-        fields["valid"] = JsonSerializer.SerializeToElement(valid);
-        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(JsonSerializer.Serialize(fields)))));
+        using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Term(status))));
         using var client = Client(http);
-        var result = await client.ValidateInstanceLicenseAsync("ninja-osaka-prod");
-        Assert.Equal(expected, result.Status);
-        Assert.Equal(valid, result.Valid);
-        Assert.Equal(status, JsonSerializer.SerializeToElement(result, KaitenJson.CreateOptions()).GetProperty("status").GetString());
+        var result = await client.GetInstanceAsync("ninja-osaka-prod");
+        Assert.Equal(expected, result.LicenseTerm!.Status);
+        Assert.Equal("HEALTHY", result.Status);
+        Assert.Equal(status, JsonSerializer.SerializeToElement(result.LicenseTerm, KaitenJson.CreateOptions()).GetProperty("status").GetString());
     }
 
     [Theory]
-    [InlineData("ACTIVE", false)]
-    [InlineData("NOT_STARTED", true)]
-    [InlineData("EXPIRED", true)]
-    public async Task ExactStateStillRequiresConsistentValidDecision(string status, bool valid)
+    [InlineData("ACTIVE")]
+    [InlineData("NOT_STARTED")]
+    [InlineData("EXPIRED")]
+    public async Task KnownStateStillRequiresDatabaseInstant(string status)
     {
         var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(ClientTests.Validation)!;
-        fields["status"] = JsonSerializer.SerializeToElement(status);
-        fields["valid"] = JsonSerializer.SerializeToElement(valid);
+        fields["licenseTerm"] = JsonSerializer.SerializeToElement(new { status });
         using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(JsonSerializer.Serialize(fields)))));
         using var client = Client(http);
-        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+        await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
     }
 
     [Theory]
@@ -71,15 +64,19 @@ public sealed class ProtocolCorrectionTests
     [InlineData(2)]
     public async Task LicenseStatusRejectsNumericTokens(int status)
     {
-        foreach (var valid in new[] { true, false })
+        foreach (var operationalStatus in new[] { "HEALTHY", "MAINTENANCE" })
         {
-            var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(ClientTests.Validation)!;
-            fields["status"] = JsonSerializer.SerializeToElement(status);
-            fields["valid"] = JsonSerializer.SerializeToElement(valid);
-            using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(ClientTests.Json(JsonSerializer.Serialize(fields)))));
+            using var http = new HttpClient(new StubHandler((_, _) => Task.FromResult(Term(status, operationalStatus))));
             using var client = Client(http);
-            await Assert.ThrowsAsync<KaitenProtocolException>(() => client.ValidateInstanceLicenseAsync("ninja-osaka-prod"));
+            await Assert.ThrowsAsync<KaitenProtocolException>(() => client.GetInstanceAsync("ninja-osaka-prod"));
         }
+    }
+    private static HttpResponseMessage Term(object status, string operationalStatus = "HEALTHY")
+    {
+        var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(ClientTests.Validation)!;
+        fields["status"] = JsonSerializer.SerializeToElement(operationalStatus);
+        fields["licenseTerm"] = JsonSerializer.SerializeToElement(new { status, evaluatedAt = "2026-10-30T12:00:00Z" });
+        return ClientTests.Json(JsonSerializer.Serialize(fields));
     }
 
     [Theory]

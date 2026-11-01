@@ -75,7 +75,7 @@ internal static class Integration
         foreach (var key in new[] { "promo-banner", "discount-campaign", "loyalty-offer" })
             Check(!Unavailable(await flags.GetObjectDetailsAsync(key, new Value(new Structure(new Dictionary<string, Value>())), NinjaContext, cancellationToken: token)), "Seed object flag unavailable through OpenFeature.");
         Check(!await Tracking(flags, NinjaContext, token) && await Tracking(flags, SakuraContext, token), "Different licensed businesses were not represented.");
-        Check((await runtime.ValidateInstanceLicenseAsync(Ninja, token)).Valid, "Seed term must initially be active.");
+        Check((await runtime.GetInstanceAsync(Ninja, token)).LicenseTerm!.Status == LicenseTermStatus.Active, "Seed term must initially be active.");
         var parallelTracking = await Task.WhenAll(Enumerable.Range(0, 20).Select(i => Tracking(flags, i % 2 == 0 ? NinjaContext : SakuraContext, token)));
         Check(parallelTracking.Select((value, i) => value == (i % 2 != 0)).All(value => value), "Concurrent real tenant contexts crossed.");
         await Snapshot(snapshotDir, "instance.json", ninja.ToUpdateRequest());
@@ -88,14 +88,14 @@ internal static class Integration
         {
             Console.WriteLine("CHECK: gateway authentication and organization isolation");
             using var anonymous = KaitenClient.Create(new() { BaseUri = new Uri(baseUrl) });
-            await ApiError(() => anonymous.ValidateInstanceLicenseAsync(Ninja, token), HttpStatusCode.Unauthorized);
+            await ApiError(() => anonymous.GetInstanceAsync(Ninja, token), HttpStatusCode.Unauthorized);
             using var invalid = KaitenClient.Create(new() { BaseUri = new Uri(baseUrl), BearerToken = "ksh_not-a-valid-credential" });
-            await ApiError(() => invalid.ValidateInstanceLicenseAsync(Ninja, token), HttpStatusCode.Unauthorized);
+            await ApiError(() => invalid.GetInstanceAsync(Ninja, token), HttpStatusCode.Unauthorized);
             using var scoped = Client(baseUrl, tokenDir, "under-scoped-token");
-            await ApiError(() => scoped.ValidateInstanceLicenseAsync(Ninja, token), HttpStatusCode.Forbidden, "Auth.MissingScope");
+            await ApiError(() => scoped.GetInstanceAsync(Ninja, token), HttpStatusCode.Forbidden, "Auth.MissingScope");
             using var foreign = Client(baseUrl, tokenDir, "foreign-token");
-            await ApiError(() => foreign.ValidateInstanceLicenseAsync(Ninja, token), HttpStatusCode.NotFound, "GetLicenseValidation.NotFound");
-            await ApiError(() => runtime.ValidateInstanceLicenseAsync("does-not-exist", token), HttpStatusCode.NotFound, "GetLicenseValidation.NotFound");
+            await ApiError(() => foreign.GetInstanceAsync(Ninja, token), HttpStatusCode.NotFound, "GetInstance.NotFound");
+            await ApiError(() => runtime.GetInstanceAsync("does-not-exist", token), HttpStatusCode.NotFound, "GetInstance.NotFound");
             var missingFlag = await flags.GetBooleanDetailsAsync("does-not-exist", false, NinjaContext, cancellationToken: token);
             Check(missingFlag.ErrorType == ErrorType.FlagNotFound, "OpenFeature missing flag code lost.");
             foreach (var credential in new[] { "under-scoped-token", "foreign-token" })
@@ -126,7 +126,7 @@ internal static class Integration
             completed.Add("SDK full flag PUT, targeted Ninja override, Sakura unaffected, next-request propagation, rollback");
 
             Console.WriteLine("CHECK: authoritative active, expired and future license terms");
-            var now = (await runtime.ValidateInstanceLicenseAsync(Ninja, token)).EvaluatedAt;
+            var now = (await runtime.GetInstanceAsync(Ninja, token)).LicenseTerm!.EvaluatedAt;
             flagChanged = true; grantChanged = true;
             await presenter.UpdateFeatureFlagAsync(Tracker, flag.ToUpdateRequest() with
             { Targetings = new[] { isolatedRule }.Concat(flag.Targetings ?? []).ToArray() }, token);
@@ -136,18 +136,18 @@ internal static class Integration
             instanceChanged = true;
             await presenter.UpdateInstanceAsync(Ninja, ninja.ToUpdateRequest() with
             { StartLicenseDate = now.AddDays(-2).ToOffset(TimeSpan.FromHours(9)), EndLicenseDate = now.AddDays(-1).ToOffset(TimeSpan.FromHours(9)) }, token);
-            var expired = await runtime.ValidateInstanceLicenseAsync(Ninja, token);
-            Check(!expired.Valid && expired.Status == LicenseValidationStatus.Expired, "Expired term did not deny.");
+            var expired = await runtime.GetInstanceAsync(Ninja, token);
+            Check(expired.LicenseTerm!.Status == LicenseTermStatus.Expired, "Expired term did not deny.");
             Check(expired.EndLicenseDate == now.AddDays(-1), "Offset term changed its absolute instant.");
             Check(await Tracking(flags, NinjaContext, token) && !await ProtectedTracking(runtime, flags, token), "Enabled/entitled flag bypassed expired license guard.");
             await presenter.UpdateInstanceAsync(Ninja, ninja.ToUpdateRequest() with
             { StartLicenseDate = now.AddDays(1).ToOffset(TimeSpan.FromHours(-7)), EndLicenseDate = now.AddDays(2).ToOffset(TimeSpan.FromHours(-7)) }, token);
-            var future = await runtime.ValidateInstanceLicenseAsync(Ninja, token);
-            Check(!future.Valid && future.Status == LicenseValidationStatus.NotStarted, "Future term did not deny.");
+            var future = await runtime.GetInstanceAsync(Ninja, token);
+            Check(future.LicenseTerm!.Status == LicenseTermStatus.NotStarted, "Future term did not deny.");
             Check(await Tracking(flags, NinjaContext, token) && !await ProtectedTracking(runtime, flags, token), "Enabled/entitled flag bypassed future license guard.");
-            Check((await runtime.ValidateInstanceLicenseAsync(Sakura, token)).Valid, "Sakura term was affected.");
+            Check((await runtime.GetInstanceAsync(Sakura, token)).LicenseTerm!.Status == LicenseTermStatus.Active, "Sakura term was affected.");
             await presenter.UpdateInstanceAsync(Ninja, ninja.ToUpdateRequest(), token); instanceChanged = false;
-            Check((await runtime.ValidateInstanceLicenseAsync(Ninja, token)).Valid, "Term rollback failed.");
+            Check((await runtime.GetInstanceAsync(Ninja, token)).LicenseTerm!.Status == LicenseTermStatus.Active, "Term rollback failed.");
             Check(await ProtectedTracking(runtime, flags, token), "Active license restoration did not restore protected capability.");
             await presenter.UpdateFeatureFlagAsync(Tracker, flag.ToUpdateRequest(), token); flagChanged = false;
             await presenter.UpdateLicenseEntitlementAsync("starter", "delivery-tracking", starterGrant.ToUpdateRequest(), token); grantChanged = false;
@@ -185,7 +185,7 @@ internal static class Integration
             var probe = new TcpListener(IPAddress.Loopback, 0); probe.Start();
             var port = ((IPEndPoint)probe.LocalEndpoint).Port; probe.Stop();
             using var unavailable = KaitenClient.Create(new() { BaseUri = new Uri($"http://127.0.0.1:{port}/api"), RequestTimeout = TimeSpan.FromSeconds(1) });
-            try { await unavailable.ValidateInstanceLicenseAsync(Ninja, token); throw new InvalidOperationException("Closed gateway unexpectedly succeeded."); }
+            try { await unavailable.GetInstanceAsync(Ninja, token); throw new InvalidOperationException("Closed gateway unexpectedly succeeded."); }
             catch (KaitenNetworkException) { }
             await using var unavailableFeatures = await Features($"http://127.0.0.1:{port}/api", null);
             var unavailableFlag = await unavailableFeatures.GetRequiredService<IFeatureClient>().GetBooleanDetailsAsync(Tracker, false, NinjaContext, cancellationToken: token);
@@ -270,9 +270,9 @@ internal static class Integration
     private static async Task<bool> ProtectedTracking(IKaitenClient core, IFeatureClient flags, CancellationToken token)
     {
         var flag = await Tracking(flags, NinjaContext, token);
-        var license = await core.ValidateInstanceLicenseAsync(Ninja, token);
+        var license = await core.GetInstanceAsync(Ninja, token);
         var entitlement = await core.GetInstanceEntitlementUsageAsync(Ninja, "delivery-tracking", token);
-        return license.Valid && ((BooleanEntitlementValue)entitlement.Value).Value && flag;
+        return (license.LicenseTerm ?? throw new KaitenProtocolException()).Status == LicenseTermStatus.Active && ((BooleanEntitlementValue)entitlement.Value).Value && flag;
     }
     private static bool Unavailable<T>(FlagEvaluationDetails<T> details) => details.ErrorType != ErrorType.None || details.Reason == Reason.Error;
     private static async Task<ServiceProvider> Features(string baseUrl, IKaitenCredentialProvider? credentials, string? bearer = null)

@@ -2,11 +2,15 @@
 
 Typed **server-side** Kaiten Core APIs and integration with the **official
 OpenFeature SDK + sealed OFREP provider**. Package/namespace: **KaitenCloud.Sdk**,
-local unpublished version **0.2.0**, targeting **net8.0 / C#12**.
+local unpublished version **0.3.0**, targeting **net8.0 / C#12**.
 
 **Breaking change:** direct flag evaluation APIs/models/exceptions are removed.
-All flag decisions use OpenFeature's `IFeatureClient` instead. License validation,
-entitlement usage/reporting, management and presenter APIs remain typed Kaiten calls.
+All flag decisions use OpenFeature's `IFeatureClient` instead. The draft validation
+endpoint/API/`Valid` DTO are also removed: use existing instance detail GET plus
+typed `Instance.LicenseTerm`. The original interface intentionally has 12 methods.
+Entitlement usage/reporting, management and presenter APIs remain typed Kaiten calls.
+This pre-v1 local build is unpublished, not full SDK parity or a stable v1 release.
+Historical immutable0.2.0 artifacts remain separate and must not be overwritten.
 The single package pins `OpenFeature.Hosting 2.14.1` and
 `OpenFeature.Providers.Ofrep 0.1.7`; the provider already depends on Hosting, so a
 separate integration package would not reduce this integration's dependencies.
@@ -26,11 +30,11 @@ dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -o artifacts/
 sh scripts/check-package.sh
 ```
 
-Use `artifacts/packages/KaitenCloud.Sdk.0.2.0.nupkg` from a local NuGet feed
+Use `artifacts/packages/KaitenCloud.Sdk.0.3.0.nupkg` from a local NuGet feed
 alongside NuGet.org, never a workstation-specific source reference:
 
 ```xml
-<PackageReference Include="KaitenCloud.Sdk" Version="0.2.0" />
+<PackageReference Include="KaitenCloud.Sdk" Version="0.3.0" />
 ```
 
 Restore changing unpublished bytes into a fresh project-local package cache; never
@@ -98,10 +102,11 @@ var detail = await flags.GetBooleanDetailsAsync("delivery-tracking-enabled", fal
     context, cancellationToken: cancellationToken);
 if (detail.ErrorType != ErrorType.None || detail.Reason == Reason.Error)
     throw new InvalidOperationException("Flag service unavailable."); // e.g. HTTP503, not flag-off.
-var license = await kaiten.ValidateInstanceLicenseAsync(authorizedPrimaryInstanceSlug, cancellationToken);
+var instance = await kaiten.GetInstanceAsync(authorizedPrimaryInstanceSlug, cancellationToken);
+var term = instance.LicenseTerm ?? throw new KaitenProtocolException();
 var entitlement = await kaiten.GetInstanceEntitlementUsageAsync(authorizedPrimaryInstanceSlug,
     "delivery-tracking", cancellationToken);
-var allowed = license.Valid && ((BooleanEntitlementValue)entitlement.Value).Value && detail.Value;
+var allowed = term.Status == LicenseTermStatus.Active && ((BooleanEntitlementValue)entitlement.Value).Value && detail.Value;
 // A flag is not authorization. Also enforce app membership/roles and usage quotas.
 ```
 
@@ -121,18 +126,31 @@ next request. HTTP429 causes an official **provider-wide Retry-After cooldown**
 (default one minute without advice), during which calls return unavailable without
 network traffic, including other tenants/flags. UI refresh is application-owned.
 
-License validation is authoritative DB UTC `[start,end)`, with exact
-ACTIVE/NOT_STARTED/EXPIRED states. HTTP200 `Valid=false` is a denial, not an outage;
-missing/contradictory terms are protocol failures. DRAFT/ARCHIVED catalog states and
+Instance detail GET returns authoritative DB UTC `[start,end)` term information
+with exact ACTIVE/NOT_STARTED/EXPIRED states and `evaluatedAt`. All three states
+are successful resource retrieval; the SDK never denies merely because a term is
+expired. Missing/null/malformed term on detail is a protocol/dependency failure,
+not false entitlement or ACTIVE. List/create/nested representations legitimately
+omit the optional read-only member. The example's protected-action term guard is
+application policy, not blanket Core enforcement. DRAFT/ARCHIVED catalog states and
 MAINTENANCE/CHURNED instance states do not suspend assigned licenses. Requires the
 corrected [Core contract](docs/core-contract.md).
+
+## Additive Core management
+
+`KaitenCloud.Sdk.Management.IKaitenManagementClient` adds 64 typed management
+operations across customers, instances, license versions/families/grants,
+entitlements/groups, flag authoring and integrations. Register independently with
+`AddKaitenManagement`; `AddKaitenOpenFeature` and the other12 legacy methods are unchanged.
+See [management APIs and paging](docs/management.md) and
+[standalone generation/coverage](docs/code-generation.md).
 
 ## Core API capabilities
 
 | API | PAT scope |
 |---|---|
 | GetCustomerAsync | read:customers |
-| GetInstanceAsync, ValidateInstanceLicenseAsync | read:instances |
+| GetInstanceAsync | read:instances |
 | GetLicenseAsync | read:licenses |
 | GetInstanceEntitlementUsageAsync, GetAllInstanceEntitlementUsageAsync | read:instances |
 | ReportNumericUsageAsync | write:instances |
@@ -170,7 +188,7 @@ KAITEN_BASE_URL and KAITEN_TOKEN_FILE. Successful denial exits 2, unavailability
 checks flags/guards/mutations/tenant isolation/outage/Jaeger, restores snapshots,
 and removes only owned resources. Missing prerequisites fail, never skip/mock.
 
-No Platform/billing/customer-session APIs, broad CRUD, offline cache, usage idempotency
+No Platform/billing/customer-session APIs, offline cache, usage idempotency
 or secondary-instance parity is claimed. Core enrichment currently uses the
 customer's oldest instance; use verified primary instances. Periodic quantity
 enrichment has a separate known limitation.

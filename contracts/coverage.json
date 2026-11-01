@@ -1,0 +1,1916 @@
+{
+  "operations": [
+    {
+      "document": "core",
+      "path": "/addon-families",
+      "method": "GET",
+      "operationId": "listAddonFamilies",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addon-families/{familySlug}",
+      "method": "GET",
+      "operationId": "getAddonFamily",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addon-families/{familySlug}",
+      "method": "PATCH",
+      "operationId": "updateAddonFamily",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons",
+      "method": "GET",
+      "operationId": "listAddons",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons",
+      "method": "POST",
+      "operationId": "createAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}",
+      "method": "DELETE",
+      "operationId": "deleteAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}",
+      "method": "GET",
+      "operationId": "getAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}",
+      "method": "PUT",
+      "operationId": "updateAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/archive",
+      "method": "POST",
+      "operationId": "archiveAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/compatible-license-families",
+      "method": "GET",
+      "operationId": "listAddonCompatibility",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/compatible-license-families/{familySlug}",
+      "method": "DELETE",
+      "operationId": "removeAddonCompatibility",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/compatible-license-families/{familySlug}",
+      "method": "PUT",
+      "operationId": "setAddonCompatibility",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/entitlements",
+      "method": "GET",
+      "operationId": "listAddonEntitlements",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/entitlements",
+      "method": "POST",
+      "operationId": "assignAddonEntitlement",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "unassignAddonEntitlement",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/entitlements/{entitlementSlug}",
+      "method": "GET",
+      "operationId": "getAddonEntitlement",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/entitlements/{entitlementSlug}",
+      "method": "PUT",
+      "operationId": "updateAddonEntitlement",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/prices",
+      "method": "GET",
+      "operationId": "listAddonPrices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/prices",
+      "method": "POST",
+      "operationId": "createAddonPrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/prices/{priceId}/deprecate",
+      "method": "POST",
+      "operationId": "deprecateAddonPrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/publish",
+      "method": "POST",
+      "operationId": "publishAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/addons/{addonSlug}/unarchive",
+      "method": "POST",
+      "operationId": "unarchiveAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/authorization",
+      "method": "GET",
+      "operationId": "GetAuthorization",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/capabilities",
+      "method": "GET",
+      "operationId": "getBillingCapabilities",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/close-periods",
+      "method": "POST",
+      "operationId": "closeBillingPeriods",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/handoff",
+      "method": "GET",
+      "operationId": "listHandoff",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/handoff/claim",
+      "method": "POST",
+      "operationId": "claimHandoff",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/handoff/{invoiceId}/ack",
+      "method": "POST",
+      "operationId": "ackHandoff",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/health",
+      "method": "GET",
+      "operationId": "getBillingHealth",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/settings",
+      "method": "GET",
+      "operationId": "getBillingSettings",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/settings",
+      "method": "PUT",
+      "operationId": "updateBillingSettings",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/billing/sync",
+      "method": "POST",
+      "operationId": "syncBillingProvider",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/checkout-sessions",
+      "method": "GET",
+      "operationId": "listCheckoutSessions",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/checkout-sessions/{sessionId}",
+      "method": "GET",
+      "operationId": "getCheckoutSessionAdmin",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/components",
+      "method": "GET",
+      "operationId": "list-components",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/components",
+      "method": "POST",
+      "operationId": "create-component",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/components/{componentSlug}",
+      "method": "DELETE",
+      "operationId": "delete-component",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/components/{componentSlug}",
+      "method": "GET",
+      "operationId": "get-component",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/components/{componentSlug}",
+      "method": "PUT",
+      "operationId": "update-component",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors",
+      "method": "GET",
+      "operationId": "list-connectors",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}",
+      "method": "GET",
+      "operationId": "get-connector",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/activation",
+      "method": "DELETE",
+      "operationId": "deactivate-connector",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/activation",
+      "method": "PUT",
+      "operationId": "activate-connector",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/settings",
+      "method": "DELETE",
+      "operationId": "delete-connector-settings",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/settings",
+      "method": "GET",
+      "operationId": "get-connector-settings",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/settings",
+      "method": "PUT",
+      "operationId": "update-connector-settings",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/settings/schema",
+      "method": "GET",
+      "operationId": "get-connector-settings-schema",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/connectors/{connectorName}/state",
+      "method": "GET",
+      "operationId": "get-connector-state",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customer-sessions",
+      "method": "POST",
+      "operationId": "createCustomerSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customer-sessions/{sessionId}/revoke",
+      "method": "POST",
+      "operationId": "revokeCustomerSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers",
+      "method": "GET",
+      "operationId": "list-customers",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers",
+      "method": "POST",
+      "operationId": "create-customer",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}",
+      "method": "DELETE",
+      "operationId": "delete-customer",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}",
+      "method": "GET",
+      "operationId": "get-customer",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}",
+      "method": "PUT",
+      "operationId": "update-customer",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/billing",
+      "method": "GET",
+      "operationId": "getCustomerBilling",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/billing/payment-method",
+      "method": "DELETE",
+      "operationId": "detachPaymentMethod",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/billing/payment-method-session",
+      "method": "POST",
+      "operationId": "createPaymentMethodSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/billing/payment-method-session/{sessionId}/complete",
+      "method": "POST",
+      "operationId": "completePaymentMethodSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/billing/portal-session",
+      "method": "POST",
+      "operationId": "createPortalSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "DELETE",
+      "operationId": "delete-customer-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.DeleteIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "GET",
+      "operationId": "get-customer-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.GetIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "POST",
+      "operationId": "create-customer-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.CreateIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/customers/{customerSlug}/integrations/{integrationName}",
+      "method": "PUT",
+      "operationId": "update-customer-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Customers.UpdateIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/deployment-zones",
+      "method": "GET",
+      "operationId": "list-deployment-zones",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/deployment-zones",
+      "method": "POST",
+      "operationId": "create-deployment-zone",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/deployment-zones/{deploymentZoneSlug}",
+      "method": "DELETE",
+      "operationId": "delete-deployment-zone",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/deployment-zones/{deploymentZoneSlug}",
+      "method": "GET",
+      "operationId": "get-deployment-zone-by-slug",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/deployment-zones/{deploymentZoneSlug}",
+      "method": "PUT",
+      "operationId": "update-deploymentZone",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups",
+      "method": "GET",
+      "operationId": "list-entitlement-groups",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups",
+      "method": "POST",
+      "operationId": "create-entitlement-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "DELETE",
+      "operationId": "delete-entitlement-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "GET",
+      "operationId": "get-entitlement-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}",
+      "method": "PUT",
+      "operationId": "update-entitlement-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements",
+      "method": "POST",
+      "operationId": "add-entitlement-to-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.AddEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "remove-entitlement-from-group",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.RemoveEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlement-groups/{entitlementGroupSlug}/usage",
+      "method": "GET",
+      "operationId": "get-entitlement-group-usage",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.EntitlementGroups.GetUsageAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlements",
+      "method": "GET",
+      "operationId": "list-entitlements",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Entitlements.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlements",
+      "method": "POST",
+      "operationId": "create-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Entitlements.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "delete-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Entitlements.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "GET",
+      "operationId": "get-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Entitlements.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/entitlements/{entitlementSlug}",
+      "method": "PUT",
+      "operationId": "update-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Entitlements.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags",
+      "method": "GET",
+      "operationId": "get-feature-flags",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags",
+      "method": "POST",
+      "operationId": "create-feature-flag",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/targeting/context",
+      "method": "GET",
+      "operationId": "get-targeting-context",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.GetTargetingContextAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/targeting/lint",
+      "method": "POST",
+      "operationId": "lint-targeting-rule",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.LintTargetingRuleAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/targeting/test",
+      "method": "POST",
+      "operationId": "test-targeting-rule",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.TestTargetingRuleAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "DELETE",
+      "operationId": "delete-feature-flag",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "GET",
+      "operationId": "get-feature-flag",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/feature-flags/{featureFlagSlug}",
+      "method": "PUT",
+      "operationId": "update-feature-flag",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances",
+      "method": "GET",
+      "operationId": "getInstances",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances",
+      "method": "POST",
+      "operationId": "createInstance",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}",
+      "method": "DELETE",
+      "operationId": "deleteInstance",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}",
+      "method": "GET",
+      "operationId": "getInstance",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}",
+      "method": "PATCH",
+      "operationId": "patchInstance",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.PatchAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}",
+      "method": "PUT",
+      "operationId": "updateInstance",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/addons",
+      "method": "GET",
+      "operationId": "listInstanceAddons",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/addons",
+      "method": "POST",
+      "operationId": "attachInstanceAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/addons/{addonSlug}",
+      "method": "DELETE",
+      "operationId": "detachInstanceAddon",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/addons/{addonSlug}",
+      "method": "PATCH",
+      "operationId": "setInstanceAddonQuantity",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/audit-trails",
+      "method": "GET",
+      "operationId": "getAuditTrails",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.ListAuditTrailsAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing",
+      "method": "GET",
+      "operationId": "getInstanceBilling",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing",
+      "method": "PATCH",
+      "operationId": "updateInstanceBilling",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing",
+      "method": "POST",
+      "operationId": "subscribeInstance",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing/cancel",
+      "method": "POST",
+      "operationId": "cancelSubscription",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing/reactivate",
+      "method": "POST",
+      "operationId": "reactivateSubscription",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing/scheduled-change",
+      "method": "DELETE",
+      "operationId": "cancelPlanChange",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing/scheduled-change",
+      "method": "PUT",
+      "operationId": "schedulePlanChange",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/billing/upcoming-invoice",
+      "method": "GET",
+      "operationId": "getUpcomingInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlement-exceptions",
+      "method": "GET",
+      "operationId": "listEntitlementExceptions",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlement-exceptions",
+      "method": "POST",
+      "operationId": "createEntitlementException",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlement-exceptions/{exceptionId}",
+      "method": "DELETE",
+      "operationId": "revokeEntitlementException",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlements/usage",
+      "method": "GET",
+      "operationId": "getEntitlementsUsageMetrics",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.ListEntitlementUsageAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage",
+      "method": "GET",
+      "operationId": "getEntitlementUsageMetrics",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.GetEntitlementUsageAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage",
+      "method": "POST",
+      "operationId": "reportEntitlementUsageMetric",
+      "status": "existing-client",
+      "reason": "Compatible IKaitenClient.ReportNumericUsageAsync"
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage/reports",
+      "method": "GET",
+      "operationId": "listUsageReports",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage/reports/export",
+      "method": "GET",
+      "operationId": "exportUsageReports",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "DELETE",
+      "operationId": "delete-instance-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.DeleteIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "GET",
+      "operationId": "get-instance-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.GetIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "POST",
+      "operationId": "create-instance-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.CreateIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/integrations/{integrationName}",
+      "method": "PUT",
+      "operationId": "update-instance-integration",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Instances.UpdateIntegrationAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/invoices",
+      "method": "GET",
+      "operationId": "listInstanceInvoices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/vouchers",
+      "method": "GET",
+      "operationId": "listInstanceVouchers",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/vouchers/redeem",
+      "method": "POST",
+      "operationId": "redeemVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/instances/{instanceSlug}/vouchers/{instanceVoucherId}/revoke",
+      "method": "POST",
+      "operationId": "revokeInstanceVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/integration/{adapter}/customer/{externalId}",
+      "method": "GET",
+      "operationId": "get-customer-integration-by-external-id",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Integrations.GetCustomerByExternalIdAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/integration/{adapter}/customer/{externalId}",
+      "method": "PATCH",
+      "operationId": "upsert-customer-integration-by-external-id",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Integrations.UpsertCustomerByExternalIdAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/integration/{adapter}/instance/{externalId}",
+      "method": "GET",
+      "operationId": "get-instance-integration-by-external-id",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Integrations.GetInstanceByExternalIdAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/integration/{adapter}/instance/{externalId}",
+      "method": "PATCH",
+      "operationId": "upsert-instance-integration-by-external-id",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Integrations.UpsertInstanceByExternalIdAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/invoices",
+      "method": "GET",
+      "operationId": "listInvoices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/export",
+      "method": "GET",
+      "operationId": "exportInvoices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}",
+      "method": "GET",
+      "operationId": "getInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/lines/{lineId}/reports",
+      "method": "GET",
+      "operationId": "listInvoiceLineReports",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/mark-paid",
+      "method": "POST",
+      "operationId": "markInvoicePaid",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/recompose",
+      "method": "POST",
+      "operationId": "recomposeInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/release-hold",
+      "method": "POST",
+      "operationId": "releaseInvoiceHold",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/retry-push",
+      "method": "POST",
+      "operationId": "retryInvoicePush",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/sync",
+      "method": "POST",
+      "operationId": "syncInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/void",
+      "method": "POST",
+      "operationId": "voidInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/invoices/{invoiceId}/write-off",
+      "method": "POST",
+      "operationId": "writeOffInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/license-families",
+      "method": "GET",
+      "operationId": "list-license-families",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.LicenseFamilies.ListLicenseFamiliesAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/license-families/{familySlug}",
+      "method": "GET",
+      "operationId": "get-license-family",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.LicenseFamilies.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/license-families/{familySlug}",
+      "method": "PATCH",
+      "operationId": "updateLicenseFamily",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.LicenseFamilies.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses",
+      "method": "GET",
+      "operationId": "get-licenses",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.ListAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses",
+      "method": "POST",
+      "operationId": "create-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.CreateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}",
+      "method": "DELETE",
+      "operationId": "delete-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.DeleteAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}",
+      "method": "GET",
+      "operationId": "get-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.GetAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}",
+      "method": "PUT",
+      "operationId": "update-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.UpdateAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/archive",
+      "method": "POST",
+      "operationId": "archive-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.ArchiveAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/entitlements",
+      "method": "GET",
+      "operationId": "get-license-entitlements",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.ListEntitlementsAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/entitlements",
+      "method": "POST",
+      "operationId": "associate-entitlement-with-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.AssociateEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "DELETE",
+      "operationId": "delete-license-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.DeleteEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "GET",
+      "operationId": "get-license-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.GetEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "method": "PUT",
+      "operationId": "update-license-entitlement",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.UpdateEntitlementAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/invoice-preview",
+      "method": "POST",
+      "operationId": "previewLicenseInvoice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/prices",
+      "method": "GET",
+      "operationId": "listLicensePrices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/prices",
+      "method": "POST",
+      "operationId": "createLicensePrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/prices/{priceId}",
+      "method": "GET",
+      "operationId": "getLicensePrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/prices/{priceId}",
+      "method": "PATCH",
+      "operationId": "updateLicensePrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/prices/{priceId}/deprecate",
+      "method": "POST",
+      "operationId": "deprecateLicensePrice",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/publish",
+      "method": "POST",
+      "operationId": "publish-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.PublishAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/licenses/{licenseSlug}/unarchive",
+      "method": "POST",
+      "operationId": "unarchive-license",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.Licenses.UnarchiveAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/me",
+      "method": "GET",
+      "operationId": "GetMe",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields",
+      "method": "GET",
+      "operationId": "list-metadata-fields",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields",
+      "method": "POST",
+      "operationId": "create-metadata-field",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields/reorder",
+      "method": "POST",
+      "operationId": "reorder-metadata-fields",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields/{id}",
+      "method": "PATCH",
+      "operationId": "update-metadata-field",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields/{id}/archive",
+      "method": "POST",
+      "operationId": "archive-metadata-field",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields/{id}/dry-run",
+      "method": "POST",
+      "operationId": "dry-run-metadata-field",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/metadata-fields/{id}/unarchive",
+      "method": "POST",
+      "operationId": "unarchive-metadata-field",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/ofrep/v1/evaluate/flags",
+      "method": "POST",
+      "operationId": "evaluateFlagsBulk",
+      "status": "excluded-official-provider",
+      "reason": "All flag decisions use official OpenFeature SDK and official OFREP provider; no Kaiten evaluation API."
+    },
+    {
+      "document": "core",
+      "path": "/ofrep/v1/evaluate/flags/{key}",
+      "method": "POST",
+      "operationId": "evaluateFlag",
+      "status": "excluded-official-provider",
+      "reason": "All flag decisions use official OpenFeature SDK and official OFREP provider; no Kaiten evaluation API."
+    },
+    {
+      "document": "core",
+      "path": "/openfeature/v0/manifest",
+      "method": "GET",
+      "operationId": "get-openfeature-manifest",
+      "status": "management-facade",
+      "reason": "IKaitenManagementClient.FeatureFlags.GetManifestAsync; exact method/path/status/auth and full/minimal wire cases."
+    },
+    {
+      "document": "core",
+      "path": "/public/catalog",
+      "method": "GET",
+      "operationId": "getPublicCatalog",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/checkout-sessions",
+      "method": "POST",
+      "operationId": "createCheckoutSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/checkout-sessions/{sessionId}",
+      "method": "GET",
+      "operationId": "getCheckoutSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/checkout-sessions/{sessionId}/confirm",
+      "method": "POST",
+      "operationId": "confirmCheckoutSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/addons/{addonSlug}",
+      "method": "PUT",
+      "operationId": "setSessionAddonQuantity",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/billing/cancel",
+      "method": "POST",
+      "operationId": "cancelSessionSubscription",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/billing/payment-method-session",
+      "method": "POST",
+      "operationId": "createSessionPaymentMethodSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/billing/payment-method-session/{sessionId}/complete",
+      "method": "POST",
+      "operationId": "completeSessionPaymentMethodSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/billing/portal-session",
+      "method": "POST",
+      "operationId": "createSessionPortalSession",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/billing/reactivate",
+      "method": "POST",
+      "operationId": "reactivateSessionSubscription",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/checkout",
+      "method": "POST",
+      "operationId": "createSessionCheckout",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/invoices",
+      "method": "GET",
+      "operationId": "listSessionInvoices",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/portal",
+      "method": "GET",
+      "operationId": "getSessionPortal",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/vouchers/redeem",
+      "method": "POST",
+      "operationId": "redeemSessionVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/public/session/vouchers/validate",
+      "method": "POST",
+      "operationId": "validateSessionVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/publishable-keys",
+      "method": "GET",
+      "operationId": "listPublishableKeys",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/publishable-keys",
+      "method": "POST",
+      "operationId": "createPublishableKey",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/publishable-keys/{keyId}",
+      "method": "PATCH",
+      "operationId": "updatePublishableKey",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/publishable-keys/{keyId}/revoke",
+      "method": "POST",
+      "operationId": "revokePublishableKey",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/releases",
+      "method": "GET",
+      "operationId": "list-releases",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/releases",
+      "method": "POST",
+      "operationId": "create-release",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/releases/{releaseSlug}",
+      "method": "DELETE",
+      "operationId": "delete-release",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/releases/{releaseSlug}",
+      "method": "GET",
+      "operationId": "get-release-by-slug",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/roles",
+      "method": "GET",
+      "operationId": "ListRoles",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/roles",
+      "method": "POST",
+      "operationId": "CreateRole",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/roles/{slug}",
+      "method": "DELETE",
+      "operationId": "DeleteRole",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/roles/{slug}",
+      "method": "PUT",
+      "operationId": "UpdateRole",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts",
+      "method": "GET",
+      "operationId": "get-service-accounts",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts",
+      "method": "POST",
+      "operationId": "create-service-account",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts/{serviceAccountSlug}",
+      "method": "GET",
+      "operationId": "get-service-account",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts/{serviceAccountSlug}",
+      "method": "PUT",
+      "operationId": "update-service-account",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts/{serviceAccountSlug}/tokens",
+      "method": "GET",
+      "operationId": "get-service-account-tokens",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts/{serviceAccountSlug}/tokens",
+      "method": "POST",
+      "operationId": "create-service-account-token",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/service-accounts/{serviceAccountSlug}/tokens/{tokenSlug}",
+      "method": "DELETE",
+      "operationId": "delete-service-account-token",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/usage/reports/export",
+      "method": "GET",
+      "operationId": "exportOrganizationUsageReports",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users",
+      "method": "GET",
+      "operationId": "ListUsers",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users/{id}",
+      "method": "GET",
+      "operationId": "GetUser",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users/{id}",
+      "method": "PUT",
+      "operationId": "UpdateUser",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users/{id}/assignments",
+      "method": "PATCH",
+      "operationId": "SetUserAssignments",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users/{id}/authorization",
+      "method": "PUT",
+      "operationId": "PutUserAuthorization",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/users/{id}/enabled",
+      "method": "PATCH",
+      "operationId": "SetUserEnabled",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/v1/notification-preferences",
+      "method": "GET",
+      "operationId": "getNotificationPreferences",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/v1/notification-preferences",
+      "method": "PUT",
+      "operationId": "putNotificationPreferences",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/v1/notifications",
+      "method": "GET",
+      "operationId": "listNotifications",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/v1/notifications/mark-read",
+      "method": "POST",
+      "operationId": "markNotificationsRead",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers",
+      "method": "GET",
+      "operationId": "listVouchers",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers",
+      "method": "POST",
+      "operationId": "createVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/lookup",
+      "method": "POST",
+      "operationId": "lookupVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/validate",
+      "method": "POST",
+      "operationId": "validateVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}",
+      "method": "DELETE",
+      "operationId": "deleteVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}",
+      "method": "GET",
+      "operationId": "getVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}",
+      "method": "PUT",
+      "operationId": "updateVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}/archive",
+      "method": "POST",
+      "operationId": "archiveVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}/publish",
+      "method": "POST",
+      "operationId": "publishVoucher",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "core",
+      "path": "/vouchers/{voucherId}/redemptions",
+      "method": "GET",
+      "operationId": "listVoucherRedemptions",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/connectors",
+      "method": "POST",
+      "operationId": "register-connector",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/me",
+      "method": "GET",
+      "operationId": "get-platform-me",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations",
+      "method": "POST",
+      "operationId": "ensure-organization",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}",
+      "method": "DELETE",
+      "operationId": "delete-organization",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}",
+      "method": "GET",
+      "operationId": "get-organization",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}/billing/close-periods",
+      "method": "POST",
+      "operationId": "platform-close-billing-periods",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}/memberships/{userId}",
+      "method": "DELETE",
+      "operationId": "delete-membership",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}/tokens",
+      "method": "GET",
+      "operationId": "list-organization-tokens",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}/tokens",
+      "method": "POST",
+      "operationId": "mint-organization-token",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/organizations/{orgId}/tokens/{tokenSlug}",
+      "method": "DELETE",
+      "operationId": "revoke-organization-token",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    },
+    {
+      "document": "platform",
+      "path": "/platform/users/{id}",
+      "method": "DELETE",
+      "operationId": "delete-user",
+      "status": "pending-parity",
+      "reason": "Not yet a supported SDK facade; Phase0 generation experiments are not implementation coverage."
+    }
+  ]
+}

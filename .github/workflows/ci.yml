@@ -14,6 +14,10 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.x
+      - run: python3 scripts/generate-management.py --check
+      - run: python3 scripts/generate-management-fixtures.py --check
+      - run: python3 scripts/check_contracts.py
+      - run: python3 -B -m unittest discover -s tests -p "test_*.py" -q
       - run: dotnet restore KaitenCloud.sln --locked-mode
       - run: dotnet build KaitenCloud.sln -c Release --no-restore
       - run: dotnet test tests/KaitenCloud.Sdk.Tests -c Release --no-build --no-restore

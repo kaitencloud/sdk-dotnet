@@ -12,7 +12,7 @@ namespace KaitenCloud.Sdk;
 public sealed class KaitenClient : IKaitenClient, IDisposable
 {
     public const string ActivitySourceName = "KaitenCloud.Sdk";
-    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.2.0");
+    public static ActivitySource ActivitySource { get; } = new(ActivitySourceName, "0.3.0");
     private readonly HttpClient _http;
     private readonly KaitenClientOptions _options;
     private readonly IKaitenCredentialProvider? _credentials;
@@ -54,17 +54,14 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
 
     public Task<Customer> GetCustomerAsync(string customerSlug, CancellationToken cancellationToken = default)
         => SendAsync<Customer>(HttpMethod.Get, $"customers/{Slug(customerSlug)}", "get-customer", null, true, cancellationToken);
-    public Task<Instance> GetInstanceAsync(string instanceSlug, CancellationToken cancellationToken = default)
-        => SendAsync<Instance>(HttpMethod.Get, $"instances/{Slug(instanceSlug)}", "get-instance", null, true, cancellationToken);
+    public async Task<Instance> GetInstanceAsync(string instanceSlug, CancellationToken cancellationToken = default)
+    {
+        var result = await SendAsync<Instance>(HttpMethod.Get, $"instances/{Slug(instanceSlug)}", "get-instance", null, true, cancellationToken).ConfigureAwait(false);
+        if (result.Slug != instanceSlug || result.LicenseTerm is null) throw new KaitenProtocolException();
+        return result; // Resource information at DB time, not a local authorization/expiry decision.
+    }
     public Task<License> GetLicenseAsync(string licenseSlug, CancellationToken cancellationToken = default)
         => SendAsync<License>(HttpMethod.Get, $"licenses/{Slug(licenseSlug)}", "get-license", null, true, cancellationToken);
-    public async Task<LicenseValidation> ValidateInstanceLicenseAsync(string instanceSlug, CancellationToken cancellationToken = default)
-    {
-        var result = await SendAsync<LicenseValidation>(HttpMethod.Get, $"instances/{Slug(instanceSlug)}/license-validation",
-            "validate-license", null, true, cancellationToken).ConfigureAwait(false);
-        if (result.InstanceSlug != instanceSlug) throw new KaitenProtocolException();
-        return result; // DB-authored decision only: no local date/license evaluation.
-    }
     public async Task<EntitlementUsage> GetInstanceEntitlementUsageAsync(string instanceSlug, string entitlementSlug, CancellationToken cancellationToken = default)
     {
         var result = await SendAsync<EntitlementUsage>(HttpMethod.Get, UsagePath(instanceSlug, entitlementSlug), "get-usage", null, true, cancellationToken).ConfigureAwait(false);
@@ -117,7 +114,17 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
         await SendAsync<JsonElement>(HttpMethod.Put, GrantPath(licenseSlug, entitlementSlug), "update-license-entitlement", request, false, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<T> SendAsync<T>(HttpMethod method, string path, string operation, object? body, bool safeToRetry, CancellationToken callerToken)
+    internal TimeSpan RequestTimeout => _options.RequestTimeout;
+    // Internal shared transport, not a public URL/request escape hatch.
+    internal Task<T> SendManagementAsync<T>(Management.ManagementOperation operation, string path, object? body, CancellationToken token)
+    {
+        if (operation.Authentication != "bearerAuth" || path.StartsWith("/", StringComparison.Ordinal) || path.Contains("ofrep/v1", StringComparison.Ordinal))
+            throw new ArgumentException("Invalid management operation.");
+        return SendAsync<T>(new HttpMethod(operation.Method), path, operation.Id, body,
+            operation.Method == "GET", token, operation);
+    }
+    private async Task<T> SendAsync<T>(HttpMethod method, string path, string operation, object? body, bool safeToRetry, CancellationToken callerToken,
+        Management.ManagementOperation? management = null)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         callerToken.ThrowIfCancellationRequested();
@@ -130,7 +137,7 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
         int? status = null;
         try
         {
-            byte[]? payload = body is null ? null : JsonSerializer.SerializeToUtf8Bytes(body, KaitenJson.Options);
+            byte[]? payload = body is null ? null : management is null ? JsonSerializer.SerializeToUtf8Bytes(body, KaitenJson.Options) : Management.ManagementJson.SerializeRequest(body);
             for (var attempt = 0; ; attempt++)
             {
                 using var request = new HttpRequestMessage(method, new Uri(_options.BaseUri, path));
@@ -174,6 +181,20 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
                     if (safeToRetry && attempt < _options.MaxRetries && IsTransient(response.StatusCode) && CanHonorRetryAfter(response.Headers.RetryAfter))
                     {
                         await DelayRetryAsync(attempt, response.Headers.RetryAfter, token).ConfigureAwait(false); continue;
+                    }
+                    if (management is not null && response.IsSuccessStatusCode)
+                    {
+                        if ((int)response.StatusCode != management.Status) throw new KaitenProtocolException();
+                        var content = await ReadBodyAsync(response.Content, token).ConfigureAwait(false);
+                        if (!management.HasBody)
+                        {
+                            if (content.Length != 0) throw new KaitenProtocolException();
+                            return (T)(object)default(JsonElement);
+                        }
+                        if (response.Content.Headers.ContentType?.MediaType != "application/json") throw new KaitenProtocolException();
+                        var model = Management.ManagementJson.Deserialize<T>(content, management.NullCollection, management.NonNullItems);
+                        ValidateModel(model);
+                        return model;
                     }
                     if (response.StatusCode == HttpStatusCode.NoContent)
                     {
@@ -261,8 +282,6 @@ public sealed class KaitenClient : IKaitenClient, IDisposable
         if (result is null) throw new KaitenProtocolException();
         switch (result)
         {
-            case LicenseValidation validation when string.IsNullOrWhiteSpace(validation.InstanceSlug) || string.IsNullOrWhiteSpace(validation.LicenseSlug) || validation.LicenseId == Guid.Empty || validation.Valid != (validation.Status == LicenseValidationStatus.Active):
-                throw new KaitenProtocolException();
             case EntitlementUsage usage when usage.Value is null || usage.EntitlementId == Guid.Empty || usage.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(usage.EntitlementSlug) || string.IsNullOrWhiteSpace(usage.LicenseSlug):
             case LicenseEntitlement grant when grant.Value is null || grant.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(grant.EntitlementSlug) || string.IsNullOrWhiteSpace(grant.LicenseSlug):
             case Instance instance when instance.CustomerId == Guid.Empty || instance.LicenseId == Guid.Empty || string.IsNullOrWhiteSpace(instance.Slug) || string.IsNullOrWhiteSpace(instance.CustomerSlug) || string.IsNullOrWhiteSpace(instance.LicenseSlug):

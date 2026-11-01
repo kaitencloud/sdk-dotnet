@@ -17,7 +17,7 @@ public static class KaitenJson
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             MaxDepth = 64
         };
-        options.Converters.Add(new LicenseValidationStatusConverter());
+        options.Converters.Add(new LicenseTermStatusConverter());
         options.Converters.Add(new JsonStringEnumConverter<UsageReportBehavior>(JsonNamingPolicy.CamelCase, false));
         options.Converters.Add(new EntitlementValueConverter());
         options.Converters.Add(new FlagTargetingConverter());
@@ -48,26 +48,43 @@ public static class KaitenJson
     }
 }
 
-internal sealed class LicenseValidationStatusConverter : JsonConverter<LicenseValidationStatus>
+// This property is a database instant, not a local/unspecified calendar value.
+// Do not register globally: ordinary instance/date fields retain their wire behavior.
+internal sealed class LicenseTermInstantConverter : JsonConverter<DateTimeOffset>
 {
-    public override LicenseValidationStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override DateTimeOffset Read(ref Utf8JsonReader reader, Type type, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.String) throw new JsonException("Invalid license term database instant.");
+        var text = reader.GetString()!;
+        var explicitZone = text.EndsWith('Z') || text.Length >= 25 && text[^6] is '+' or '-' && text[^3] == ':';
+        if (text.Length < 20 || text[10] != 'T' || !explicitZone || !reader.TryGetDateTimeOffset(out var instant))
+            throw new JsonException("Invalid license term database instant.");
+        return instant;
+    }
+    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
+        => writer.WriteStringValue(value);
+}
+
+internal sealed class LicenseTermStatusConverter : JsonConverter<LicenseTermStatus>
+{
+    public override LicenseTermStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.String) throw new JsonException("License status must be an exact wire string.");
         return reader.GetString() switch
         {
-            "ACTIVE" => LicenseValidationStatus.Active,
-            "NOT_STARTED" => LicenseValidationStatus.NotStarted,
-            "EXPIRED" => LicenseValidationStatus.Expired,
+            "ACTIVE" => LicenseTermStatus.Active,
+            "NOT_STARTED" => LicenseTermStatus.NotStarted,
+            "EXPIRED" => LicenseTermStatus.Expired,
             _ => throw new JsonException("Unsupported license status.")
         };
     }
 
-    public override void Write(Utf8JsonWriter writer, LicenseValidationStatus value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, LicenseTermStatus value, JsonSerializerOptions options)
         => writer.WriteStringValue(value switch
         {
-            LicenseValidationStatus.Active => "ACTIVE",
-            LicenseValidationStatus.NotStarted => "NOT_STARTED",
-            LicenseValidationStatus.Expired => "EXPIRED",
+            LicenseTermStatus.Active => "ACTIVE",
+            LicenseTermStatus.NotStarted => "NOT_STARTED",
+            LicenseTermStatus.Expired => "EXPIRED",
             _ => throw new JsonException("Unsupported license status.")
         });
 }

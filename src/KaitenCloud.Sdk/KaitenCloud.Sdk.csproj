@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>KaitenCloud.Sdk</PackageId>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Authors>KAITEN INC</Authors>
     <Description>Typed Kaiten Core APIs and official OpenFeature OFREP provider integration for server-side .NET applications.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

@@ -1,7 +1,7 @@
 # Real official-provider integration checks
 
 Use **only a new exclusively owned temporary Core** seeded with Kaiten Sushi,
-license-validation/UTC correction, and Core/Envoy Jaeger. Never mutate the live
+D55 instance-detail licenseTerm/UTC resource contract, and Core/Envoy Jaeger. Never mutate the live
 Demo or a shared/production database. Existing environments must not run this
 mutation runner concurrently. All flags use official OpenFeature IFeatureClient
 with sealed OfrepProvider; license/grant/usage/presenter operations use typed
