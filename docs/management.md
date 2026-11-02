@@ -67,6 +67,24 @@ what that null means. DateTimeOffset request/query values are written as UTC
 instants without losing the original absolute offset meaning. Decimal-string
 fields remain strings; the SDK does not calculate billing totals.
 
+## Instance assignment timestamp compatibility
+
+Instance response `startLicenseDate` and `endLicenseDate` (including the integration
+representation) must contain a complete date-time with seconds and an explicit
+`Z` or `±HH:mm` offset. Date-only and zone-less values previously accepted by the
+.NET parser are now rejected as private `KaitenProtocolException` failures by both
+legacy and management reads, rather than inferring the machine's local timezone
+and echoing an invented instant through an update projection. Servers returning
+these incomplete values must supply complete instants before clients can read them.
+
+Valid explicit offsets and fractional seconds retain their instant and offset on
+read. Legacy `Instance.ToUpdateRequest()` retains both; management requests continue
+to serialize the same absolute instant in UTC. DTO types, required assignment
+fields, nullable fields, and shared representations with absent/null `licenseTerm`
+are unchanged. Unrelated timestamps retain their existing parsing behavior. This
+is wire validation only, not term classification, expiry enforcement, historical
+data repair, a database migration, or provider policy.
+
 ## HTTP, ownership and paging
 
 Use `KaitenManagementClient.Create(options, credentials)` for an owned long-lived

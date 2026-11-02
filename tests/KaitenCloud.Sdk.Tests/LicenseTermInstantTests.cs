@@ -34,13 +34,13 @@ public sealed class LicenseTermInstantTests
         Assert.Equal(new DateTimeOffset(2026, 11, 1, 12, 0, 0, TimeSpan.Zero), term.EvaluatedAt);
     }
     [Fact]
-    public void OtherDateFieldsDoNotUseTheTermPropertyConverter()
+    public void UnrelatedDateFieldsDoNotUseInstantPropertyConverters()
     {
         var fields = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(RestResourceMigrationTests.InstanceJson)!;
-        fields["startLicenseDate"] = JsonSerializer.SerializeToElement("2026-11-01");
-        fields["endLicenseDate"] = JsonSerializer.SerializeToElement("2026-11-01T12:00:00");
+        fields["createdAt"] = JsonSerializer.SerializeToElement("2026-11-01");
+        fields["updatedAt"] = JsonSerializer.SerializeToElement("2026-11-01T12:00:00");
         var instance = JsonSerializer.Deserialize<Instance>(JsonSerializer.Serialize(fields), KaitenJson.CreateOptions());
-        Assert.NotNull(instance); // Existing non-term timestamp behavior is intentionally unchanged.
+        Assert.NotNull(instance); // Timestamp fields unrelated to term evaluation/assignment are intentionally unchanged.
         Assert.Null(instance!.LicenseTerm);
     }
     private static HttpClient Http(string value)

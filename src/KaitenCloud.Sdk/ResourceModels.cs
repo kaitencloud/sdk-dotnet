@@ -46,7 +46,9 @@ public sealed record Instance : KaitenResource
     public required string LicenseSlug { get; init; }
     public Guid? DeploymentZoneId { get; init; }
     public string? DeploymentZoneSlug { get; init; }
+    [JsonConverter(typeof(InstanceAssignmentInstantConverter))]
     public required DateTimeOffset StartLicenseDate { get; init; }
+    [JsonConverter(typeof(InstanceAssignmentInstantConverter))]
     public required DateTimeOffset EndLicenseDate { get; init; }
     public Dictionary<string, JsonElement>? Metadata { get; init; }
     public string? Status { get; init; }

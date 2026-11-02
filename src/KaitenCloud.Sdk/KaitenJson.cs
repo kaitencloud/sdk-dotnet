@@ -49,7 +49,7 @@ public static class KaitenJson
 }
 
 // This property is a database instant, not a local/unspecified calendar value.
-// Do not register globally: ordinary instance/date fields retain their wire behavior.
+// Do not register globally: unrelated date fields retain their wire behavior.
 internal sealed class LicenseTermInstantConverter : JsonConverter<DateTimeOffset>
 {
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type type, JsonSerializerOptions options)
@@ -59,6 +59,23 @@ internal sealed class LicenseTermInstantConverter : JsonConverter<DateTimeOffset
         var explicitZone = text.EndsWith('Z') || text.Length >= 25 && text[^6] is '+' or '-' && text[^3] == ':';
         if (text.Length < 20 || text[10] != 'T' || !explicitZone || !reader.TryGetDateTimeOffset(out var instant))
             throw new JsonException("Invalid license term database instant.");
+        return instant;
+    }
+    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
+        => writer.WriteStringValue(value);
+}
+
+// Assignment response boundaries must be complete instants before an update can echo them.
+// Property-scoped, separate from term classification and request UTC serialization.
+internal sealed class InstanceAssignmentInstantConverter : JsonConverter<DateTimeOffset>
+{
+    public override DateTimeOffset Read(ref Utf8JsonReader reader, Type type, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.String) throw new JsonException("Invalid instance assignment database instant.");
+        var text = reader.GetString()!;
+        var explicitZone = text.EndsWith('Z') || text.Length >= 25 && text[^6] is '+' or '-' && text[^3] == ':';
+        if (text.Length < 20 || text[10] != 'T' || !explicitZone || !reader.TryGetDateTimeOffset(out var instant))
+            throw new JsonException("Invalid instance assignment database instant.");
         return instant;
     }
     public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)

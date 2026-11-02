@@ -15,6 +15,7 @@ public sealed record InstanceIntegrationResource : IJsonOnDeserialized, IManagem
     [JsonPropertyName("description")]
     public required string Description { get; init; }
     [JsonPropertyName("endLicenseDate")]
+    [JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]
     public required DateTimeOffset EndLicenseDate { get; init; }
     [JsonPropertyName("error")]
     public string? Error { get; init; }
@@ -27,6 +28,7 @@ public sealed record InstanceIntegrationResource : IJsonOnDeserialized, IManagem
     [JsonPropertyName("slug")]
     public required string Slug { get; init; }
     [JsonPropertyName("startLicenseDate")]
+    [JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]
     public required DateTimeOffset StartLicenseDate { get; init; }
     [JsonPropertyName("webUrl")]
     public string? WebUrl { get; init; }

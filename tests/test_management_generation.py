@@ -42,6 +42,21 @@ class ManagementGeneration(unittest.TestCase):
             self.assertEqual(fixture['operationId']=='getInstance', contains_term(fixture['response']))
             self.assertFalse(contains_term(fixture['request']))
 
+    def test_assignment_instant_converters_are_response_property_specific(self):
+        files, _ = generator.render()
+        attribute = '[JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]'
+        for path, text in files.items():
+            expected = 2 if path in {'Models/Instance.g.cs', 'Models/InstanceIntegrationResource.g.cs'} else 0
+            self.assertEqual(expected, text.count(attribute), path)
+        self.assertEqual(('DateTimeOffset', False), generator.typename({'type':'string','format':'date-time'}, 'OrdinaryDate'))
+        for keyword in ['oneOf', 'anyOf']:
+            schema = {'type':'object','properties':{'startLicenseDate':{keyword:[{'type':'string','format':'date-time'},{'type':'null'}]}},'required':['startLicenseDate']}
+            text = generator.model('Instance', schema, False)
+            self.assertIn('public required DateTimeOffset? StartLicenseDate', text)
+            self.assertIn(attribute, text)
+            self.assertIn('Condition = JsonIgnoreCondition.Never', text)
+            self.assertNotIn(attribute, generator.model('Instance', schema, True))
+
     def test_unknown_type_union_fails_instead_of_dictionary_fallback(self):
         with self.assertRaisesRegex(ValueError, 'Unsupported type union'):
             generator.typename({'type':['string','number']}, 'Unknown')

@@ -169,6 +169,9 @@ def model(name, schema, request):
             if is_required and allows_null:
                 lines.append('    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]')
         lines.append(f'    [JsonPropertyName({q(wire)})]')
+        # Assignment response instants only: retain ordinary date-time and request mappings.
+        if not request and name in {'Instance', 'InstanceIntegrationResource'} and wire in {'startLicenseDate', 'endLicenseDate'} and typ == 'DateTimeOffset':
+            lines.append('    [JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]')
         lines.append(f'    public {"required " if is_required else ""}{declaration} {field} {{ get; init; }}')
         if is_required and not allows_null and typ not in {'bool','int','long','double','DateTimeOffset','Guid','JsonElement'} and typ not in ENUMS:
             checks.append(f'{value} is null')

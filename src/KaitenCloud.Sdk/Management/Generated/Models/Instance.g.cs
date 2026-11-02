@@ -23,6 +23,7 @@ public sealed record Instance : IJsonOnDeserialized, IManagementModel
     [JsonPropertyName("description")]
     public required string Description { get; init; }
     [JsonPropertyName("endLicenseDate")]
+    [JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]
     public required DateTimeOffset EndLicenseDate { get; init; }
     [JsonPropertyName("id")]
     public required string Id { get; init; }
@@ -43,6 +44,7 @@ public sealed record Instance : IJsonOnDeserialized, IManagementModel
     [JsonPropertyName("slug")]
     public string? Slug { get; init; }
     [JsonPropertyName("startLicenseDate")]
+    [JsonConverter(typeof(global::KaitenCloud.Sdk.InstanceAssignmentInstantConverter))]
     public required DateTimeOffset StartLicenseDate { get; init; }
     [JsonPropertyName("status")]
     public string? Status { get; init; }
