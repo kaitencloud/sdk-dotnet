@@ -33,7 +33,10 @@
 
 ## Official OpenFeature provider
 
-Flag timeout/cancellation/network/credential/protocol errors become OpenFeature
-details; they do not use Kaiten evaluation exceptions. Both ErrorType and Reason
-must be checked before Value. Provider retries/cooldown/body guard/telemetry have
-a separate [verified contract](openfeature.md); Core retry options do not apply.
+The SDK has no evaluation/provider transport. Consumers configure official
+OpenFeature and OFREP packages themselves; failures are OpenFeature details,
+not Core exceptions. Check both ErrorType and Reason before Value; provider0.1.7
+can still accept malformed HTTP400/wrong-key HTTP200 payloads as true. Protected
+side effects require protocol validation at the application HTTP boundary. Core retry,
+body-limit, credential-rotation and telemetry guarantees do not apply to this
+independent provider. See [consumer integration and changed guarantees](openfeature.md).

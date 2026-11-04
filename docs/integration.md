@@ -1,68 +1,64 @@
-# Real official-provider integration checks
+# Explicit real-provider integration checks
 
 Use **only a new exclusively owned temporary Core** seeded with Kaiten Sushi,
-D55 instance-detail licenseTerm/UTC resource contract, and Core/Envoy Jaeger. Never mutate the live
-Demo or a shared/production database. Existing environments must not run this
-mutation runner concurrently. All flags use official OpenFeature IFeatureClient
-with sealed OfrepProvider; license/grant/usage/presenter operations use typed
-Kaiten APIs. Only telemetry queries use direct HTTP (to Jaeger, not Core).
+D55 instance-detail licenseTerm/UTC contract, and Core/Envoy Jaeger. Never mutate
+a live Demo, shared stack or production database. The SDK no longer provisions
+containers, volumes, databases or credentials. Environment creation/cleanup is an
+explicit operator responsibility through supported native Core tools, outside
+this SDK's build/check toolchain. Historical environment receipts are not fresh
+verification of these revised sources.
 
-## Isolated fixture and cleanup
+The guarded C# executable uses official OpenFeature/OFREP with consumer-owned native
+Hosting/HTTP factory configuration. Typed Kaiten APIs handle license/grant/usage
+and presenter operations. Only telemetry queries use direct HTTP (Jaeger, not Core).
 
-`scripts/integration-core.py` accepts the verified Core source directory (config
-mounts only) and four already-built local images. It pins their image IDs and never
-builds, pulls, retags, updates or restarts existing runtimes:
+## Prerequisites
+
+Prepare a separately authorized, exclusively owned fixture with private runtime,
+presenter, under-scoped and foreign-organization token files. Do not copy credentials
+from other stacks. Use private0700 directories/0600 files and maintain an explicit
+resource ownership/cleanup record. Never target an existing/shared stack by merely
+setting the acknowledgement variables. This runner performs business writes and
+creates audit/outbox history; it requires exact action authorization before running.
+
+Set KAITEN_BASE_URL including `/api/`, KAITEN_TEST_TOKEN_DIR, KAITEN_JAEGER_URL,
+KAITEN_TEST_MUTATIONS=1, KAITEN_TEST_ENVIRONMENT=kaiten-sdk-ofrep-<owned-id>, and
+optionally KAITEN_TEST_SNAPSHOT_DIR. Missing prerequisites exit nonzero.
 
 ```sh
-python3 scripts/integration-core.py --core-source /path/to/corrected/kaiten \
-  --api-image existing-corrected-api --seeder-image existing-core-seeder \
-  --admin-image existing-core-migrate --bootstrap-image existing-core-bootstrap
+dotnet run --project tests/KaitenCloud.Sdk.Integration -c Release --no-build --no-restore
 ```
 
-The script generates a random kaiten-sdk-ofrep-* Compose project, private 0700
-credential directory/0600 files, new named PostgreSQL volume with an ownership
-label, isolated network/Rabbit/CDC volumes and two available loopback ports. No
-credentials or env files from other stacks are read/copied. API, bootstrap and
-seeder share host UID/GID and the same new mount. Native admin tools explicitly
-mount /credentials with that UID when minting tokens. A foreign empty organization
-is created through native `organization ensure`, not direct DB writes.
+Verified baseline required: Ninja ninja-osaka-prod/starter, Sakura
+sakura-tokyo-prod/premium-v2, active licenses, tracker false/true, monthly-orders
+SUM observations1–100 and room for one increment. The runner refuses changed or
+unrelated tenants. Provider credentials snapshot at fixture construction; no SDK
+credential bridge or provider trace wrapper exists.
 
-Missing images/config/readiness/scopes fail. The new database alone is migrated
-and seeded through supported Core tools. Runtime/presenter/under-scoped/foreign
-private tokens belong only to it. Finally, Compose removes only the random project
-and its volumes; the separately created PostgreSQL volume is removed only after
-its ownership label matches. This invocation's credentials/DB env secrets are
-deleted after cleanup; private snapshots/receipt/bootstrap.log remain under
-ignored `.local/<project>`. Cleanup errors fail, never silently claim success.
+## Coverage and restoration
 
-## Runner prerequisites and coverage
+The executable retains typed resources/number/boolean/object reads; four official
+boolean/three object flags and concurrent trusted tenant contexts; missing/invalid,
+wrong-scope/foreign authentication; targeting/next-request propagation; enabled
+flags versus denied entitlements and expired/future licenses; UTC offsets and
+active restoration; grant changes/instance upgrade with Sakura unchanged;
+append/set/exact quota409/rejected-write rollback; closed-port outage; and **typed
+Core SDK** redacted traceparent/Core trace ID correlation with real Jaeger.
+No custom evaluator or HTTP bulk probe is introduced. Removed provider envelope,
+credential-rotation and redaction guarantees are not tested or claimed here.
+Protected-action examples assume trustworthy, valid OFREP responses: provider0.1.7
+detail guards alone do not reject malformed HTTP400/wrong-key HTTP200 payloads.
+Validate protocol at the application HTTP boundary before side effects; see the
+[reported repros](openfeature.md).
 
-The executable requires KAITEN_BASE_URL, KAITEN_TEST_TOKEN_DIR, KAITEN_JAEGER_URL,
-KAITEN_TEST_MUTATIONS=1, and KAITEN_TEST_ENVIRONMENT=kaiten-sdk-ofrep-<owned-id>.
-Missing prerequisites exit nonzero. The fixture sets these itself. After build:
-`dotnet run --project tests/KaitenCloud.Sdk.Integration -c Release --no-build --no-restore`.
-Do not fabricate the ownership acknowledgement to target another environment.
+Writable snapshots are saved before changes and restored in finally with independent
+bounded SDK calls, then compared. SUM Set resets count to one; bounded zero Appends
+restore the original count too. Cleanup/restoration errors fail; private snapshots
+must be used for supported restoration before continuing. Snapshot files contain
+no credentials. Audit/outbox events legitimately remain; remove only the exclusively
+owned environment afterward using its ownership record, never another stack's data.
 
-Verified seed: Ninja ninja-osaka-prod/starter, Sakura sakura-tokyo-prod/premium-v2,
-active licenses, tracker false/true, monthly-orders SUM observations 1–100 and room
-for one increment. The runner refuses changed/unrelated baselines.
-
-Nine real groups cover typed resources/number/boolean/object reads; official
-OpenFeature four boolean/three object flags and concurrent tenant contexts; real
-missing/invalid/wrong-scope/foreign auth; presenter targeting and next-request
-propagation; enabled flag versus denied entitlement and expired/future license
-guards, UTC offsets/active restoration; grant change and Ninja license upgrade
-with Sakura unchanged; append/set/exact quota409/rejected-write rollback; real
-Core/provider closed-port outage; redacted provider traceparent/Core trace ID and
-a matching nonempty Jaeger trace. No manual OFREP evaluator/HTTP bulk probe exists.
-
-Writable snapshots are saved before changes, restored in finally with independent
-bounded SDK calls, then compared. SUM Set resets count to one, so bounded zero
-Appends restore the original observation count too. Snapshots have no credentials.
-Audit/outbox events legitimately remain during tests; deleting the exclusively
-owned temporary environment removes only test history, never another stack's data.
-
-The redacted receipt has group descriptions, trace ID and span count. Host code
-exports SDK spans if desired; no exporter is bundled. Read-only source/package
-examples use KAITEN_BASE_URL and KAITEN_TOKEN_FILE and enforce details/term/grant
-guards; no Demo/Keycloak/Kubernetes completion is claimed by SDK tests.
+The receipt records groups, typed Core trace ID and span count. Host code controls
+provider instrumentation. The read-only source/package example only needs
+KAITEN_BASE_URL and KAITEN_TOKEN_FILE. SDK builds/tests do not claim completion of
+Demo, auth infrastructure or runtime deployments.

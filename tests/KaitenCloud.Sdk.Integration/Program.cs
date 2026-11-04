@@ -9,6 +9,7 @@ using OpenFeature;
 using OpenFeature.Constant;
 using OpenFeature.Hosting;
 using OpenFeature.Model;
+using OpenFeature.Providers.Ofrep.DependencyInjection;
 
 // Deliberately an explicit executable: missing prerequisites FAIL, never silently skip real coverage.
 try
@@ -196,12 +197,12 @@ internal static class Integration
             var traced = new List<Activity>();
             using var listener = new ActivityListener
             {
-                ShouldListenTo = s => s.Name == KaitenOpenFeatureServiceCollectionExtensions.ActivitySourceName,
+                ShouldListenTo = s => s.Name == KaitenClient.ActivitySourceName,
                 Sample = (ref ActivityCreationOptions<ActivityContext> _) => ActivitySamplingResult.AllDataAndRecorded,
                 ActivityStopped = traced.Add
             };
             ActivitySource.AddActivityListener(listener);
-            await Tracking(flags, NinjaContext, token);
+            await runtime.GetInstanceAsync(Ninja, token);
             var activity = traced.Single();
             var traceId = activity.TraceId.ToHexString();
             Check(activity.GetTagItem("kaiten.trace_id") as string == traceId, "Core did not echo the SDK trace identity.");
@@ -220,7 +221,7 @@ internal static class Integration
                 if (spanCount == 0) await Task.Delay(500, token);
             }
             Check(spanCount > 0, "No matching real Core/Envoy trace was found in Jaeger.");
-            completed.Add("redacted SDK activity and matching Core/Envoy Jaeger trace");
+            completed.Add("redacted typed Core SDK activity and matching Core/Envoy Jaeger trace");
             await Snapshot(snapshotDir, "receipt.json", new { completed, traceId, spanCount, networkUnavailable = true });
         }
         finally
@@ -267,6 +268,8 @@ internal static class Integration
         return details.Value;
     }
     // Application authorization fixture: official flags plus typed authoritative Core guards.
+    // Assumes valid OFREP responses: provider 0.1.7 detail guards alone can accept malformed
+    // HTTP400/wrong-key HTTP200 true. Protected side effects need app-boundary protocol validation.
     private static async Task<bool> ProtectedTracking(IKaitenClient core, IFeatureClient flags, CancellationToken token)
     {
         var flag = await Tracking(flags, NinjaContext, token);
@@ -278,8 +281,18 @@ internal static class Integration
     private static async Task<ServiceProvider> Features(string baseUrl, IKaitenCredentialProvider? credentials, string? bearer = null)
     {
         var services = new ServiceCollection();
-        if (credentials is not null) services.AddSingleton(credentials);
-        services.AddKaitenOpenFeature(o => { o.BaseUri = new Uri(baseUrl); o.RequestTimeout = TimeSpan.FromSeconds(5); o.BearerToken = bearer; });
+        // Official provider configuration is consumer-owned; credentials snapshot per fixture.
+        if (credentials is not null) bearer = await credentials.GetBearerTokenAsync();
+        services.AddHttpClient("integration-ofrep")
+            .RemoveAllLoggers()
+            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler { AllowAutoRedirect = false });
+        services.AddOpenFeature(builder => builder.AddOfrepProvider(options =>
+        {
+            options.BaseUrl = baseUrl;
+            options.Timeout = TimeSpan.FromSeconds(5);
+            options.HttpClientName = "integration-ofrep";
+            if (bearer is not null) options.Headers["Authorization"] = "Bearer " + bearer;
+        }));
         var provider = services.BuildServiceProvider();
         await provider.GetRequiredService<IFeatureLifecycleManager>().EnsureInitializedAsync();
         return provider;

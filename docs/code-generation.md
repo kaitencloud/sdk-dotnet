@@ -8,20 +8,20 @@ No network fetch, tool installation, schema overlay or timestamp migration occur
 
 ## Accepted Batch1 templates
 
-`contracts/batch1.json` explicitly selects64 operations. The standard-library Python
-generator `scripts/generate-management.py` emits typed STJ records, request enums,
+`contracts/batch1.json` explicitly selects64 operations. The dependency-free .NET
+contract tool `tools/KaitenCloud.ContractTool` emits typed STJ records, request enums,
 operation-specific method/path/status/auth metadata and resource methods. It runs
 twice and byte-compares output. `--check` compares every emitted file and API
 manifest with the checked-in tree. Normal CI runs it, fixture drift checks, coverage
 guards and tests; no production runtime package/dependency is added.
 
 ```sh
-python3 scripts/generate-management.py --check
-python3 scripts/generate-management-fixtures.py --check
+dotnet run --project tools/KaitenCloud.ContractTool -- generate --check
+dotnet run --project tools/KaitenCloud.ContractTool -- fixtures --check
 task check
 # Explicit regeneration, followed by review:
-python3 scripts/generate-management.py
-python3 scripts/generate-management-fixtures.py
+dotnet run --project tools/KaitenCloud.ContractTool -- generate
+dotnet run --project tools/KaitenCloud.ContractTool -- fixtures
 ```
 
 Never hand-edit `src/KaitenCloud.Sdk/Management/Generated/`. Update the approved
@@ -35,7 +35,8 @@ whole-body dictionary. Simple object/ref/array/scalar models and known nullable/
 unions are supported. Arbitrary JSON is reserved for actual dynamic metadata/value
 slots. Response enum strings remain forward-compatible; request enums are exact.
 The draft validation method/DTO are intentionally removed (interface12); other
-legacy identities and official flag integration remain intact. LicenseTerm maps to
+legacy identities remain intact; runtime flags are consumer-configured official
+OpenFeature calls, not an SDK integration wrapper. LicenseTerm maps to
 a strict shared DTO instead of a permissive response enum string. Only detail GET
 requires it; operation-aware fixtures omit it from create/list/nested resources.
 
@@ -72,8 +73,25 @@ failed: required-null flag fields were omitted, uppercase discriminators accepte
 and required values allowed missing. Default success-status policy, raw WithUrl
 builders and usage response-header loss also prevented public-surface adoption.
 
-The experiment remains opt-in `task codegen:kiota:check`/`codegen:kiota:test`, outside
-normal generation/build. Its two Kiota dependencies are test-only; no generated
-Kiota code enters the SDK package. Full Phase0 evidence/report remains external.
-Passing its characterization tests is not passing semantic acceptance. The accepted
-implementation reuses existing STJ/HTTP behavior instead of a second adapter stack.
+The historical characterization project in `tests/KiotaSpike` is retained as evidence,
+outside normal generation/build. Its two Kiota dependencies are test-only; no
+generated Kiota code enters the SDK package. Its retired driver is not part of the
+active toolchain. Full Phase0 evidence/report remains external. Passing characterization
+is not semantic acceptance. The accepted native tool preserves the existing STJ
+output instead of adding a second generator framework.
+
+Contract-tool xUnit tests live with the SDK tests. They cover checksum/coverage
+corruption, entire evaluation-subtree exclusions, source/manifest/fixture parity,
+unsupported root/reference compositions before writes, nullable typed map/list
+members, required query mutations, read-only license terms and property-specific
+assignment-instant converters. Generation uses structured System.Text.Json nodes;
+package-consumer configuration and dependency checks use System.Xml.Linq.
+
+`task pack` labels verification bytes `0.3.0-native-uncommitted` under
+`artifacts/native-sdk-uncommitted/packages`. `task consume` uses a fresh private
+cache and verifies the packaged sample plus negative public API compilation.
+These are revised-source verification artifacts, not a clean committed release,
+and never replace historical `0.3.0` packages or shared caches. To retain an earlier
+verification candidate, pack the same verification version into a new
+`artifacts/<label>/packages` directory and run the native tool with
+`package <label>`; its private consumer cache and diagnostic log stay in that label.

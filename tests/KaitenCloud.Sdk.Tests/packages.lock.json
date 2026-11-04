@@ -12,6 +12,26 @@
           "Microsoft.TestPlatform.TestHost": "17.12.0"
         }
       },
+      "OpenFeature": {
+        "type": "Direct",
+        "requested": "[2.14.1, )",
+        "resolved": "2.14.1",
+        "contentHash": "ubw4ACEyAcHzeRNepzStTE0DgIJHpsYqRNcvdghUpPFXIf9whYiZlYLgBU6jdI2qdoVMXBrzqP6y9w9iDOuEDQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
+        }
+      },
+      "OpenFeature.Providers.Ofrep": {
+        "type": "Direct",
+        "requested": "[0.1.7, )",
+        "resolved": "0.1.7",
+        "contentHash": "Xu6PoH/66QJT8i39r0EyyGji/kZLmcgxnwEwERorOo1/fOFXp73PDm8vKN6HYdK0ErmSVHw29dZCcSa+1l08Xw==",
+        "dependencies": {
+          "Microsoft.Extensions.Http": "8.0.0",
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "OpenFeature.Hosting": "[2.9.0, 2.99999.0]"
+        }
+      },
       "xunit": {
         "type": "Direct",
         "requested": "[2.9.3, )",
@@ -190,31 +210,13 @@
         "resolved": "13.0.1",
         "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
       },
-      "OpenFeature": {
-        "type": "Transitive",
-        "resolved": "2.14.1",
-        "contentHash": "ubw4ACEyAcHzeRNepzStTE0DgIJHpsYqRNcvdghUpPFXIf9whYiZlYLgBU6jdI2qdoVMXBrzqP6y9w9iDOuEDQ==",
-        "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
-        }
-      },
       "OpenFeature.Hosting": {
         "type": "Transitive",
-        "resolved": "2.14.1",
-        "contentHash": "VeoXlHJBO0DvfW13+8+7SNMLnSn8gUHlbMo64vjZHulP2291ybDVjiLhlzwPURbOvNrFDeu1a3W8kk3wwzBN5Q==",
+        "resolved": "2.9.0",
+        "contentHash": "TPKwbmYLaSam4W5nXTi/bDGAeJDXKJ8poevnpgfS2xIptE+uoqlgDs79ld3qG5c6IzqfWxmOHkIwL5FeT/81VA==",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
-          "OpenFeature": "2.14.1"
-        }
-      },
-      "OpenFeature.Providers.Ofrep": {
-        "type": "Transitive",
-        "resolved": "0.1.7",
-        "contentHash": "Xu6PoH/66QJT8i39r0EyyGji/kZLmcgxnwEwERorOo1/fOFXp73PDm8vKN6HYdK0ErmSVHw29dZCcSa+1l08Xw==",
-        "dependencies": {
-          "Microsoft.Extensions.Http": "8.0.0",
-          "Microsoft.Extensions.Logging": "8.0.0",
-          "OpenFeature.Hosting": "[2.9.0, 2.99999.0]"
+          "OpenFeature": "2.9.0"
         }
       },
       "System.Reflection.Metadata": {
@@ -262,12 +264,13 @@
           "xunit.extensibility.core": "[2.9.3]"
         }
       },
+      "kaitencloud.contracttool": {
+        "type": "Project"
+      },
       "kaitencloud.sdk": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.Http": "[8.0.1, )",
-          "OpenFeature.Hosting": "[2.14.1, )",
-          "OpenFeature.Providers.Ofrep": "[0.1.7, )"
+          "Microsoft.Extensions.Http": "[8.0.1, )"
         }
       }
     }

@@ -11,7 +11,7 @@ using KaitenCloud.Sdk.Management.Models;
 
 services.AddSingleton<IKaitenCredentialProvider>(new FileKaitenCredentialProvider(tokenFile));
 services.AddKaitenManagement(o => o.BaseUri = gateway);
-// AddKaitenOpenFeature remains a separate opt-in registration for flags.
+// Configure the official OpenFeature + OFREP packages separately for runtime flags.
 
 var customers = await management.Customers.ListAllAsync(
     new ListCustomerQuery { Limit = 100 }, totalLimit: 250, cancellationToken: ct);

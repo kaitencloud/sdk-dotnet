@@ -1,87 +1,111 @@
-# Official OpenFeature / OFREP integration
+# Consumer-owned official OpenFeature / OFREP
 
-## Verified upstream packages
+The Kaiten SDK has no feature evaluation API, OpenFeature package dependency or
+provider/transport wrapper. Install official `OpenFeature 2.14.1` and
+`OpenFeature.Providers.Ofrep 0.1.7` in the consuming application. The
+[official provider](https://github.com/open-feature/dotnet-sdk-contrib/tree/209b6a799e2cdd5ce8bbaa7556d270e80cd2a583/src/OpenFeature.Providers.Ofrep)
+is sealed. Its public constructor takes `OfrepOptions` from
+`OpenFeature.Providers.Ofrep.Configuration`. See the compiled
+[example](../examples/Kaiten.Example/Program.cs) and [README](../README.md).
 
-- OpenFeature.Hosting/OpenFeature 2.14.1, [tagged source](https://github.com/open-feature/dotnet-sdk/tree/v2.14.1).
-- OpenFeature.Providers.Ofrep 0.1.7, NuGet repository commit
-  [209b6a799e2cdd5ce8bbaa7556d270e80cd2a583](https://github.com/open-feature/dotnet-sdk-contrib/tree/209b6a799e2cdd5ce8bbaa7556d270e80cd2a583/src/OpenFeature.Providers.Ofrep).
+## Kaiten endpoint, authentication and targeting
 
-`OfrepProvider` is sealed and remains the actual provider. Its native DI options
-`HttpClientName` and `ConfigureHttpClient` allow factory/client injection. The
-constructor accepting a client is internal: do not invent constructor overloads.
-Kaiten configures the public `AddOfrepProvider` path, not a custom provider or
-transport evaluator. Official Hosting owns an isolated API/container lifecycle.
+Use the full authenticated gateway base `http://127.0.0.1:<gateway-port>/api/`
+for a separately owned local Core, or the deployed HTTPS gateway with its proxy
+prefix and `/api/`. Do not use a management instance URL or append `/ofrep/v1`
+in the base. The provider ensures a trailing slash, then POSTs relative
+`ofrep/v1/evaluate/flags/{key}`; it does not add Kaiten's `/api` segment.
+These paths and the bearer requirement are pinned in `contracts/core.openapi.json`.
 
-`AddKaitenOpenFeature(Action<KaitenOfrepOptions>)` selects the default domain.
-Options are BaseUri (required), BearerToken (optional server credential),
-RequestTimeout (default 10s, >0 and <=5min), MaxResponseBytes (default 4MiB,
-1KiB–16MiB). Options snapshot at registration. Register IKaitenCredentialProvider
-for request-local rotating credentials; it takes precedence over BearerToken.
-The named client is `KaitenOpenFeatureServiceCollectionExtensions.HttpClientName`.
-No request context, provider results or tenant decisions are cached by Kaiten.
+Set `Headers["Authorization"] = "Bearer " + runtimeToken` and `Timeout` on
+`new OfrepOptions(baseUrl)`. The bearer scopes the organization and needs
+`read:feature_flags`. Per invocation, use `EvaluationContext` with the authorized
+customer slug as targeting key and nested `kaiten.instanceSlug`. Derive tenant,
+instance and other facts from trusted server state, not arbitrary browser claims.
+PATs are organization-wide; they are not a customer authorization boundary.
+Core enrichment currently uses the oldest customer instance; no secondary-instance
+or periodic-quantity parity claim is made here.
 
-The provider POSTs each invocation to relative `ofrep/v1/evaluate/flags/{key}`.
-BaseUri is normalized to the authenticated gateway `/api/`, including proxy
-prefixes. Request cancellation flows through the official provider/client into
-HTTP and async credential/body reads. HttpClient.Timeout bounds the operation,
-including credential sources that ignore cancellation (WaitAsync bounds awaiting).
-Cancellation/deadline/network/credential failures are returned as OpenFeature
-details, not thrown Kaiten flag exceptions. Do not assume cancellation will throw
-OperationCanceledException to the application: check details and caller token.
+Await `Api.Instance.SetProviderAsync(new OfrepProvider(config))` before getting
+the official client. The application owns shutdown (and global/domain lifecycle),
+credential replacement and refresh UX. The sample snapshots its bearer at setup;
+`IKaitenCredentialProvider` continues to rotate **Core client** credentials per
+request but is not implicitly connected to the official provider.
 
-## Native failure behavior and envelope validation
+## Native HTTP factory configuration
 
-Native HTTP401/403 map ProviderNotReady; 404 maps FlagNotFound. HTTP500/503/redirect,
-network/timeouts and 429 return Reason.ERROR but upstream `general_error` is mapped
-to ErrorType.None. Applications MUST check both ErrorType != None **or**
-Reason == ERROR before looking at Value. A fallback value never grants authorization.
+For host/container lifecycle and explicit transport control, use the official
+Hosting/OFREP APIs directly (the provider package depends on Hosting):
 
-Native `ProcessOkResponseAsync` substitutes default when value is absent/null,
-substitutes request key for missing key, and `MapErrorType` ignores unknown codes.
-The official client decodes HTTP200 AND HTTP400 bodies. The internal named HTTP
-handler validates both before official decode: bounded body/depth64, object root,
-unique fields, exact nonempty requested key. HTTP400 must contain a known nonempty
-error code and MUST NOT contain a value field, even null; success-only/missing-error
-HTTP400 bodies cannot become defaults or decisions. HTTP200 requires a non-null
-success value, or a known
-uppercase OpenFeature error code (FLAG_NOT_FOUND/TYPE_MISMATCH/PARSE_ERROR/
-PROVIDER_NOT_READY/INVALID_CONTEXT/TARGETING_KEY_MISSING/PROVIDER_FATAL/GENERAL).
-Unmapped codes including GENERAL_ERROR are unavailable via a sanitized protocol
-exception, which the official provider turns into Reason.ERROR. No response body
-is logged. The handler buffers at most MaxResponseBytes for both statuses, observes read
-cancellation/deadline, and replays untouched bytes
-to the official provider; it does not inspect a boolean decision or run rule logic.
-The official provider alone checks requested value type. Legitimate server DEFAULT
-(including false/zero) and DISABLED true remain successful; never blanket reject DEFAULT.
+```csharp
+using Microsoft.Extensions.DependencyInjection;
+using OpenFeature.Hosting;
+using OpenFeature.Providers.Ofrep.DependencyInjection;
 
-## Refresh and cooldown
+services.AddHttpClient("app-ofrep")
+    .RemoveAllLoggers()
+    .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+    { AllowAutoRedirect = false });
+services.AddOpenFeature(builder => builder.AddOfrepProvider(options =>
+{
+    options.BaseUrl = baseUrl; // Full trusted HTTPS Kaiten /api/ gateway.
+    options.Timeout = TimeSpan.FromSeconds(10);
+    options.Headers["Authorization"] = "Bearer " + runtimeToken;
+    options.HttpClientName = "app-ofrep";
+}));
+```
 
-No cache, bulk API, polling, live updates, ETag/304 or automatic retries are supplied
-by this .NET provider. Every normal call sends one HTTP request, including repeats
-and different request contexts. Presenter/grant changes appear on the next request.
-Provider HTTP429 stores Retry-After as a provider-wide cooldown; subsequent calls
-return unavailable without sending until expiry. Missing advice defaults to one
-minute. This is not a tenant result cache: no tenant receives another tenant
-value, but all tenants sharing the provider can be temporarily unavailable.
-Applications own refresh UX and must not claim instant push/poll semantics.
+This is consumer configuration, not a Kaiten extension. Generic/ASP.NET hosts
+manage initialization/shutdown through official Hosting; plain DI must explicitly
+call its `IFeatureLifecycleManager`. Native options also expose HTTP client
+configuration; do not invent an unsupported public provider constructor taking
+`HttpClient`. Disable redirects for sensitive contexts; the simple constructor's
+default HTTP handler does not supply that restriction. Provider/client logging
+and activity exporters can expose keys/values/error messages; configure redaction
+or suppression in the application. Do not export raw context, tokens or bodies.
 
-## Safe telemetry
+## Failure behavior and removed guarantees
 
-Kaiten factory HTTP logging and default propagation are disabled. A request-local
-handler propagates W3C traceparent/tracestate and emits only method/status plus
-validated Core trace ID on ActivitySource KaitenCloud.Sdk.Ofrep. No URL, token,
-context, raw body, remote error text or baggage is logged by this integration.
-Upstream OpenFeature.Providers.Ofrep.Client.OfrepClient and OpenFeature.FeatureClient
-logger categories are suppressed: their
-exception/key logging is not safe for sensitive context. Raw transport exceptions
-are replaced with fixed messages without inner exceptions before the official
-provider can copy them into returned details/activities. Successful flag values
-and server-authored error details remain provider data: enabling the OpenFeature
-source still requires an application exporter policy for result.value and
-error.message tags. Host code may override
-filters/instrument HTTP or add hooks; that is outside the SDK redaction guarantee.
-Export only safe Kaiten sources or explicitly redact System.Net.Http/OpenFeature
-activities (the latter include flag keys/values/error messages).
+Always use boolean details with a false fallback for protected actions. Before
+Value, check **ErrorType != None OR Reason == ERROR**. Native401/403 map
+ProviderNotReady;404 maps FlagNotFound. Outage/network/timeout/redirect/429 can
+return ErrorType.None with Reason.ERROR in0.1.7. Cancellation may be error details
+rather than OperationCanceledException. Legitimate DEFAULT/DISABLED false/true
+values remain available. Flags cannot bypass typed authoritative license-term,
+entitlement, membership/role or quota checks.
 
-See the compiled [example](../examples/Kaiten.Example/Program.cs) and README for
-per-request nested context and explicit licensing/entitlement/application guards.
+> [!WARNING]
+> The fallback and ErrorType/Reason guard is necessary but **not sufficient** for
+> protected side effects. The supplied isolated **provider0.1.7** repros show:
+> - HTTP400 `{"key":"delivery-tracking-enabled","value":true}` without `errorCode`
+>   returns Value=true, ErrorType.None and empty Reason even with a false fallback.
+> - HTTP200 with a key different from requested `new-ordering-flow` and value=true
+>   raises no dependency error and can permit a reservation.
+> No released protocol fix was identified in the supplied version check. Applications
+> must validate HTTP status, success/error envelope and requested flag key at their
+> **application HTTP boundary** before relying on provider details for side effects.
+> The official OfrepProvider remains the sole evaluator; this SDK adds no wrapper,
+> transport or replacement provider. The minimal examples assume trustworthy,
+> protocol-valid responses, not protection against these malformed payloads.
+
+The SDK-owned strict HTTP200/400 envelope guard has been removed with the wrapper.
+No SDK guarantee remains for required/matching keys, missing/null values, duplicate
+fields, unknown error codes, response-size/depth limits, credential deadlines,
+exception-message redaction or `KaitenCloud.Sdk.Ofrep` trace correlation. The
+upstream provider can substitute fallback values or keys for incomplete successes;
+ErrorType/Reason checks do not turn it into a strict schema validator. Tests now
+exercise supported native behavior and consumer transport configuration, not the
+removed guard. Core model/usage/license strict validation and Core telemetry are
+unchanged. Do not describe historical wrapper tests as current guarantees.
+
+The already shared `0.3.0-native-uncommitted` verification package and its recorded
+source-manifest SHA256
+`c1ae8ec9b37cd0239244ebebcda0e0dc1f83a3ba9c42dbf7346624e9929fe5be`
+describe the validated **pre-warning snapshot**, not these later docs/comments.
+That package was not rebuilt or repacked for this warning; neither it nor the
+current uncommitted checkout is a clean release.
+
+Every normal call sends one request, with no cache, polling, bulk API, ETag/304,
+SSE or automatic retry. Changes appear on the next call. HTTP429 triggers official
+provider-wide Retry-After cooldown (one minute without advice); other flags/tenants
+sharing it are temporarily unavailable too. That is not tenant decision caching.
