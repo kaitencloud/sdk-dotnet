@@ -1,0 +1,58 @@
+name: SDK checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  sdk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - run: dotnet restore KaitenCloud.sln --locked-mode
+      - run: dotnet build KaitenCloud.sln -c Release --no-restore -p:ContinuousIntegrationBuild=true
+      - run: dotnet run --project tools/KaitenCloud.ContractTool -c Release --no-build --no-restore -- contracts
+      - run: dotnet run --project tools/KaitenCloud.ContractTool -c Release --no-build --no-restore -- generate --check
+      - run: dotnet run --project tools/KaitenCloud.ContractTool -c Release --no-build --no-restore -- fixtures --check
+      - run: dotnet test tests/KaitenCloud.Sdk.Tests -c Release --no-build --no-restore
+      - run: dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -p:PackageVersion=0.3.0-native-uncommitted -o artifacts/native-sdk-uncommitted/packages
+      - run: dotnet run --project tools/KaitenCloud.ContractTool -c Release --no-build --no-restore -- package
+      - name: Pack clean regular SDK from the push commit
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain --untracked-files=normal)"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          dotnet pack src/KaitenCloud.Sdk -c Release --no-build --no-restore -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o artifacts/published-sdk/packages
+          dotnet run --project tools/KaitenCloud.ContractTool -c Release --no-build --no-restore -- package published-sdk --published
+          package=artifacts/published-sdk/packages/KaitenCloud.Sdk.0.3.0.nupkg
+          jq -n --arg repository "$GITHUB_REPOSITORY" --arg workflow "$GITHUB_WORKFLOW" \
+            --arg event "$GITHUB_EVENT_NAME" --arg runId "$GITHUB_RUN_ID" --arg runAttempt "$GITHUB_RUN_ATTEMPT" \
+            --arg sourceCommit "$(git rev-parse HEAD)" --arg sourceTree "$(git rev-parse HEAD^{tree})" \
+            --arg packageId KaitenCloud.Sdk --arg packageVersion 0.3.0 \
+            --arg packageSha256 "$(sha256sum "$package" | cut -d ' ' -f 1)" \
+            --argjson packageBytes "$(stat -c %s "$package")" \
+            '{repository: $repository, workflow: $workflow, event: $event, runId: $runId, runAttempt: $runAttempt,
+              sourceCommit: $sourceCommit, sourceTree: $sourceTree, cleanCheckout: true,
+              packageId: $packageId, packageVersion: $packageVersion, packageSha256: $packageSha256, packageBytes: $packageBytes}' \
+            > artifacts/published-sdk/packages/provenance.json
+      - name: Upload clean regular SDK (not a registry release)
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sdk-0.3.0-${{ github.sha }}
+          path: |
+            artifacts/published-sdk/packages/*.nupkg
+            artifacts/published-sdk/packages/*.snupkg
+            artifacts/published-sdk/packages/provenance.json
+          if-no-files-found: error
+          retention-days: 7

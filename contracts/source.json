@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/kaitencloud/kaiten",
+  "commit": "d55c6312a42e982e260cfe7796b8645b9ee4676c",
+  "tree": "e588c6a60dac2ed2c4b9f2b7fbc4c51597e8ac8d",
+  "normalization": "JSON representation of approved YAML; keys sorted recursively, no schema/content overlay",
+  "documents": {
+    "core": {
+      "path": "contracts/core.openapi.json",
+      "sourcePath": "app/openapi.yaml",
+      "sourceBlob": "1084626543f043866b6ed30dff6e51cfbbc55dca",
+      "sourceSha256": "fe19e502dac620c8c184005172a83f34d5833635d82c285b85101f9e9668ec4e",
+      "sha256": "b86faf2a8dfff1d4014fc1f8c6b7014ebaaa762f8f1ee467fbc53a959e9d29eb",
+      "restOperations": 228,
+      "permittedOperations": 226,
+      "webhooks": 117
+    },
+    "platform": {
+      "path": "contracts/platform.openapi.json",
+      "sourcePath": "app/platform-openapi.yaml",
+      "sourceBlob": "71fc09d5b09a345af794091f07d4bf7e45077fb9",
+      "sourceSha256": "6a17e3ace21e49e6bfbfd9c4def5a1dee9f3f441506c3d33174a97061c4a5b33",
+      "sha256": "3fb22c226f337a453846dc5d8a9134591d6aac03856cabd594efe20599286543",
+      "restOperations": 11,
+      "permittedOperations": 11,
+      "webhooks": 0
+    }
+  }
+}

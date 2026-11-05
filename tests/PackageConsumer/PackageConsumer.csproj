@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><IsPackable>false</IsPackable><NuGetLockFilePath>obj/packages.lock.json</NuGetLockFilePath></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="KaitenCloud.Sdk" Version="0.3.0-native-uncommitted" />
+    <PackageReference Include="OpenFeature" Version="2.14.1" />
+    <PackageReference Include="OpenFeature.Providers.Ofrep" Version="0.1.7" />
+    <Compile Include="../../examples/Kaiten.Example/Program.cs" Link="Program.cs" />
+    <Compile Include="../../examples/Kaiten.Example/ManagementUsage.cs" Link="ManagementUsage.cs" />
+  </ItemGroup>
+</Project>

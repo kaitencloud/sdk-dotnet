@@ -1,0 +1,39 @@
+{
+  "version": "1.30.0",
+  "sourceCommit": "6ccf6da832742181cba0ab02588c5795b2185e13",
+  "runtimeVersion": "1.21.2",
+  "language": "CSharp",
+  "access": "Internal",
+  "serializer": "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+  "deserializer": "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+  "excludedPathPrefixes": [
+    "/ofrep/v1/"
+  ],
+  "slices": {
+    "core": [
+      "/customers",
+      "/customers/{customerSlug}",
+      "/instances/{instanceSlug}",
+      "/licenses/{licenseSlug}/entitlements",
+      "/licenses/{licenseSlug}/entitlements/{entitlementSlug}",
+      "/instances/{instanceSlug}/entitlements/{entitlementSlug}/usage",
+      "/invoices/export",
+      "/public/catalog",
+      "/public/session/portal",
+      "/public/checkout-sessions",
+      "/public/checkout-sessions/{sessionId}/confirm",
+      "/customer-sessions",
+      "/feature-flags/{featureFlagSlug}"
+    ],
+    "platform": [
+      "/platform/me",
+      "/platform/organizations"
+    ]
+  },
+  "environment": {
+    "KIOTA_CLI_TELEMETRY_OPTOUT": "true",
+    "KIOTA_OFFLINE_ENABLED": "true",
+    "KIOTA_GENERATION__NOWORKSPACE": "true",
+    "KIOTA_GENERATION__MAXDEGREEOFPARALLELISM": "1"
+  }
+}

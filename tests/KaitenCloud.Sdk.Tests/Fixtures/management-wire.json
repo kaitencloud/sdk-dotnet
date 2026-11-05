@@ -1,0 +1,3643 @@
+[
+  {
+    "operationId": "list-customers",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "Awesome Customer",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-customers",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "billingEmail": null,
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          },
+          "domain": "example.tld",
+          "externalCustomerId": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "integrations": {
+            "sample": {
+              "external_id": "rec_12345",
+              "last_error": "example",
+              "metadata": {
+                "sample": {
+                  "example": 42
+                }
+              },
+              "synced_at": "2026-10-01T05:30:00+05:30",
+              "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+            }
+          },
+          "name": "Awesome Customer",
+          "slug": "awesome-customer",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-customer",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "name": "Awesome Customer"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Awesome Customer",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-customer",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "billingEmail": null,
+      "domain": "example.tld",
+      "externalCustomerId": null,
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer"
+    },
+    "query": null,
+    "response": {
+      "billingEmail": null,
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "domain": "example.tld",
+      "externalCustomerId": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "synced_at": "2026-10-01T05:30:00+05:30",
+          "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-customer",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-customer",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-customer",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Awesome Customer",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-customer",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "billingEmail": null,
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "domain": "example.tld",
+      "externalCustomerId": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "synced_at": "2026-10-01T05:30:00+05:30",
+          "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-customer",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": {
+      "name": "Awesome Customer"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-customer",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug"
+    },
+    "request": {
+      "billingEmail": null,
+      "domain": "example.tld",
+      "externalCustomerId": null,
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-customer-integration",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-customer-integration",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-customer-integration",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-customer-integration",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/company/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-customer-integration",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-customer-integration",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/company/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-customer-integration",
+    "full": false,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-customer-integration",
+    "full": true,
+    "pathArguments": {
+      "customerSlug": "customer-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "web_url": "https://app.attio.com/w/acme/company/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/company/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-entitlement-groups",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "description": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "AI Quotas"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-entitlement-groups",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "description": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "AI Quotas",
+          "slug": "ai-quotas"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-entitlement-group",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "description": null,
+      "name": "AI Quotas"
+    },
+    "query": null,
+    "response": {
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "AI Quotas",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-entitlement-group",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "description": null,
+      "name": "AI Quotas",
+      "slug": "ai-quotas"
+    },
+    "query": null,
+    "response": {
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "AI Quotas",
+      "slug": "ai-quotas",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-entitlement-group",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-entitlement-group",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-entitlement-group",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "AI Quotas",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-entitlement-group",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "AI Quotas",
+      "slug": "ai-quotas",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-entitlement-group",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": {
+      "description": null,
+      "name": "AI Quotas"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-entitlement-group",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": {
+      "description": null,
+      "name": "AI Quotas",
+      "slug": "ai-quotas"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "add-entitlement-to-group",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "add-entitlement-to-group",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "remove-entitlement-from-group",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "remove-entitlement-from-group",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-entitlement-group-usage",
+    "full": false,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": {
+      "instance": "example"
+    },
+    "response": [
+      {
+        "entitlementId": "example",
+        "entitlementName": "example",
+        "entitlementSlug": "entitlement-slug",
+        "entitlementType": "example"
+      }
+    ]
+  },
+  {
+    "operationId": "get-entitlement-group-usage",
+    "full": true,
+    "pathArguments": {
+      "entitlementGroupSlug": "entitlementgroup-slug"
+    },
+    "request": null,
+    "query": {
+      "instance": "example"
+    },
+    "response": [
+      {
+        "currentPeriodEnd": "2026-10-01T05:30:00+05:30",
+        "currentPeriodStart": "2026-10-01T05:30:00+05:30",
+        "entitlementId": "example",
+        "entitlementName": "example",
+        "entitlementSlug": "entitlement-slug",
+        "entitlementType": "example",
+        "licenseValue": {
+          "event_count": 1,
+          "type": "number",
+          "value": 1
+        },
+        "usageValue": {
+          "event_count": 1,
+          "type": "number",
+          "value": 1
+        }
+      }
+    ]
+  },
+  {
+    "operationId": "list-entitlements",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "Basic Plan",
+          "updatedAt": "2026-10-01T05:30:00+05:30"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-entitlements",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "aggregationMethod": "COUNT",
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": null,
+          "displayOrder": 1,
+          "entitlementGroups": [
+            {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "name": "AI Quotas",
+              "slug": "ai-quotas"
+            }
+          ],
+          "icon": "lucide:rocket",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "Basic Plan",
+          "resetAnchor": "CALENDAR",
+          "resetPeriod": "HOUR",
+          "saleUnitFactor": 1,
+          "saleUnitPlural": "packs",
+          "saleUnitSingular": "pack",
+          "slug": "basic-plan",
+          "type": "BOOLEAN",
+          "unitPlural": "seats",
+          "unitSingular": "seat",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "userFacing": false,
+          "warningThresholdPercent": 1
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-entitlement",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "description": null,
+      "name": "Basic Plan"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Basic Plan",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-entitlement",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "aggregationMethod": "COUNT",
+      "description": null,
+      "displayOrder": 1,
+      "groupSlugs": [
+        "example"
+      ],
+      "icon": "lucide:rocket",
+      "name": "Basic Plan",
+      "resetAnchor": "CALENDAR",
+      "resetPeriod": "HOUR",
+      "saleUnitFactor": 1,
+      "saleUnitPlural": "packs",
+      "saleUnitSingular": "pack",
+      "slug": "basic-plan",
+      "type": "BOOLEAN",
+      "unitPlural": "seats",
+      "unitSingular": "seat",
+      "userFacing": false,
+      "warningThresholdPercent": 1
+    },
+    "query": null,
+    "response": {
+      "aggregationMethod": "COUNT",
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": null,
+      "displayOrder": 1,
+      "entitlementGroups": [
+        {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "AI Quotas",
+          "slug": "ai-quotas"
+        }
+      ],
+      "icon": "lucide:rocket",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Basic Plan",
+      "resetAnchor": "CALENDAR",
+      "resetPeriod": "HOUR",
+      "saleUnitFactor": 1,
+      "saleUnitPlural": "packs",
+      "saleUnitSingular": "pack",
+      "slug": "basic-plan",
+      "type": "BOOLEAN",
+      "unitPlural": "seats",
+      "unitSingular": "seat",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "userFacing": false,
+      "warningThresholdPercent": 1,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-entitlement",
+    "full": false,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-entitlement",
+    "full": true,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-entitlement",
+    "full": false,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Basic Plan",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-entitlement",
+    "full": true,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "aggregationMethod": "COUNT",
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": null,
+      "displayOrder": 1,
+      "entitlementGroups": [
+        {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "AI Quotas",
+          "slug": "ai-quotas"
+        }
+      ],
+      "icon": "lucide:rocket",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Basic Plan",
+      "resetAnchor": "CALENDAR",
+      "resetPeriod": "HOUR",
+      "saleUnitFactor": 1,
+      "saleUnitPlural": "packs",
+      "saleUnitSingular": "pack",
+      "slug": "basic-plan",
+      "type": "BOOLEAN",
+      "unitPlural": "seats",
+      "unitSingular": "seat",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "userFacing": false,
+      "warningThresholdPercent": 1,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-entitlement",
+    "full": false,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": {
+      "description": null,
+      "name": "Basic Plan"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-entitlement",
+    "full": true,
+    "pathArguments": {
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": {
+      "aggregationMethod": "COUNT",
+      "description": null,
+      "displayOrder": 1,
+      "groupSlugs": [
+        "example"
+      ],
+      "icon": "lucide:rocket",
+      "name": "Basic Plan",
+      "resetAnchor": "CALENDAR",
+      "resetPeriod": "HOUR",
+      "saleUnitFactor": 1,
+      "saleUnitPlural": "packs",
+      "saleUnitSingular": "pack",
+      "slug": "basic-plan",
+      "type": "BOOLEAN",
+      "unitPlural": "seats",
+      "unitSingular": "seat",
+      "userFacing": false,
+      "warningThresholdPercent": 1
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-feature-flags",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "default_variant": {
+            "type": "basic",
+            "value": "example"
+          },
+          "description": null,
+          "enabled": false,
+          "event_name": "feature_flag_event",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "name": "New Feature",
+          "targetings": [
+            {
+              "name": "Targeting Rule 1",
+              "rule": "user.group == 'beta'",
+              "type": "basic",
+              "variant": "example"
+            }
+          ],
+          "type": "boolean",
+          "variants": [
+            {
+              "description": "example",
+              "name": "example",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-feature-flags",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "default_variant": {
+            "type": "basic",
+            "value": "example"
+          },
+          "description": null,
+          "enabled": false,
+          "event_name": "feature_flag_event",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "name": "New Feature",
+          "slug": "new-feature",
+          "targetings": [
+            {
+              "name": "Targeting Rule 1",
+              "rule": "user.group == 'beta'",
+              "type": "basic",
+              "variant": "example"
+            }
+          ],
+          "type": "boolean",
+          "variants": [
+            {
+              "description": "example",
+              "name": "example",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-feature-flag",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ]
+    },
+    "query": null,
+    "response": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-feature-flag",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "slug": "new-feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ]
+    },
+    "query": null,
+    "response": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "slug": "new-feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-targeting-context",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "roots": [
+        {
+          "name": "example",
+          "type": "string"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-targeting-context",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "roots": [
+        {
+          "description": "example",
+          "entries": [],
+          "fields": [],
+          "knownKeys": [
+            "example"
+          ],
+          "name": "example",
+          "optional": false,
+          "type": "string"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "lint-targeting-rule",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "rule": "__kaiten.license.familySlug == 'scale'"
+    },
+    "query": null,
+    "response": {
+      "issues": [
+        {
+          "column": 1,
+          "line": 1,
+          "message": "example"
+        }
+      ],
+      "valid": false,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "lint-targeting-rule",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "rule": "__kaiten.license.familySlug == 'scale'"
+    },
+    "query": null,
+    "response": {
+      "issues": [
+        {
+          "column": 1,
+          "endColumn": 1,
+          "endLine": 1,
+          "line": 1,
+          "message": "example"
+        }
+      ],
+      "valid": false,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "test-targeting-rule",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "rule": "__kaiten.license.familySlug == 'scale'"
+    },
+    "query": null,
+    "response": {
+      "facts": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "issues": [
+        {
+          "column": 1,
+          "line": 1,
+          "message": "example"
+        }
+      ],
+      "matched": false,
+      "valid": false,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "test-targeting-rule",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "context": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "rule": "__kaiten.license.familySlug == 'scale'",
+      "targetingKey": "example"
+    },
+    "query": null,
+    "response": {
+      "evaluationError": "example",
+      "facts": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "issues": [
+        {
+          "column": 1,
+          "endColumn": 1,
+          "endLine": 1,
+          "line": 1,
+          "message": "example"
+        }
+      ],
+      "matched": false,
+      "valid": false,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-feature-flag",
+    "full": false,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-feature-flag",
+    "full": true,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-feature-flag",
+    "full": false,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-feature-flag",
+    "full": true,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "slug": "new-feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-feature-flag",
+    "full": false,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ]
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-feature-flag",
+    "full": true,
+    "pathArguments": {
+      "featureFlagSlug": "featureflag-slug"
+    },
+    "request": {
+      "default_variant": {
+        "type": "basic",
+        "value": "example"
+      },
+      "description": null,
+      "enabled": false,
+      "event_name": "feature_flag_event",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "New Feature",
+      "slug": "new-feature",
+      "targetings": [
+        {
+          "name": "Targeting Rule 1",
+          "rule": "user.group == 'beta'",
+          "type": "basic",
+          "variant": "example"
+        }
+      ],
+      "type": "boolean",
+      "variants": [
+        {
+          "description": "example",
+          "name": "example",
+          "value": true
+        }
+      ]
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "getInstances",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "customerId": "123e4567-e89b-12d3-a456-426614174003",
+          "customerSlug": "acme-corp",
+          "description": "This is a sample instance description",
+          "endLicenseDate": "2026-10-01T05:30:00+05:30",
+          "id": "123e4567-e89b-12d3-a2456-426614174000",
+          "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+          "licenseSlug": "my-license",
+          "name": "My Instance",
+          "startLicenseDate": "2026-10-01T05:30:00+05:30",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "getInstances",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          },
+          "customerId": "123e4567-e89b-12d3-a456-426614174003",
+          "customerSlug": "acme-corp",
+          "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+          "deploymentZoneSlug": "aws-us-west-2",
+          "description": "This is a sample instance description",
+          "endLicenseDate": "2026-10-01T05:30:00+05:30",
+          "id": "123e4567-e89b-12d3-a2456-426614174000",
+          "integrations": {
+            "sample": {
+              "external_id": "rec_12345",
+              "last_error": "example",
+              "metadata": {
+                "sample": {
+                  "example": 42
+                }
+              },
+              "synced_at": "2026-10-01T05:30:00+05:30",
+              "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+            }
+          },
+          "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+          "licenseSlug": "my-license",
+          "lifecycleStage": "ACTIVE",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "name": "My Instance",
+          "slug": "my-instance",
+          "startLicenseDate": "2026-10-01T05:30:00+05:30",
+          "status": "HEALTHY",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "createInstance",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "customerSlug": "acme-corp",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "id": "123e4567-e89b-12d3-a2456-426614174000",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "licenseSlug": "my-license",
+      "name": "My Instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "createInstance",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "customerSlug": "acme-corp",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "deploymentZoneSlug": "aws-us-west-2",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "id": "123e4567-e89b-12d3-a2456-426614174000",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "synced_at": "2026-10-01T05:30:00+05:30",
+          "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "licenseSlug": "my-license",
+      "lifecycleStage": "ACTIVE",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "status": "HEALTHY",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "deleteInstance",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "deleteInstance",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "getInstance",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "customerSlug": "acme-corp",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "id": "123e4567-e89b-12d3-a2456-426614174000",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "licenseSlug": "my-license",
+      "name": "My Instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "slug": "instance-slug",
+      "licenseTerm": {
+        "status": "ACTIVE",
+        "evaluatedAt": "2026-11-01T00:00:00Z"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "getInstance",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "customerSlug": "acme-corp",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "deploymentZoneSlug": "aws-us-west-2",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "id": "123e4567-e89b-12d3-a2456-426614174000",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "synced_at": "2026-10-01T05:30:00+05:30",
+          "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "licenseSlug": "my-license",
+      "lifecycleStage": "ACTIVE",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "My Instance",
+      "slug": "instance-slug",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "status": "HEALTHY",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "licenseTerm": {
+        "status": "ACTIVE",
+        "evaluatedAt": "2026-11-01T00:00:00Z"
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "patchInstance",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": {},
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "patchInstance",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": {
+      "lifecycleStage": "AT_RISK",
+      "status": "HEALTHY"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "updateInstance",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": {
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "updateInstance",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": {
+      "customerId": "123e4567-e89b-12d3-a456-426614174003",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "integrations": {
+        "sample": {
+          "external_id": "rec_12345",
+          "last_error": "example",
+          "metadata": {
+            "sample": {
+              "example": 42
+            }
+          },
+          "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "getAuditTrails",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "actor": {
+            "id": "example",
+            "kind": "USER",
+            "name": "example"
+          },
+          "eventName": "example",
+          "eventType": "example",
+          "id": "example",
+          "instanceSlug": "example",
+          "timestamp": "2026-10-01T05:30:00+05:30"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "getAuditTrails",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": {
+      "event_name": "example",
+      "after": "example",
+      "before": "example",
+      "limit": 1,
+      "cursor": "example"
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "actor": {
+            "id": "example",
+            "kind": "USER",
+            "name": "example"
+          },
+          "eventName": "example",
+          "eventType": "example",
+          "id": "example",
+          "instanceId": "example",
+          "instanceSlug": "example",
+          "payload": {
+            "example": 42
+          },
+          "timestamp": "2026-10-01T05:30:00+05:30"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "getEntitlementsUsageMetrics",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": [
+      {
+        "entitlementId": "123e4567-e89b-12d3-a456-426614174000",
+        "entitlementSlug": "entitlement-slug",
+        "licenseId": "123e4567-e89b-12d3-a456-426614174001",
+        "licenseSlug": "enterprise-license",
+        "source": "license",
+        "value": {
+          "type": "number",
+          "value": 1
+        }
+      }
+    ]
+  },
+  {
+    "operationId": "getEntitlementsUsageMetrics",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": [
+      {
+        "currentPeriodEnd": "2026-10-01T05:30:00+05:30",
+        "currentPeriodStart": "2026-10-01T05:30:00+05:30",
+        "entitlementId": "123e4567-e89b-12d3-a456-426614174000",
+        "entitlementSlug": "entitlement-slug",
+        "licenseId": "123e4567-e89b-12d3-a456-426614174001",
+        "licenseSlug": "enterprise-license",
+        "limit": {
+          "event_count": 1,
+          "type": "number",
+          "value": 1
+        },
+        "limitCapExceededOveragePercent": 1,
+        "provenance": {
+          "addons": [
+            {
+              "addonEntitlementId": "example",
+              "addonId": "example",
+              "attachedAt": "2026-10-01T05:30:00+05:30",
+              "instanceAddonId": "example",
+              "limitCapExceededOveragePercent": null,
+              "overrideBehavior": "ADD",
+              "quantity": 1,
+              "value": {
+                "event_count": 1,
+                "type": "number",
+                "value": 1
+              }
+            }
+          ],
+          "boosts": [
+            {
+              "effectiveExpiresAt": null,
+              "effectiveStartsAt": "2026-10-01T05:30:00+05:30",
+              "instanceVoucherId": "example",
+              "modifierType": "SET",
+              "modifierValue": null,
+              "redeemedAt": "2026-10-01T05:30:00+05:30",
+              "value": {
+                "event_count": 1,
+                "type": "number",
+                "value": 1
+              },
+              "voucherEntitlementGrantId": "example",
+              "voucherId": "example"
+            }
+          ],
+          "exception": {
+            "endsAt": null,
+            "instanceEntitlementExceptionId": "example",
+            "kind": "SET",
+            "startsAt": "2026-10-01T05:30:00+05:30",
+            "value": {
+              "event_count": 1,
+              "type": "number",
+              "value": 1
+            }
+          },
+          "license": {
+            "licenseEntitlementId": "example",
+            "limitCapExceededOveragePercent": null,
+            "value": {
+              "event_count": 1,
+              "type": "number",
+              "value": 1
+            }
+          },
+          "number": {
+            "afterAddons": 1,
+            "afterBoosts": 1,
+            "boostAdd": null,
+            "boostMultiply": null,
+            "boostSet": null,
+            "effective": 1,
+            "license": null,
+            "unlimited": false
+          }
+        },
+        "source": "license",
+        "value": {
+          "event_count": 1,
+          "type": "number",
+          "value": 1
+        }
+      }
+    ]
+  },
+  {
+    "operationId": "getEntitlementUsageMetrics",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "entitlementId": "123e4567-e89b-12d3-a456-426614174000",
+      "entitlementSlug": "entitlement-slug",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174001",
+      "licenseSlug": "enterprise-license",
+      "source": "license",
+      "value": {
+        "type": "number",
+        "value": 1
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "getEntitlementUsageMetrics",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "currentPeriodEnd": "2026-10-01T05:30:00+05:30",
+      "currentPeriodStart": "2026-10-01T05:30:00+05:30",
+      "entitlementId": "123e4567-e89b-12d3-a456-426614174000",
+      "entitlementSlug": "entitlement-slug",
+      "licenseId": "123e4567-e89b-12d3-a456-426614174001",
+      "licenseSlug": "enterprise-license",
+      "limit": {
+        "event_count": 1,
+        "type": "number",
+        "value": 1
+      },
+      "limitCapExceededOveragePercent": 1,
+      "provenance": {
+        "addons": [
+          {
+            "addonEntitlementId": "example",
+            "addonId": "example",
+            "attachedAt": "2026-10-01T05:30:00+05:30",
+            "instanceAddonId": "example",
+            "limitCapExceededOveragePercent": null,
+            "overrideBehavior": "ADD",
+            "quantity": 1,
+            "value": {
+              "event_count": 1,
+              "type": "number",
+              "value": 1
+            }
+          }
+        ],
+        "boosts": [
+          {
+            "effectiveExpiresAt": null,
+            "effectiveStartsAt": "2026-10-01T05:30:00+05:30",
+            "instanceVoucherId": "example",
+            "modifierType": "SET",
+            "modifierValue": null,
+            "redeemedAt": "2026-10-01T05:30:00+05:30",
+            "value": {
+              "event_count": 1,
+              "type": "number",
+              "value": 1
+            },
+            "voucherEntitlementGrantId": "example",
+            "voucherId": "example"
+          }
+        ],
+        "exception": {
+          "endsAt": null,
+          "instanceEntitlementExceptionId": "example",
+          "kind": "SET",
+          "startsAt": "2026-10-01T05:30:00+05:30",
+          "value": {
+            "event_count": 1,
+            "type": "number",
+            "value": 1
+          }
+        },
+        "license": {
+          "licenseEntitlementId": "example",
+          "limitCapExceededOveragePercent": null,
+          "value": {
+            "event_count": 1,
+            "type": "number",
+            "value": 1
+          }
+        },
+        "number": {
+          "afterAddons": 1,
+          "afterBoosts": 1,
+          "boostAdd": null,
+          "boostMultiply": null,
+          "boostSet": null,
+          "effective": 1,
+          "license": null,
+          "unlimited": false
+        }
+      },
+      "source": "license",
+      "value": {
+        "event_count": 1,
+        "type": "number",
+        "value": 1
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-instance-integration",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-instance-integration",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-instance-integration",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-instance-integration",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/workspace/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-instance-integration",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-instance-integration",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/workspace/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-instance-integration",
+    "full": false,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-instance-integration",
+    "full": true,
+    "pathArguments": {
+      "instanceSlug": "instance-slug",
+      "integrationName": "sample.adapter"
+    },
+    "request": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "web_url": "https://app.attio.com/w/acme/workspace/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "external_id": "rec_12345",
+      "last_error": "example",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "synced_at": "2026-10-01T05:30:00+05:30",
+      "web_url": "https://app.attio.com/w/acme/workspace/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-customer-integration-by-external-id",
+    "full": false,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-customer-integration-by-external-id",
+    "full": true,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "domain": "example.tld",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "webUrl": "https://app.attio.com/w/acme/company/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "upsert-customer-integration-by-external-id",
+    "full": false,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": {},
+    "query": null,
+    "response": {
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "upsert-customer-integration-by-external-id",
+    "full": true,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": {
+      "domain": "example.tld",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "webUrl": "https://app.attio.com/w/acme/record/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "domain": "example.tld",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "Awesome Customer",
+      "slug": "awesome-customer",
+      "webUrl": "https://app.attio.com/w/acme/company/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-instance-integration-by-external-id",
+    "full": false,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-instance-integration-by-external-id",
+    "full": true,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "customerExternalId": "rec_customer_123",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "webUrl": "https://app.attio.com/w/acme/workspace/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "upsert-instance-integration-by-external-id",
+    "full": false,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": {},
+    "query": null,
+    "response": {
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "upsert-instance-integration-by-external-id",
+    "full": true,
+    "pathArguments": {
+      "adapter": "sample.adapter",
+      "externalId": "external:42"
+    },
+    "request": {
+      "customerExternalId": "rec_customer_123",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "metadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "webUrl": "https://app.attio.com/w/acme/record/rec_12345"
+    },
+    "query": null,
+    "response": {
+      "customerExternalId": "rec_customer_123",
+      "deploymentZoneId": "123e4567-e89b-12d3-a456-426614174005",
+      "description": "This is a sample instance description",
+      "endLicenseDate": "2026-10-01T05:30:00+05:30",
+      "error": "example",
+      "integrationMetadata": {
+        "sample": {
+          "example": 42
+        }
+      },
+      "licenseId": "123e4567-e89b-12d3-a456-426614174004",
+      "name": "My Instance",
+      "slug": "my-instance",
+      "startLicenseDate": "2026-10-01T05:30:00+05:30",
+      "webUrl": "https://app.attio.com/w/acme/workspace/rec_12345",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-license-families",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "fallbackLicenseFamilySlug": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isPublic": false,
+          "slug": "enterprise-license",
+          "trialEndWithoutPaymentMethod": "CANCEL",
+          "trialReminderDays": 1,
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "versionCount": 1
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "list-license-families",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "currentVersion": {
+            "createdAt": "2026-10-01T05:30:00+05:30",
+            "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+            "familyId": "123e4567-e89b-12d3-a456-426614174000",
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "isDefault": false,
+            "lifecycleState": "DRAFT",
+            "name": "Enterprise License",
+            "pricingType": null,
+            "requiresPaymentMethod": null,
+            "selfServeCtaUrl": null,
+            "slug": "enterprise-license",
+            "trialPeriodDays": null,
+            "type": "DEVELOPMENT",
+            "updatedAt": "2026-10-01T05:30:00+05:30",
+            "version": "1",
+            "versionName": "Winter 2024 Release"
+          },
+          "fallbackLicenseFamilySlug": null,
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isPublic": false,
+          "slug": "enterprise-license",
+          "trialEndWithoutPaymentMethod": "CANCEL",
+          "trialReminderDays": 1,
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "versionCount": 1,
+          "versions": [
+            {
+              "createdAt": "2026-10-01T05:30:00+05:30",
+              "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+              "familyId": "123e4567-e89b-12d3-a456-426614174000",
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "isDefault": false,
+              "lifecycleState": "DRAFT",
+              "name": "Enterprise License",
+              "pricingType": null,
+              "requiresPaymentMethod": null,
+              "selfServeCtaUrl": null,
+              "slug": "enterprise-license",
+              "trialPeriodDays": null,
+              "type": "DEVELOPMENT",
+              "updatedAt": "2026-10-01T05:30:00+05:30",
+              "version": "1",
+              "versionName": "Winter 2024 Release"
+            }
+          ]
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license-family",
+    "full": false,
+    "pathArguments": {
+      "familySlug": "family-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "fallbackLicenseFamilySlug": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isPublic": false,
+      "slug": "enterprise-license",
+      "trialEndWithoutPaymentMethod": "CANCEL",
+      "trialReminderDays": 1,
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "versionCount": 1,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license-family",
+    "full": true,
+    "pathArguments": {
+      "familySlug": "family-slug"
+    },
+    "request": null,
+    "query": {
+      "version": 1,
+      "include": [
+        "versions"
+      ]
+    },
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "currentVersion": {
+        "createdAt": "2026-10-01T05:30:00+05:30",
+        "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+        "familyId": "123e4567-e89b-12d3-a456-426614174000",
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "isDefault": false,
+        "lifecycleState": "DRAFT",
+        "name": "Enterprise License",
+        "pricingType": null,
+        "requiresPaymentMethod": null,
+        "selfServeCtaUrl": null,
+        "slug": "enterprise-license",
+        "trialPeriodDays": null,
+        "type": "DEVELOPMENT",
+        "updatedAt": "2026-10-01T05:30:00+05:30",
+        "version": "1",
+        "versionName": "Winter 2024 Release"
+      },
+      "fallbackLicenseFamilySlug": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isPublic": false,
+      "slug": "enterprise-license",
+      "trialEndWithoutPaymentMethod": "CANCEL",
+      "trialReminderDays": 1,
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "versionCount": 1,
+      "versions": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+          "familyId": "123e4567-e89b-12d3-a456-426614174000",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isDefault": false,
+          "lifecycleState": "DRAFT",
+          "name": "Enterprise License",
+          "pricingType": null,
+          "requiresPaymentMethod": null,
+          "selfServeCtaUrl": null,
+          "slug": "enterprise-license",
+          "trialPeriodDays": null,
+          "type": "DEVELOPMENT",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "version": "1",
+          "versionName": "Winter 2024 Release"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "updateLicenseFamily",
+    "full": false,
+    "pathArguments": {
+      "familySlug": "family-slug"
+    },
+    "request": {},
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "fallbackLicenseFamilySlug": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isPublic": false,
+      "slug": "enterprise-license",
+      "trialEndWithoutPaymentMethod": "CANCEL",
+      "trialReminderDays": 1,
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "versionCount": 1,
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "updateLicenseFamily",
+    "full": true,
+    "pathArguments": {
+      "familySlug": "family-slug"
+    },
+    "request": {
+      "fallbackLicenseFamilySlug": null,
+      "isPublic": null,
+      "trialEndWithoutPaymentMethod": null,
+      "trialReminderDays": null
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "currentVersion": {
+        "createdAt": "2026-10-01T05:30:00+05:30",
+        "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+        "familyId": "123e4567-e89b-12d3-a456-426614174000",
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "isDefault": false,
+        "lifecycleState": "DRAFT",
+        "name": "Enterprise License",
+        "pricingType": null,
+        "requiresPaymentMethod": null,
+        "selfServeCtaUrl": null,
+        "slug": "enterprise-license",
+        "trialPeriodDays": null,
+        "type": "DEVELOPMENT",
+        "updatedAt": "2026-10-01T05:30:00+05:30",
+        "version": "1",
+        "versionName": "Winter 2024 Release"
+      },
+      "fallbackLicenseFamilySlug": null,
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isPublic": false,
+      "slug": "enterprise-license",
+      "trialEndWithoutPaymentMethod": "CANCEL",
+      "trialReminderDays": 1,
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "versionCount": 1,
+      "versions": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+          "familyId": "123e4567-e89b-12d3-a456-426614174000",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isDefault": false,
+          "lifecycleState": "DRAFT",
+          "name": "Enterprise License",
+          "pricingType": null,
+          "requiresPaymentMethod": null,
+          "selfServeCtaUrl": null,
+          "slug": "enterprise-license",
+          "trialPeriodDays": null,
+          "type": "DEVELOPMENT",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "version": "1",
+          "versionName": "Winter 2024 Release"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-licenses",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isDefault": false,
+          "name": "Enterprise License",
+          "type": "DEVELOPMENT",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "version": "1"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-licenses",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+          "familyId": "123e4567-e89b-12d3-a456-426614174000",
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "isDefault": false,
+          "lifecycleState": "DRAFT",
+          "name": "Enterprise License",
+          "pricingType": null,
+          "requiresPaymentMethod": null,
+          "selfServeCtaUrl": null,
+          "slug": "enterprise-license",
+          "trialPeriodDays": null,
+          "type": "DEVELOPMENT",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "version": "1",
+          "versionName": "Winter 2024 Release"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-license",
+    "full": false,
+    "pathArguments": {},
+    "request": {
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "create-license",
+    "full": true,
+    "pathArguments": {},
+    "request": {
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "familySlug": "enterprise-license",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "versionName": "Winter 2024 Release"
+    },
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "versionName": "Winter 2024 Release",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "delete-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "versionName": "Winter 2024 Release",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": {
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": {
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "familySlug": "enterprise-license",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "versionName": "Winter 2024 Release"
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "archive-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "archive-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "versionName": "Winter 2024 Release",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license-entitlements",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "entitlementName": "Premium Support",
+          "licenseId": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+          "licenseSlug": "enterprise-license",
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "value": {
+            "type": "number",
+            "value": 1
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license-entitlements",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": {
+      "cursor": "example",
+      "limit": 1
+    },
+    "response": {
+      "hasMore": false,
+      "items": [
+        {
+          "createdAt": "2026-10-01T05:30:00+05:30",
+          "createdBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          },
+          "entitlementGroups": [
+            {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "name": "AI Quotas",
+              "slug": "ai-quotas"
+            }
+          ],
+          "entitlementName": "Premium Support",
+          "entitlementSlug": "entitlement-slug",
+          "entitlementType": "BOOLEAN",
+          "licenseId": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+          "licenseSlug": "enterprise-license",
+          "limitCapExceededOveragePercent": 1,
+          "updatedAt": "2026-10-01T05:30:00+05:30",
+          "updatedBy": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe"
+          },
+          "value": {
+            "event_count": 1,
+            "type": "number",
+            "value": 1
+          }
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "associate-entitlement-with-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": {
+      "value": {
+        "type": "number",
+        "value": 1
+      }
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "associate-entitlement-with-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": {
+      "entitlementSlug": "entitlement-slug",
+      "limitCapExceededOveragePercent": 1,
+      "value": {
+        "type": "number",
+        "value": 1
+      }
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-license-entitlement",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "delete-license-entitlement",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "get-license-entitlement",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "entitlementName": "Premium Support",
+      "licenseId": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+      "licenseSlug": "enterprise-license",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "value": {
+        "type": "number",
+        "value": 1
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-license-entitlement",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "createdBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "entitlementGroups": [
+        {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "AI Quotas",
+          "slug": "ai-quotas"
+        }
+      ],
+      "entitlementName": "Premium Support",
+      "entitlementSlug": "entitlement-slug",
+      "entitlementType": "BOOLEAN",
+      "licenseId": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+      "licenseSlug": "enterprise-license",
+      "limitCapExceededOveragePercent": 1,
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "updatedBy": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "name": "John Doe"
+      },
+      "value": {
+        "event_count": 1,
+        "type": "number",
+        "value": 1
+      },
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "update-license-entitlement",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": {
+      "value": {
+        "type": "number",
+        "value": 1
+      }
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "update-license-entitlement",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug",
+      "entitlementSlug": "entitlement-slug"
+    },
+    "request": {
+      "entitlementSlug": "entitlement-slug",
+      "limitCapExceededOveragePercent": 1,
+      "value": {
+        "type": "number",
+        "value": 1
+      }
+    },
+    "query": null,
+    "response": null
+  },
+  {
+    "operationId": "publish-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "publish-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "versionName": "Winter 2024 Release",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "unarchive-license",
+    "full": false,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "name": "Enterprise License",
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "unarchive-license",
+    "full": true,
+    "pathArguments": {
+      "licenseSlug": "license-slug"
+    },
+    "request": null,
+    "query": null,
+    "response": {
+      "createdAt": "2026-10-01T05:30:00+05:30",
+      "description": "This license provides access to all enterprise features including advanced analytics, priority support, and unlimited users.",
+      "familyId": "123e4567-e89b-12d3-a456-426614174000",
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "isDefault": false,
+      "lifecycleState": "DRAFT",
+      "name": "Enterprise License",
+      "pricingType": null,
+      "requiresPaymentMethod": null,
+      "selfServeCtaUrl": null,
+      "slug": "enterprise-license",
+      "trialPeriodDays": null,
+      "type": "DEVELOPMENT",
+      "updatedAt": "2026-10-01T05:30:00+05:30",
+      "version": "1",
+      "versionName": "Winter 2024 Release",
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-openfeature-manifest",
+    "full": false,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "flags": [
+        {
+          "defaultValue": {
+            "example": 42
+          },
+          "key": "example",
+          "type": "example"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  },
+  {
+    "operationId": "get-openfeature-manifest",
+    "full": true,
+    "pathArguments": {},
+    "request": null,
+    "query": null,
+    "response": {
+      "flags": [
+        {
+          "defaultValue": {
+            "example": 42
+          },
+          "description": "example",
+          "key": "example",
+          "name": "example",
+          "type": "example"
+        }
+      ],
+      "futureProperty": {
+        "retained": true
+      }
+    }
+  }
+]
