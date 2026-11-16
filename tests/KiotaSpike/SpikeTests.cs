@@ -134,7 +134,7 @@ public sealed class SpikeTests
     }
 
     [Theory]
-    [InlineData("catalog", "X-Kaiten-Publishable-Key", "public-key")]
+    [InlineData("catalog", "Kaiten-Publishable-Key", "public-key")]
     [InlineData("session", "Authorization", "customer-session")]
     [InlineData("checkout", "Authorization", "anonymous-checkout")]
     [InlineData("platform", "Authorization", "platform-token")]
@@ -151,7 +151,7 @@ public sealed class SpikeTests
         Assert.Equal(header == "Authorization" ? "Bearer " + credential : credential, fixture.LastHeaders[header]);
         Assert.DoesNotContain("org-token", string.Join(" ", fixture.LastHeaders.Values));
         if (mode == "catalog") Assert.False(fixture.LastHeaders.ContainsKey("Authorization"));
-        else Assert.False(fixture.LastHeaders.ContainsKey("X-Kaiten-Publishable-Key"));
+        else Assert.False(fixture.LastHeaders.ContainsKey("Kaiten-Publishable-Key") || fixture.LastHeaders.ContainsKey("X-Kaiten-Publishable-Key"));
     }
 
     [Fact]
@@ -314,7 +314,7 @@ public sealed class SpikeTests
             };
             if (!permitted) throw new InvalidOperationException("Unexpected credential boundary.");
             Calls++;
-            request.Headers.Remove("Authorization"); request.Headers.Remove("X-Kaiten-Publishable-Key");
+            request.Headers.Remove("Authorization"); request.Headers.Remove("Kaiten-Publishable-Key"); request.Headers.Remove("X-Kaiten-Publishable-Key");
             var current = ResolveCredential is null ? credential : ResolveCredential();
             request.Headers.Add(header, header == "Authorization" ? "Bearer " + current : current);
             return Task.CompletedTask;
